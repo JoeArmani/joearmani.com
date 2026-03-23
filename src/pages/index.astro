@@ -14,6 +14,11 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 
+// Hide "Start Here" when featured posts are all already in Latest Writing (avoids duplication)
+const featuredIds = new Set(featuredPosts.map((p) => p.id));
+const latestIds = new Set(latestPosts.map((p) => p.id));
+const showStartHere = featuredPosts.length > 0 && !featuredPosts.every((p) => latestIds.has(p.id));
+
 const featuredProjects = (await getCollection('projects'))
   .filter((p) => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
@@ -37,7 +42,7 @@ const featuredProjects = (await getCollection('projects'))
   })} />
   <Hero />
 
-  {featuredPosts.length > 0 && (
+  {showStartHere && (
     <section class="container">
       <div class="section-header reveal">
         <h2>Start Here</h2>
@@ -76,6 +81,7 @@ const featuredProjects = (await getCollection('projects'))
               tags={post.data.tags}
               slug={post.id}
               readingTime={post.data.readingTime}
+              featured={post.data.featured}
             />
           </div>
         ))}
@@ -85,15 +91,6 @@ const featuredProjects = (await getCollection('projects'))
       </div>
     </section>
   )}
-
-  <section class="container">
-    <div class="section-header reveal">
-      <h2>Subscribe</h2>
-    </div>
-    <div class="reveal">
-      <Subscribe variant="full" />
-    </div>
-  </section>
 
   <section class="container">
     <div class="section-header reveal">
@@ -115,6 +112,15 @@ const featuredProjects = (await getCollection('projects'))
     </div>
     <div style="text-align: center; margin-top: 2rem;">
       <a href="/projects" class="section-link">See All Projects →</a>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-header reveal">
+      <h2>Subscribe</h2>
+    </div>
+    <div class="reveal">
+      <Subscribe variant="full" />
     </div>
   </section>
 </BaseLayout>

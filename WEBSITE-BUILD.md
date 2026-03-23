@@ -11,7 +11,7 @@
 
 Joe Armani is a senior software engineer, AI/ML practitioner, and former business owner building a personal brand at the intersection of AI and production engineering.
 
-**Career arc:** Ran a woodworking/ecommerce factory for ~8 years → pivoted to software engineering → B.S. in Computer Science (Summa Cum Laude, CSU Global, 2021) → built and shipped a mobile app (Racquet Rivalry) → Senior Software Engineer contracting to the National Cancer Institute on the Connect for Cancer Prevention Study (via Veridix AI) → Master's in AI/ML (CSU Global, 4.0 GPA) → currently focused on agentic AI development, applied ML, and building his personal brand.
+**Career arc:** Ran a woodworking/ecommerce factory for ~8 years → pivoted to software engineering → B.S. in Computer Science (Summa Cum Laude, CSU Global, 2021) → built and shipped a mobile app (Racquet Rivalry) → Senior Software Engineer contracting to the National Cancer Institute on the Connect for Cancer Prevention Study (via Cirrus Lake Solutions) → Master's in AI/ML (CSU Global, 4.0 GPA) → currently focused on agentic AI development, applied ML, and building his personal brand.
 
 **Current work:** By day, full-stack JS/GCP/Firestore development for NCI across 4 repos. By night, building a multi-agent development system, rebuilding Racquet Rivalry with AI-augmented tools, developing a privacy-focused news app, and building an RL trading environment for EMini futures.
 
@@ -746,7 +746,7 @@ Now, I'm focused on what I think is the most important shift in software develop
 
 - **M.S. in Artificial Intelligence & Machine Learning** — Colorado State University Global (4.0 GPA)
 - **B.S. in Computer Science** — Colorado State University Global (Summa Cum Laude, 2021)
-- **Senior Software Engineer** — National Cancer Institute / Connect for Cancer Prevention Study (via Veridix AI)
+- **Senior Software Engineer** — National Cancer Institute / Connect for Cancer Prevention Study (via Cirrus Lake Solutions)
 - **8 years** as founder and operator of a woodworking and ecommerce business
 
 **[H2]** Beyond the Screen
@@ -944,7 +944,7 @@ featured: false
 
 ## Overview
 
-The Connect for Cancer Prevention Study is a large-scale National Cancer Institute research initiative. As a Senior Software Engineer (contracted via Veridix AI), I work across the study's full technology stack — three client-side JavaScript applications and a server-side Cloud Functions application, all built on Google Cloud Platform with Firestore.
+The Connect for Cancer Prevention Study is a large-scale National Cancer Institute research initiative. As a Senior Software Engineer (contracted via Cirrus Lake Solutions), I work across the study's full technology stack — three client-side JavaScript applications and a server-side Cloud Functions application, all built on Google Cloud Platform with Firestore.
 
 ## My Role
 
