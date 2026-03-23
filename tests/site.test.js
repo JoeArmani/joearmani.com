@@ -444,6 +444,69 @@ test('/uses page tools have contextual descriptions', () => {
     'Uses page should list Firebase/GCP under infrastructure');
 });
 
+// ─── 6. Code & Structure Integrity ────────────────────────────────────────────
+
+group('6. Code & Structure Integrity');
+
+test('Blog post is published (draft: false)', () => {
+  const content = read('content/blog/from-woodshop-to-code.md');
+  assert(has(content, 'draft: false'),
+    'Blog post should have draft: false (published)');
+});
+
+test('Giscus repo-id is populated (not empty)', () => {
+  const content = read('src/components/Comments.astro');
+  const match = content.match(/data-repo-id['"]\s*,\s*'([^']*)'/);
+  assert(match && match[1].length > 0,
+    'Giscus data-repo-id should not be empty');
+});
+
+test('Giscus category-id is populated (not empty)', () => {
+  const content = read('src/components/Comments.astro');
+  const match = content.match(/data-category-id['"]\s*,\s*'([^']*)'/);
+  assert(match && match[1].length > 0,
+    'Giscus data-category-id should not be empty');
+});
+
+test('Light mode cards have resting shadows', () => {
+  assert(has(CSS, '[data-theme="light"] .card'),
+    'Light mode should have card-specific shadow styles');
+  assert(has(CSS, 'shadow-sm'),
+    'Light mode cards should use shadow-sm for resting state');
+});
+
+test('Light mode bg-surface is white (#FFFFFF) for card depth', () => {
+  // Cards should be white floating on off-white page background
+  const lightBlock = CSS.split('[data-theme="light"]')[1]?.split('}')[0] || '';
+  assert(lightBlock.includes('--bg-surface: #FFFFFF'),
+    'Light mode --bg-surface should be #FFFFFF for card depth effect');
+});
+
+test('Nav Subscribe link has no button classes', () => {
+  const content = read('src/components/Nav.astro');
+  assert(!has(content, 'btn--primary') && !has(content, 'btn--outline'),
+    'Nav should not use btn--primary or btn--outline on Subscribe link');
+});
+
+test('Subscribe page reuses Subscribe component', () => {
+  const content = read('src/pages/subscribe.astro');
+  assert(has(content, "import Subscribe from") || has(content, 'Subscribe variant='),
+    'Subscribe page should import and use the Subscribe component');
+});
+
+test('Prose has horizontal padding for mobile', () => {
+  const proseMatch = CSS.match(/\.prose\s*\{[^}]*/);
+  assert(proseMatch, 'Could not find .prose rule in global.css');
+  assert(has(proseMatch[0], 'padding'),
+    '.prose should have horizontal padding for mobile readability');
+});
+
+test('Homepage has smart Start Here deduplication logic', () => {
+  const content = read('src/pages/index.astro');
+  assert(has(content, 'showStartHere'),
+    'Homepage should use showStartHere logic to avoid duplicate post display');
+});
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 
 console.log('\n' + '═'.repeat(50));
