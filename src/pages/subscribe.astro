@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Subscribe | Joe Armani"
+  description="Writing on agentic development, AI tools, and building products that work."
+>
+  <div class="container--narrow subscribe-page">
+    <h1>Get the build updates.</h1>
+    <p class="subscribe-page__desc">Every two weeks: what I'm building, what broke, and what I learned.</p>
+
+    <form class="subscribe__form" action="https://buttondown.com/api/emails/embed-subscribe/joearmani" method="post" target="_blank" style="max-width: 420px; margin: 0 auto;">
+      <div style="position: absolute; left: -5000px;" aria-hidden="true">
+        <input type="text" name="url" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="email" name="email" class="subscribe__input" placeholder="your@email.com" required aria-label="Email address" />
+      <button type="submit" class="btn btn--primary">Subscribe</button>
+    </form>
+    <p class="subscribe-page__note">No spam. Unsubscribe anytime.</p>
+  </div>
+</BaseLayout>

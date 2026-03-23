@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="What I Use | Joe Armani"
+  description="The tools, tech stack, and hardware I use to build AI-powered systems and ship products."
+>
+  <div class="container--narrow" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div class="about-content">
+      <h1>What I Use</h1>
+      <p>Tools, stack, and workflows behind what I build. Updated as things change.</p>
+
+      <h2>Development</h2>
+      <ul>
+        <li><strong>Claude Code + Claude</strong>: My primary development environment. I run agentic workflows where Claude handles implementation from specs while I focus on architecture and review. Most of this site was built this way.</li>
+        <li><strong>VS Code</strong>: Editor for everything Claude Code doesn't handle directly. Mostly config files, quick edits, and visual diffing.</li>
+        <li><strong>Astro</strong>: What this site runs on. Static output, zero runtime JS by default, and the content collections API is excellent for blog and project pages.</li>
+        <li><strong>Python</strong>: All ML/AI work. PyTorch for the RL trading research, plus backend scripting and data processing.</li>
+        <li><strong>JavaScript / TypeScript</strong>: Full-stack production work at NCI and personal projects. TypeScript everywhere I can.</li>
+        <li><strong>Git + GitHub</strong>: Version control and CI. All personal projects are here.</li>
+      </ul>
+
+      <h2>AI &amp; ML</h2>
+      <ul>
+        <li><strong>Claude API (Anthropic)</strong>: Powers the agentic development system and most of my AI-augmented workflows. The tool use capabilities are what make multi-agent setups practical.</li>
+        <li><strong>Stable Baselines 3 + PyTorch</strong>: The RL stack for the trading environment research. SB3 for standard algorithms, PyTorch for the custom cross-attention model.</li>
+        <li><strong>SendGrid / Microsoft Graph API</strong>: Email infrastructure for a custom outreach system. Graph handles OAuth and mailbox access, SendGrid handles transactional sends.</li>
+      </ul>
+
+      <h2>Infrastructure</h2>
+      <ul>
+        <li><strong>Cloudflare Pages</strong>: Hosting for this site. Push to GitHub, it deploys. Global CDN included. Hard to beat for static sites.</li>
+        <li><strong>Firebase / GCP</strong>: Backend for Racquet Rivalry and several NCI systems. Firestore, Cloud Functions, Authentication.</li>
+        <li><strong>Buttondown</strong>: Newsletter platform. Minimal, respects subscribers, no tracking bloat. Exactly what I wanted.</li>
+      </ul>
+
+      <h2>Workflow</h2>
+      <ul>
+        <li><strong>Agentic development system</strong>: A spec-driven, test-first workflow I built for shipping features with AI agents. The agent gets a spec and writes tests before touching implementation. Still refining it.</li>
+        <li><strong>Multi-agent coding</strong>: Running multiple Claude Code sessions on different parts of a codebase simultaneously. Works well for independent modules, less well for tightly coupled code.</li>
+        <li><strong>Build-in-public</strong>: I write about what I'm building as I build it, including the parts that break. The blog and newsletter are the output.</li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

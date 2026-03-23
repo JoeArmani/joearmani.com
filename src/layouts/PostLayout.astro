@@ -1,0 +1,113 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Subscribe from '../components/Subscribe.astro';
+import Comments from '../components/Comments.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const { frontmatter, slug } = Astro.props;
+
+const formattedDate = frontmatter.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Get related posts (matching tags, excluding current)
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const relatedPosts = allPosts
+  .filter((post) => post.id !== slug)
+  .filter((post) => post.data.tags.some((tag: string) => frontmatter.tags.includes(tag)))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<style is:global>
+  #reading-progress {
+    position: fixed;
+    top: var(--nav-height, 64px);
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--accent-warm);
+    z-index: 99;
+    pointer-events: none;
+    will-change: width;
+  }
+</style>
+
+<BaseLayout title={`${frontmatter.title} | Joe Armani`} description={frontmatter.description}>
+  <div id="reading-progress" aria-hidden="true"></div>
+  <script>
+    const bar = document.getElementById('reading-progress');
+    function updateProgress() {
+      if (!bar) return;
+      const scrolled = document.documentElement.scrollTop || window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (total > 0 ? Math.min(100, (scrolled / total) * 100) : 0) + '%';
+    }
+    let raf: number | null = null;
+    window.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { updateProgress(); raf = null; });
+    }, { passive: true });
+    updateProgress();
+  </script>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": frontmatter.title,
+    "description": frontmatter.description,
+    "datePublished": frontmatter.date.toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": "Joe Armani",
+      "url": "https://joearmani.com/about"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Joe Armani"
+    },
+    "url": `https://joearmani.com/blog/${slug}/`,
+    "keywords": frontmatter.tags
+  })} />
+  <article>
+    <div class="post-header container--narrow">
+      <div class="post-header__meta">
+        <time datetime={frontmatter.date.toISOString()}>{formattedDate}</time>
+        {frontmatter.readingTime && <span>{frontmatter.readingTime} min read</span>}
+      </div>
+      <h1 class="post-header__title">{frontmatter.title}</h1>
+      <div class="tags">
+        {frontmatter.tags.map((tag: string) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    </div>
+    <div class="prose">
+      <slot />
+    </div>
+    <div class="container--narrow" style="margin-top: 3rem;">
+      <hr style="border: none; border-top: 1px solid var(--border); margin-bottom: 3rem;" />
+      <Subscribe variant="compact" />
+      <Comments />
+      {relatedPosts.length > 0 && (
+        <div class="related-posts">
+          <h2>Related Posts</h2>
+          <div class="post-grid">
+            {relatedPosts.map((post) => (
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+                slug={post.id}
+                readingTime={post.data.readingTime}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+</BaseLayout>

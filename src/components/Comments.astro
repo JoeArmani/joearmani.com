@@ -1,0 +1,84 @@
+---
+---
+
+<section class="comments">
+  <h2 class="comments__heading">Discussion</h2>
+  <p class="comments__note">Comments powered by GitHub Discussions. You'll need a GitHub account to participate.</p>
+  <div class="comments__body">
+    <div class="giscus"></div>
+  </div>
+</section>
+
+<script>
+  function getGiscusTheme(): string {
+    return document.documentElement.getAttribute('data-theme') === 'light'
+      ? 'light'
+      : 'dark_dimmed';
+  }
+
+  // Dynamically load Giscus so we can set the theme at runtime
+  const container = document.querySelector('.giscus');
+  if (container) {
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    // TODO: Complete Giscus setup at https://giscus.app to get your repo-id and category-id
+    script.setAttribute('data-repo', 'joearmani/joearmani.com');
+    script.setAttribute('data-repo-id', '');           // TODO: fill in from giscus.app
+    script.setAttribute('data-category', 'Announcements');
+    script.setAttribute('data-category-id', '');       // TODO: fill in from giscus.app
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme());
+    script.setAttribute('data-lang', 'en');
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
+  // Keep Giscus in sync when the user toggles the site theme
+  function sendGiscusTheme(theme: string) {
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    if (iframe?.contentWindow) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        'https://giscus.app'
+      );
+    }
+  }
+
+  new MutationObserver(() => sendGiscusTheme(getGiscusTheme())).observe(
+    document.documentElement,
+    { attributes: true, attributeFilter: ['data-theme'] }
+  );
+</script>
+
+<style>
+  .comments {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .comments__heading {
+    font-size: 1.35rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .comments__note {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .comments__body {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    min-height: 80px;
+  }
+</style>

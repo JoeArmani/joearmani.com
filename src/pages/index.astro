@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Subscribe from '../components/Subscribe.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+
+const featuredPosts = allPosts.filter((p) => p.data.featured);
+
+const latestPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const featuredProjects = (await getCollection('projects'))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Joe Armani | Builder, Engineer, AI Practitioner"
+  description="I build AI-powered systems and write about what actually works."
+>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Joe Armani",
+    "url": "https://joearmani.com",
+    "description": "I build AI-powered systems and write about what actually works.",
+    "author": {
+      "@type": "Person",
+      "name": "Joe Armani",
+      "url": "https://joearmani.com/about"
+    }
+  })} />
+  <Hero />
+
+  {featuredPosts.length > 0 && (
+    <section class="container">
+      <div class="section-header reveal">
+        <h2>Start Here</h2>
+      </div>
+      <div class="featured-grid">
+        {featuredPosts.map((post) => (
+          <div class="reveal">
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              slug={post.id}
+              readingTime={post.data.readingTime}
+              headingLevel={2}
+              featured={true}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {latestPosts.length > 0 && (
+    <section class="container">
+      <div class="section-header reveal">
+        <h2>Latest Writing</h2>
+      </div>
+      <div class="post-grid">
+        {latestPosts.map((post) => (
+          <div class="reveal">
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              slug={post.id}
+              readingTime={post.data.readingTime}
+            />
+          </div>
+        ))}
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/blog" class="section-link">View All Posts →</a>
+      </div>
+    </section>
+  )}
+
+  <section class="container">
+    <div class="section-header reveal">
+      <h2>Subscribe</h2>
+    </div>
+    <div class="reveal">
+      <Subscribe variant="full" />
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="section-header reveal">
+      <h2>What I'm Building</h2>
+    </div>
+    <div class="project-list">
+      {featuredProjects.map((project) => (
+        <div class="reveal">
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            status={project.data.status}
+            tags={project.data.tags}
+            slug={project.id}
+            links={project.data.links}
+          />
+        </div>
+      ))}
+    </div>
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="/projects" class="section-link">See All Projects →</a>
+    </div>
+  </section>
+</BaseLayout>

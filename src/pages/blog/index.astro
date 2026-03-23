@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+---
+
+<BaseLayout
+  title="Writing | Joe Armani"
+  description="Writing on AI development, agentic tools, and building products. Includes the failures."
+>
+  <div class="container">
+    <div class="page-header">
+      <h1>Writing</h1>
+      <p class="page-header__subtitle">Writing on AI development, agentic tools, and building products. Includes the failures.</p>
+    </div>
+
+    {posts.length > 0 ? (
+      <>
+        <div class="tag-filter">
+          <button class="tag-filter__btn active" data-tag="all">All</button>
+          {allTags.map((tag) => (
+            <button class="tag-filter__btn" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+
+        <div class="post-grid" id="posts-grid">
+          {posts.map((post) => (
+            <div class="reveal">
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+                slug={post.id}
+                readingTime={post.data.readingTime}
+                headingLevel={2}
+              />
+            </div>
+          ))}
+        </div>
+      </>
+    ) : (
+      <p style="color: var(--text-secondary); font-size: 1.05rem; padding: 2rem 0;">First post coming soon. Subscribe to get notified when it drops.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll('.tag-filter__btn');
+  const cards = document.querySelectorAll('#posts-grid .card');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const tag = btn.getAttribute('data-tag');
+
+      cards.forEach((card) => {
+        const wrapper = card.closest('.reveal') as HTMLElement;
+        if (!wrapper) return;
+
+        if (tag === 'all') {
+          wrapper.style.display = '';
+        } else {
+          const cardTags = card.getAttribute('data-tags')?.split(',') || [];
+          wrapper.style.display = cardTags.includes(tag!) ? '' : 'none';
+        }
+      });
+    });
+  });
+</script>

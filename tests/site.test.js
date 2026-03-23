@@ -1,0 +1,459 @@
+/**
+ * joearmani.com — Source-level test suite
+ * Reads source files directly; no build step required.
+ *
+ * Run: node tests/site.test.js
+ */
+
+import { readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+
+let passed = 0;
+let failed = 0;
+const failures = [];
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function read(relPath) {
+  const fullPath = join(ROOT, relPath);
+  if (!existsSync(fullPath)) throw new Error(`File not found: ${relPath}`);
+  return readFileSync(fullPath, 'utf-8');
+}
+
+function exists(relPath) {
+  return existsSync(join(ROOT, relPath));
+}
+
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function has(content, str) { return content.includes(str); }
+function lacks(content, str) { return !content.includes(str); }
+
+function test(name, fn) {
+  try {
+    fn();
+    console.log(`  ✓  ${name}`);
+    passed++;
+  } catch (err) {
+    console.log(`  ✗  ${name}`);
+    console.log(`     → ${err.message}`);
+    failed++;
+    failures.push({ name, error: err.message });
+  }
+}
+
+function group(title) {
+  console.log(`\n${title}`);
+  console.log('─'.repeat(title.length));
+}
+
+// ─── 1. Structural Tests ──────────────────────────────────────────────────────
+
+group('1. Structural — all page files exist');
+
+const PAGES = [
+  ['/',          'src/pages/index.astro'],
+  ['/about',     'src/pages/about.astro'],
+  ['/blog',      'src/pages/blog/index.astro'],
+  ['/projects',  'src/pages/projects/index.astro'],
+  ['/subscribe', 'src/pages/subscribe.astro'],
+  ['/uses',      'src/pages/uses.astro'],
+  ['/now',       'src/pages/now.astro'],
+  ['/404',       'src/pages/404.astro'],
+];
+
+for (const [route, file] of PAGES) {
+  test(`${route}  →  ${file}`, () => {
+    assert(exists(file), `Missing page file: ${file}`);
+  });
+}
+
+test('All page files contain Astro frontmatter delimiters', () => {
+  for (const [, file] of PAGES) {
+    const content = read(file);
+    assert(has(content, '---'), `${file} missing frontmatter (---)`);
+  }
+});
+
+// ─── 2. Content Integrity Tests ───────────────────────────────────────────────
+
+group('2. Content Integrity — brand voice rewrites');
+
+test('Hero pre-tagline says "Builder · Engineer · AI Practitioner"', () => {
+  const content = read('src/components/Hero.astro');
+  assert(has(content, 'Builder · Engineer · AI Practitioner'),
+    'Expected "Builder · Engineer · AI Practitioner" in Hero.astro');
+});
+
+test('Hero pre-tagline does NOT say old "AI Practitioner · Builder · Entrepreneur"', () => {
+  const content = read('src/components/Hero.astro');
+  assert(lacks(content, 'AI Practitioner · Builder · Entrepreneur'),
+    'Found old tagline "AI Practitioner · Builder · Entrepreneur" — should be updated');
+});
+
+test('Hero h1 says "I build with AI and write about what actually works."', () => {
+  const content = read('src/components/Hero.astro');
+  assert(has(content, 'I build with AI and write about what actually works.'),
+    'Hero h1 text mismatch in Hero.astro');
+});
+
+test('Home page title is "Joe Armani | Builder, Engineer, AI Practitioner"', () => {
+  const content = read('src/pages/index.astro');
+  assert(has(content, 'Joe Armani | Builder, Engineer, AI Practitioner'),
+    'Homepage <title> mismatch in index.astro');
+});
+
+test('Meta descriptions do not contain "at the intersection of"', () => {
+  for (const [route, file] of PAGES) {
+    const content = read(file);
+    assert(lacks(content, 'at the intersection of'),
+      `Banned phrase "at the intersection of" found in ${file} (${route})`);
+  }
+});
+
+test('Meta descriptions do not contain em-dashes (—)', () => {
+  for (const [route, file] of PAGES) {
+    const content = read(file);
+    const descMatches = content.match(/description="[^"]*"/g) ?? [];
+    for (const desc of descMatches) {
+      assert(lacks(desc, '—'),
+        `Em-dash in description attribute in ${file} (${route}): ${desc}`);
+    }
+  }
+});
+
+test('About page does NOT contain "Beyond the Screen"', () => {
+  const content = read('src/pages/about.astro');
+  assert(lacks(content, 'Beyond the Screen'),
+    'Removed section heading "Beyond the Screen" still present in about.astro');
+});
+
+test('About page does NOT contain "I\'m always open to connecting"', () => {
+  const content = read('src/pages/about.astro');
+  assert(lacks(content, "I'm always open to connecting"),
+    'Removed phrase "I\'m always open to connecting" still present in about.astro');
+});
+
+test('About page has "Outside Work" section heading', () => {
+  const content = read('src/pages/about.astro');
+  assert(has(content, 'Outside Work'),
+    '"Outside Work" heading missing from about.astro');
+});
+
+test('Blog subtitle says "Includes the failures" (not "lessons from the trenches")', () => {
+  const content = read('src/pages/blog/index.astro');
+  assert(has(content, 'Includes the failures'),
+    'Expected "Includes the failures" in blog/index.astro');
+  assert(lacks(content, 'lessons from the trenches'),
+    'Old phrase "lessons from the trenches" still present in blog/index.astro');
+});
+
+// ─── 3. Component Existence Tests ────────────────────────────────────────────
+
+group('3. Component Existence');
+
+test('Comments.astro exists', () => {
+  assert(exists('src/components/Comments.astro'),
+    'Missing src/components/Comments.astro');
+});
+
+test('Subscribe.astro accepts variant prop (compact + full)', () => {
+  const content = read('src/components/Subscribe.astro');
+  assert(has(content, 'variant'),
+    'Subscribe.astro does not define a variant prop');
+  assert(has(content, 'compact') && has(content, 'full'),
+    'Subscribe.astro missing compact/full variant values');
+});
+
+test('TagList.astro does NOT exist (was deleted)', () => {
+  assert(!exists('src/components/TagList.astro'),
+    'TagList.astro should have been deleted but still exists');
+});
+
+test('/uses page has Development section', () => {
+  const content = read('src/pages/uses.astro');
+  assert(has(content, 'Development'),
+    'Missing "Development" section in uses.astro');
+});
+
+test('/uses page has AI & ML section', () => {
+  const content = read('src/pages/uses.astro');
+  assert(has(content, 'AI'),
+    'Missing "AI" section in uses.astro');
+});
+
+test('/uses page has Infrastructure section', () => {
+  const content = read('src/pages/uses.astro');
+  assert(has(content, 'Infrastructure'),
+    'Missing "Infrastructure" section in uses.astro');
+});
+
+test('/now page has Building section', () => {
+  const content = read('src/pages/now.astro');
+  assert(has(content, 'Building'),
+    'Missing "Building" section in now.astro');
+});
+
+test('/now page has Learning section', () => {
+  const content = read('src/pages/now.astro');
+  assert(has(content, 'Learning'),
+    'Missing "Learning" section in now.astro');
+});
+
+test('/now page has last-updated date reference', () => {
+  const content = read('src/pages/now.astro');
+  assert(has(content, 'Last updated') || has(content, 'Updated'),
+    'Missing last-updated date reference in now.astro');
+});
+
+// ─── 4. Design System Tests ───────────────────────────────────────────────────
+
+group('4. Design System');
+
+const CSS = read('src/styles/global.css');
+
+test('global.css contains --accent-warm custom property', () => {
+  assert(has(CSS, '--accent-warm'),
+    'Missing --accent-warm in global.css');
+});
+
+test('body font-size is 1.125rem', () => {
+  assert(has(CSS, 'font-size: 1.125rem'),
+    'Expected body font-size: 1.125rem in global.css');
+});
+
+test('h3 font-size is 1.375rem', () => {
+  assert(has(CSS, '1.375rem'),
+    'Expected 1.375rem (h3 size) in global.css');
+});
+
+test('Dark theme color tokens are defined', () => {
+  assert(has(CSS, ':root, [data-theme="dark"]') || (has(CSS, ':root') && has(CSS, '[data-theme="dark"]')),
+    'Missing dark theme token block in global.css');
+});
+
+test('Light theme color tokens are defined ([data-theme="light"])', () => {
+  assert(has(CSS, '[data-theme="light"]'),
+    'Missing light theme token block in global.css');
+});
+
+test('Dark mode --bg-primary defined (#0F1117)', () => {
+  assert(has(CSS, '--bg-primary: #0F1117'),
+    'Missing dark mode --bg-primary: #0F1117 in global.css');
+});
+
+test('Light mode --bg-primary defined (#FFFFFF)', () => {
+  assert(has(CSS, '--bg-primary: #FFFFFF'),
+    'Missing light mode --bg-primary: #FFFFFF in global.css');
+});
+
+test('Projects page uses grid layout (.project-list with grid-template-columns)', () => {
+  assert(has(CSS, '.project-list'),
+    'Missing .project-list in global.css');
+  // Find the .project-list block and check it uses grid
+  const idx = CSS.indexOf('.project-list');
+  const block = CSS.slice(idx, idx + 400);
+  assert(has(block, 'grid-template-columns'),
+    '.project-list does not use grid-template-columns in global.css');
+});
+
+test('Reading progress bar exists in PostLayout.astro', () => {
+  const content = read('src/layouts/PostLayout.astro');
+  assert(has(content, 'reading-progress'),
+    'Missing reading-progress element/id in PostLayout.astro');
+});
+
+// ─── 5. No Regression Tests ───────────────────────────────────────────────────
+
+group('5. No Regressions');
+
+test('Hero pre-tagline font-size is >= 0.875rem', () => {
+  const match = CSS.match(/\.hero__pre\s*\{[^}]*font-size:\s*([\d.]+)rem/);
+  assert(match, 'Could not locate .hero__pre font-size in global.css');
+  const size = parseFloat(match[1]);
+  assert(size >= 0.875,
+    `hero__pre font-size is ${size}rem — expected >= 0.875rem (was inadvertently shrunk)`);
+});
+
+test('Subscribe input has a visible border defined', () => {
+  assert(has(CSS, '.subscribe__input'),
+    'Missing .subscribe__input in global.css');
+  const idx = CSS.indexOf('.subscribe__input');
+  const block = CSS.slice(idx, idx + 350);
+  assert(has(block, 'border:') || has(block, 'border-color:'),
+    '.subscribe__input has no border property defined');
+  assert(lacks(block.split('\n').find(l => l.includes('border:')) ?? '', 'none'),
+    '.subscribe__input border is set to none');
+});
+
+test('Subscribe input border uses a visible color token (not border-light-only)', () => {
+  // After the fix, the main rule should use --border (or stronger), not --border-light
+  const idx = CSS.indexOf('.subscribe__input {');
+  const mainBlock = CSS.slice(idx, CSS.indexOf('}', idx) + 1);
+  // Accept --border or --border-light; just reject completely missing border
+  assert(has(mainBlock, 'border:'),
+    '.subscribe__input main block has no border shorthand property');
+});
+
+test('Nav contains Blog link', () => {
+  const content = read('src/components/Nav.astro');
+  assert(has(content, '/blog'), 'Missing /blog link in Nav.astro');
+});
+
+test('Nav contains Projects link', () => {
+  const content = read('src/components/Nav.astro');
+  assert(has(content, '/projects'), 'Missing /projects link in Nav.astro');
+});
+
+test('Nav contains Uses link', () => {
+  const content = read('src/components/Nav.astro');
+  assert(has(content, '/uses'), 'Missing /uses link in Nav.astro');
+});
+
+test('Nav contains About link', () => {
+  const content = read('src/components/Nav.astro');
+  assert(has(content, '/about'), 'Missing /about link in Nav.astro');
+});
+
+test('Nav contains Subscribe link', () => {
+  const content = read('src/components/Nav.astro');
+  assert(has(content, '/subscribe'), 'Missing /subscribe link in Nav.astro');
+});
+
+test('Footer contains /now link', () => {
+  const content = read('src/components/Footer.astro');
+  assert(has(content, '/now'), 'Missing /now link in Footer.astro');
+});
+
+test('Subscribe form action points to Buttondown', () => {
+  const subscribeComp = read('src/components/Subscribe.astro');
+  const subscribePage = read('src/pages/subscribe.astro');
+  assert(has(subscribeComp, 'buttondown.com'),
+    'Missing Buttondown action URL in Subscribe.astro component');
+  assert(has(subscribePage, 'buttondown.com'),
+    'Missing Buttondown action URL in subscribe.astro page');
+});
+
+test('Hero does NOT have scroll indicator', () => {
+  const content = read('src/components/Hero.astro');
+  assert(lacks(content, 'hero__scroll'),
+    'Hero still contains scroll indicator element (should be removed)');
+});
+
+test('Hero height is capped (not 100vh)', () => {
+  assert(lacks(CSS, 'calc(100vh'),
+    'Hero still uses calc(100vh) — should be reduced to ~80vh');
+  const match = CSS.match(/\.hero\s*\{[^}]*min-height:\s*min\((\d+)vh/);
+  assert(match, 'Could not locate .hero min-height with min() in global.css');
+  const vh = parseInt(match[1]);
+  assert(vh <= 85, `Hero min-height is ${vh}vh — expected <= 85vh`);
+});
+
+test('Fonts are self-hosted (no Google Fonts links)', () => {
+  const layout = read('src/layouts/BaseLayout.astro');
+  assert(lacks(layout, 'fonts.googleapis.com/css'),
+    'BaseLayout still has Google Fonts CSS link — should be self-hosted');
+  assert(has(CSS, "@font-face"),
+    'global.css missing @font-face declarations for self-hosted fonts');
+});
+
+test('Font files exist in public/fonts/', () => {
+  assert(exists('public/fonts/plus-jakarta-sans-700-latin.woff2'),
+    'Missing Plus Jakarta Sans WOFF2 font file');
+  assert(exists('public/fonts/dm-sans-400-latin.woff2'),
+    'Missing DM Sans 400 WOFF2 font file');
+  assert(exists('public/fonts/jetbrains-mono-400-latin.woff2'),
+    'Missing JetBrains Mono WOFF2 font file');
+});
+
+test('Theme-color meta tags exist in BaseLayout', () => {
+  const layout = read('src/layouts/BaseLayout.astro');
+  assert(has(layout, 'theme-color'),
+    'Missing theme-color meta tag in BaseLayout');
+  assert(has(layout, '#0F1117'),
+    'Missing dark theme-color value in BaseLayout');
+  assert(has(layout, '#FFFFFF'),
+    'Missing light theme-color value in BaseLayout');
+});
+
+test('Section gap is <= 5rem (reduced from 6rem)', () => {
+  const match = CSS.match(/--section-gap:\s*([\d.]+)rem/);
+  assert(match, 'Could not find --section-gap in global.css');
+  const gap = parseFloat(match[1]);
+  assert(gap <= 5, `Section gap is ${gap}rem — expected <= 5rem`);
+});
+
+test('About page has structured section headings', () => {
+  const content = read('src/pages/about.astro');
+  assert(has(content, 'The Pivot'),
+    'About page missing "The Pivot" section heading');
+  assert(has(content, 'Building for Researchers'),
+    'About page missing "Building for Researchers" section heading');
+  assert(has(content, 'Going Back for AI'),
+    'About page missing "Going Back for AI" section heading');
+  assert(has(content, 'What I\'m Building Now'),
+    'About page missing "What I\'m Building Now" section heading');
+});
+
+test('About page credentials appear before career narrative', () => {
+  const content = read('src/pages/about.astro');
+  const credIdx = content.indexOf('Credentials');
+  const pivotIdx = content.indexOf('The Pivot');
+  assert(credIdx > 0 && pivotIdx > 0 && credIdx < pivotIdx,
+    'Credentials should appear before "The Pivot" in about.astro');
+});
+
+test('Footer has brand tagline', () => {
+  const content = read('src/components/Footer.astro');
+  assert(has(content, 'footer__tagline'),
+    'Missing footer tagline element');
+  assert(has(content, 'Building with AI'),
+    'Footer tagline text missing');
+});
+
+test('Homepage section order: Subscribe before What I\'m Building', () => {
+  const content = read('src/pages/index.astro');
+  const subIdx = content.indexOf('>Subscribe</h2>');
+  const buildIdx = content.indexOf('>What I\'m Building</h2>');
+  assert(subIdx > 0 && buildIdx > 0 && subIdx < buildIdx,
+    'Subscribe section should appear before "What I\'m Building" on homepage');
+});
+
+test('Subscribe card accent uses --accent-warm (not --accent-blue)', () => {
+  const match = CSS.match(/\.subscribe\s*\{[^}]*border-top:[^;]*/);
+  assert(match, 'Could not find .subscribe border-top in global.css');
+  assert(has(match[0], 'accent-warm'),
+    'Subscribe card border-top should use --accent-warm for visual continuity');
+});
+
+test('/uses page tools have contextual descriptions', () => {
+  const content = read('src/pages/uses.astro');
+  // Check that tools have multi-sentence descriptions, not just labels
+  assert(has(content, 'architecture and review'),
+    'Claude Code description should include workflow context');
+  assert(has(content, 'cross-attention model'),
+    'RL/PyTorch description should mention the cross-attention model');
+  assert(has(content, 'Firebase / GCP'),
+    'Uses page should list Firebase/GCP under infrastructure');
+});
+
+// ─── Summary ──────────────────────────────────────────────────────────────────
+
+console.log('\n' + '═'.repeat(50));
+console.log(`  ${passed} passed  ·  ${failed} failed  ·  ${passed + failed} total`);
+console.log('═'.repeat(50));
+
+if (failures.length > 0) {
+  console.log('\nFailed:');
+  failures.forEach(({ name }) => console.log(`  ✗  ${name}`));
+  process.exit(1);
+} else {
+  console.log('\n  All tests passed ✓');
+  process.exit(0);
+}

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About | Joe Armani"
+  description="Senior software engineer with a Master's in AI/ML. Spent 8 years running a factory, now building multi-agent systems and writing about what I learn."
+>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Joseph Armani",
+    "alternateName": "Joe Armani",
+    "url": "https://joearmani.com",
+    "jobTitle": "Senior Software Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "National Cancer Institute"
+    },
+    "alumniOf": [
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Colorado State University Global"
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/in/joseph-armani/",
+      "https://github.com/JoeArmani"
+    ]
+  })} />
+  <div class="container--narrow" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div class="about-content">
+      <h1>About Me</h1>
+
+      <p>Before I wrote my first line of code, I ran a woodworking factory. I shipped tables, not APIs. That experience (building something from raw materials, selling it to real people, and doing it profitably for eight years) still shapes how I think about building software.</p>
+
+      <h2>Credentials</h2>
+
+      <ul>
+        <li><strong>M.S. in Artificial Intelligence &amp; Machine Learning</strong>, Colorado State University Global (4.0 GPA)</li>
+        <li><strong>B.S. in Computer Science</strong>, Colorado State University Global (Summa Cum Laude, 2021)</li>
+        <li><strong>Senior Software Engineer</strong>, National Cancer Institute / Connect for Cancer Prevention Study (via Cirrus Lake Solutions)</li>
+        <li><strong>8 years</strong> as founder and operator of a woodworking and ecommerce business</li>
+      </ul>
+
+      <h2>The Pivot</h2>
+
+      <p>When I decided to move into tech, I didn't dip a toe in. I went back to school full-time while teaching myself to build. I earned a B.S. in Computer Science with Summa Cum Laude distinction, then spent a year building <a href="/projects/racquet-rivalry">Racquet Rivalry</a>, a mobile app connecting racquet sports players locally, and shipped it to both the App Store and Google Play.</p>
+
+      <h2>Building for Researchers</h2>
+
+      <p>That led to a role as a full-stack software engineer on the National Cancer Institute's Connect for Cancer Prevention Study, where I've since been promoted to Senior Engineer. The work is serious: building and maintaining production systems that support one of the largest cancer research studies in the country. It's also where I learned what "production-grade" really means.</p>
+
+      <h2>Going Back for AI</h2>
+
+      <p>Alongside that work, I completed a Master's in AI/ML with a 4.0 GPA. I went back because AI is genuinely where I want to build my career. The coursework gave me solid foundations. I built a chatbot with TensorFlow, designed the RL trading environment I'm still working on, and went deep on reinforcement learning and NLP. Learned more from the projects than the lectures, but that's usually how it goes.</p>
+
+      <h2>What I'm Building Now</h2>
+
+      <p>My focus is agentic development: multi-agent systems, AI-augmented coding workflows, and rebuilding my own products using these tools. I write about all of it here.</p>
+
+      <h2>Outside Work</h2>
+
+      <p>When I'm not coding, I'm probably at CorePower doing hot yoga or sculpt, or out on the bike. Currently training for a century ride in the Taos mountains this summer. Tennis is what started Racquet Rivalry. I wanted a better way to find people to play with.</p>
+
+      <h2>Get in Touch</h2>
+
+      <p>If you're building something interesting and want to compare notes, reach out. Find me on <a href="https://www.linkedin.com/in/joseph-armani/" target="_blank" rel="noopener noreferrer">LinkedIn</a> or email <a href="mailto:joe@joearmani.com">joe@joearmani.com</a>.</p>
+    </div>
+  </div>
+</BaseLayout>

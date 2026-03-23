@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  slug: string;
+  readingTime?: number;
+  headingLevel?: 2 | 3;
+  featured?: boolean;
+}
+
+const { title, description, date, tags, slug, readingTime, headingLevel = 3, featured = false } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const Heading = `h${headingLevel}` as any;
+---
+
+<article class:list={['card', 'card--post', { 'card--featured': featured }]} data-tags={tags.join(',')}>
+  <Heading class="card__title">
+    <a href={`/blog/${slug}`}>{title}</a>
+  </Heading>
+  <div class="card__meta">
+    <time datetime={date.toISOString()}>{formattedDate}</time>
+    {readingTime && <span> · {readingTime} min read</span>}
+  </div>
+  <p class="card__excerpt">{description}</p>
+  <div class="tags" style="margin-top: 0.75rem;">
+    {tags.map((tag) => (
+      <span class="tag">{tag}</span>
+    ))}
+  </div>
+</article>

@@ -1,0 +1,17 @@
+<script>
+  // Add reveal-ready class to enable animation (content visible by default without JS)
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('reveal-ready'));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>

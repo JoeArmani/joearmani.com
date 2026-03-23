@@ -1,0 +1,73 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = Astro.url.pathname;
+
+const links = [
+  { href: '/blog', label: 'Blog' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/uses', label: 'Uses' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">Joe Armani</a>
+    <div class="nav__actions">
+      <ul class="nav__links">
+        {links.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class={pathname.startsWith(href) ? 'active' : ''}
+              aria-current={pathname.startsWith(href) ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/subscribe" class="btn btn--outline">Subscribe</a>
+        </li>
+      </ul>
+      <ThemeToggle />
+      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const hamburger = document.querySelector('.nav__hamburger');
+  const navLinks = document.querySelector('.nav__links');
+
+  hamburger?.addEventListener('click', () => {
+    const isOpen = navLinks?.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks?.classList.contains('open')) {
+      navLinks.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      (hamburger as HTMLElement)?.focus();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (
+      navLinks?.classList.contains('open') &&
+      !navLinks.contains(e.target as Node) &&
+      !hamburger?.contains(e.target as Node)
+    ) {
+      navLinks.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>

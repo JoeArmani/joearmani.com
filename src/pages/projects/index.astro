@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Projects | Joe Armani"
+  description="Things I've built, shipped, and learned from."
+>
+  <div class="container">
+    <div class="page-header">
+      <h1>Projects</h1>
+      <p class="page-header__subtitle">Things I've built, shipped, and learned from.</p>
+    </div>
+
+    <div class="project-list">
+      {projects.map((project) => (
+        <div class="reveal">
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            status={project.data.status}
+            tags={project.data.tags}
+            slug={project.id}
+            links={project.data.links}
+            headingLevel={2}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
