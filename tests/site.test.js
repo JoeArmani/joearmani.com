@@ -507,6 +507,103 @@ test('Homepage has smart Start Here deduplication logic', () => {
     'Homepage should use showStartHere logic to avoid duplicate post display');
 });
 
+// ─── 7. Post-Launch Features ──────────────────────────────────────────────────
+
+group('7. Post-Launch Features');
+
+test('Breadcrumbs component exists', () => {
+  assert(exists('src/components/Breadcrumbs.astro'),
+    'Missing src/components/Breadcrumbs.astro');
+});
+
+test('Breadcrumbs component includes BreadcrumbList schema', () => {
+  const content = read('src/components/Breadcrumbs.astro');
+  assert(has(content, 'BreadcrumbList'),
+    'Breadcrumbs.astro should include BreadcrumbList JSON-LD schema');
+});
+
+test('Breadcrumbs are used in PostLayout', () => {
+  const content = read('src/layouts/PostLayout.astro');
+  assert(has(content, 'Breadcrumbs'),
+    'PostLayout should import and use Breadcrumbs component');
+});
+
+test('Breadcrumbs are used on blog index', () => {
+  const content = read('src/pages/blog/index.astro');
+  assert(has(content, 'Breadcrumbs'),
+    'Blog index should import and use Breadcrumbs component');
+});
+
+test('Breadcrumbs are used on project detail pages', () => {
+  const content = read('src/pages/projects/[...slug].astro');
+  assert(has(content, 'Breadcrumbs'),
+    'Project detail page should import and use Breadcrumbs component');
+});
+
+test('Breadcrumbs CSS exists in global.css', () => {
+  assert(has(CSS, '.breadcrumbs'),
+    'Missing .breadcrumbs styles in global.css');
+});
+
+test('Blog schema supports lastModified field', () => {
+  const content = read('src/content.config.ts');
+  assert(has(content, 'lastModified'),
+    'Blog schema should include lastModified field');
+});
+
+test('PostLayout displays last-modified date', () => {
+  const content = read('src/layouts/PostLayout.astro');
+  assert(has(content, 'formattedLastModified'),
+    'PostLayout should format and display lastModified date');
+});
+
+test('PostLayout includes dateModified in JSON-LD schema', () => {
+  const content = read('src/layouts/PostLayout.astro');
+  assert(has(content, 'dateModified'),
+    'PostLayout should include dateModified in BlogPosting schema');
+});
+
+test('Blog post has lastModified in frontmatter', () => {
+  const content = read('content/blog/from-woodshop-to-code.md');
+  assert(has(content, 'lastModified:'),
+    'Blog post should have lastModified field in frontmatter');
+});
+
+test('Blog search input exists on blog index', () => {
+  const content = read('src/pages/blog/index.astro');
+  assert(has(content, 'blog-search'),
+    'Blog index should have a search input with blog-search class');
+});
+
+test('Blog search CSS exists in global.css', () => {
+  assert(has(CSS, '.blog-search__input'),
+    'Missing .blog-search__input styles in global.css');
+});
+
+test('Blog posts have data attributes for search', () => {
+  const content = read('src/pages/blog/index.astro');
+  assert(has(content, 'data-title'),
+    'Blog post cards should have data-title attribute for search');
+  assert(has(content, 'data-description'),
+    'Blog post cards should have data-description attribute for search');
+});
+
+test('Dark mode is default for first-time visitors', () => {
+  const content = read('src/layouts/BaseLayout.astro');
+  // The inline theme script should NOT use matchMedia to detect system preference
+  // (theme-color meta tags still use prefers-color-scheme, which is correct)
+  const themeScript = content.match(/script is:inline[\s\S]*?<\/script>/)?.[0] || '';
+  assert(lacks(themeScript, 'matchMedia'),
+    'Theme script should not use matchMedia (always default to dark)');
+  assert(has(themeScript, "setAttribute('data-theme', 'dark')") || has(themeScript, 'setAttribute("data-theme", "dark")'),
+    'Theme script should default to dark mode');
+});
+
+test('Link validation test exists', () => {
+  assert(exists('tests/links.test.js'),
+    'Missing tests/links.test.js for internal link validation');
+});
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 
 console.log('\n' + '═'.repeat(50));

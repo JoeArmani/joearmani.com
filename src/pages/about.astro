@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <BaseLayout
@@ -29,6 +30,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     ]
   })} />
   <div class="container--narrow" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "About" },
+    ]} />
     <div class="about-content">
       <h1>About Me</h1>
 

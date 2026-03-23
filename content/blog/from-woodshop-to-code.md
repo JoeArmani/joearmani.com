@@ -6,6 +6,7 @@ tags: ["career", "ai-ml"]
 draft: false
 featured: true
 readingTime: 8
+lastModified: 2026-03-23
 ---
 
 Every week for eight years, I solved a bin packing problem by hand.

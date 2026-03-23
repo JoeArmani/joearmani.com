@@ -83,13 +83,14 @@
 - [x] **Security audit** — Full scan for secrets/keys/tokens. Clean. No credentials in source.
 - [x] **Initialize git repo** — Initial commit created.
 - [x] **Push to GitHub** — Repo at `joeArmani/joearmani.com` (public), pushed.
-- [ ] **Transfer domain to Cloudflare** — Move joearmani.com nameservers to Cloudflare (free plan).
-- [ ] **Set up Cloudflare Email Routing** — Forward `joe@joearmani.com` to personal Gmail.
-- [ ] **Configure Gmail "Send as"** — Reply from `joe@joearmani.com` via Gmail.
-- [ ] **Connect Cloudflare Pages** — Link GitHub repo, build command `npm run build`, output dir `dist`, Node 22+.
-- [ ] **Configure `www` redirect** — Redirect `www.joearmani.com` to `joearmani.com`.
-- [ ] **Verify custom domain** — Confirm `joearmani.com` resolves to Cloudflare Pages with HTTPS.
-- [ ] **Enable Cloudflare Web Analytics** — Inject token via CF Pages environment variable, not hardcoded.
+- [x] **Transfer domain to Cloudflare** — Nameservers moved from Bluehost to Cloudflare (free plan). Domain active.
+- [x] **Set up Cloudflare Email Routing** — `joe@joearmani.com` forwards to personal Gmail.
+- [x] **Configure Gmail "Send as"** — Reply from `joe@joearmani.com` via Gmail, Apple Mail, and Gmail app.
+- [x] **Connect Cloudflare Pages** — GitHub repo linked, static build via wrangler.jsonc, auto-deploys on push.
+- [x] **Configure `www` redirect** — `www.joearmani.com` redirects to `joearmani.com`.
+- [x] **Verify custom domain** — `joearmani.com` live on Cloudflare Pages with HTTPS. SSL Full (strict).
+- [x] **Enable Cloudflare Web Analytics** — Auto-injected via Cloudflare Pages.
+- [x] **Dark mode default** — First-time visitors always see dark mode. Toggle persists via localStorage.
 
 ---
 
@@ -109,17 +110,18 @@
 - [x] Reading progress bar on blog posts
 - [x] "Uses" page (tech stack / tools) with contextual descriptions
 - [x] /now page
-- [ ] Blog post search
+- [x] Blog post search — client-side search on /blog, filters by title/description/tags, works with tag filter simultaneously.
 - [ ] Speaking / appearances page (if applicable)
 - [ ] Automated social image generation per blog post
-- [ ] Breadcrumb navigation for SEO
-- [ ] Last-modified dates on blog posts
+- [x] Breadcrumb navigation for SEO — Breadcrumbs component with BreadcrumbList JSON-LD schema on all subpages.
+- [x] Last-modified dates on blog posts — `lastModified` field in schema, displayed in post header, included in BlogPosting JSON-LD as `dateModified`.
+- [x] Internal link validation — `tests/links.test.js` scans all source files for broken internal links.
 
 ---
 
 ## Test Suite
 
-59 tests covering structure, content integrity, components, design system, and regressions. Run with:
+95 tests (83 main + 12 link validation) covering structure, content integrity, components, design system, regressions, and post-launch features. Run with:
 
 ```bash
 npm test
@@ -127,4 +129,4 @@ npm test
 
 ---
 
-*Last updated: 2026-03-22*
+*Last updated: 2026-03-23*

@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Subscribe from '../components/Subscribe.astro';
 import Comments from '../components/Comments.astro';
 import PostCard from '../components/PostCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 
 const { frontmatter, slug } = Astro.props;
@@ -12,6 +13,10 @@ const formattedDate = frontmatter.date.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+const formattedLastModified = frontmatter.lastModified
+  ? frontmatter.lastModified.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
 
 // Get related posts (matching tags, excluding current)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -59,6 +64,7 @@ const relatedPosts = allPosts
     "headline": frontmatter.title,
     "description": frontmatter.description,
     "datePublished": frontmatter.date.toISOString(),
+    ...(frontmatter.lastModified ? { "dateModified": frontmatter.lastModified.toISOString() } : {}),
     "author": {
       "@type": "Person",
       "name": "Joe Armani",
@@ -73,8 +79,16 @@ const relatedPosts = allPosts
   })} />
   <article>
     <div class="post-header container--narrow">
+      <Breadcrumbs items={[
+        { label: "Home", href: "/" },
+        { label: "Blog", href: "/blog" },
+        { label: frontmatter.title },
+      ]} />
       <div class="post-header__meta">
         <time datetime={frontmatter.date.toISOString()}>{formattedDate}</time>
+        {formattedLastModified && formattedLastModified !== formattedDate && (
+          <span>Updated {formattedLastModified}</span>
+        )}
         {frontmatter.readingTime && <span>{frontmatter.readingTime} min read</span>}
       </div>
       <h1 class="post-header__title">{frontmatter.title}</h1>

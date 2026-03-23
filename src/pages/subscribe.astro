@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Subscribe from '../components/Subscribe.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <BaseLayout
@@ -8,6 +9,10 @@ import Subscribe from '../components/Subscribe.astro';
   description="Writing on agentic development, AI tools, and building products that work."
 >
   <div class="container--narrow" style="padding-top: 6rem; padding-bottom: 6rem;">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Subscribe" },
+    ]} />
     <h1 style="text-align: center; margin-bottom: 1rem;">Subscribe</h1>
     <p style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem;">Writing on agentic development, AI tools, and building products that work.</p>
     <Subscribe variant="full" />

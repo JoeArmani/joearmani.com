@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <BaseLayout
@@ -7,6 +8,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   description="The tools, tech stack, and hardware I use to build AI-powered systems and ship products."
 >
   <div class="container--narrow" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Uses" },
+    ]} />
     <div class="about-content">
       <h1>What I Use</h1>
       <p>Tools, stack, and workflows behind what I build. Updated as things change.</p>

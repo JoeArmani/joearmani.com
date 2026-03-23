@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects'))
@@ -12,6 +13,10 @@ const projects = (await getCollection('projects'))
   description="Things I've built, shipped, and learned from."
 >
   <div class="container">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Projects" },
+    ]} />
     <div class="page-header">
       <h1>Projects</h1>
       <p class="page-header__subtitle">Things I've built, shipped, and learned from.</p>
