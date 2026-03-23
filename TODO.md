@@ -6,8 +6,8 @@
 
 ## Content
 
-- [ ] **Write first blog post** — `content/blog/from-woodshop-to-code.md` has the outline. Needs 1500-2000 words in your voice. This is the single most important pre-launch item.
-- [x] **Set blog post to draft until written** — Set to `draft: true` so placeholder content won't show on the live site.
+- [x] **Write first blog post** — "From Woodshop to Code" published. ~2,000 words, written with voice skill, covers career arc from Etsy order to AI engineering.
+- [x] **Set blog post to draft until written** — Published (`draft: false`).
 - [x] **Voice & tone pass** — All static copy reviewed and rewritten. Brand voice skill created (`joe-armani-content`) with shared reference files for consistent future content.
 - [ ] **Add headshot / profile photo** — Place in `public/images/`, add to About page. Ensure `alt` text is set.
 - [x] **Review project descriptions** — All four project pages reviewed and current.
@@ -34,13 +34,16 @@
 
 ## Design & UX
 
-- [x] **Full design review** — Deep review completed. Implemented: hero height reduction (80vh cap, scroll indicator removed), homepage section reorder (Subscribe above Projects), About page restructured with section headings, section gap tightened (6rem to 5rem), subscribe card warm accent, footer tagline added.
+- [x] **Full design review** — Deep review completed. Hero height reduced (80vh cap, scroll indicator removed), homepage sections consolidated (smart Start Here logic, Subscribe as conclusion CTA), About page restructured, section gap 8rem, subscribe card warm accent, footer tagline.
+- [x] **Light mode overhaul** — Off-white page background (#F8F9FB) with white card surfaces for depth. Resting card shadows, stronger hero gradients, brighter accents, increased tag/border contrast.
 - [x] **Lighthouse audit** — Perf 94+ | A11y 100 | Best Practices 100 | SEO 100.
-- [x] **Fonts self-hosted** — Plus Jakarta Sans, DM Sans, JetBrains Mono downloaded as WOFF2, Google Fonts links removed. Eliminates render-blocking external requests.
-- [x] **Theme-color meta tags** — Mobile browser chrome matches site theme (dark #0F1117, light #FFFFFF).
-- [x] **Nav styling fixed** — Links use `--text-primary` for better dark mode readability. Subscribe button changed to outline style.
+- [x] **Fonts self-hosted** — Plus Jakarta Sans, DM Sans, JetBrains Mono as WOFF2, Google Fonts links removed.
+- [x] **Theme-color meta tags** — Mobile browser chrome matches site theme (dark #0F1117, light #F8F9FB).
+- [x] **Nav styling fixed** — Subscribe is now a regular nav link (no box). All links use `--text-primary`.
 - [x] **Email input contrast fixed** — Visible border (`--border`), off-white background in light mode.
 - [x] **Hero pre-tagline sized up** — `font-size: 1rem`, removed decorative `>` arrow.
+- [x] **Subscribe page redesigned** — Reuses Subscribe component for consistent styling with homepage.
+- [x] **Mobile blog padding** — Added horizontal padding to `.prose` for mobile readability.
 - [ ] **Favicon renders** — Verify "JA" monogram shows in browser tab across browsers.
 - [ ] **OG image** — Create a default Open Graph image (1200x630) for social sharing. Add to `public/images/` and wire into BaseLayout `ogImage` prop.
 - [x] **404 page** — Created with styled message and helpful CTAs.
@@ -78,8 +81,8 @@
 
 - [x] **`.gitignore`** — Covers node_modules, dist, .astro, .env, .DS_Store, .claude, editor files.
 - [x] **Security audit** — Full scan for secrets/keys/tokens. Clean. No credentials in source.
-- [ ] **Initialize git repo** — `git init`, initial commit.
-- [ ] **Push to GitHub** — Create `joeArmani/joearmani.com` repo (public), push.
+- [x] **Initialize git repo** — Initial commit created.
+- [x] **Push to GitHub** — Repo at `joeArmani/joearmani.com` (public), pushed.
 - [ ] **Transfer domain to Cloudflare** — Move joearmani.com nameservers to Cloudflare (free plan).
 - [ ] **Set up Cloudflare Email Routing** — Forward `joe@joearmani.com` to personal Gmail.
 - [ ] **Configure Gmail "Send as"** — Reply from `joe@joearmani.com` via Gmail.
