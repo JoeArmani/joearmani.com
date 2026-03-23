@@ -125,7 +125,7 @@
   --font-body: 'DM Sans', sans-serif;
   --font-code: 'JetBrains Mono', monospace;
 
-  --section-gap: 8rem;
+  --section-gap: 1rem;
   --content-width: 720px;
   --page-width: 1200px;
   --nav-height: 64px;
@@ -226,13 +226,15 @@ a { color: inherit; }
 .container {
   max-width: var(--page-width);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .container--narrow {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 section {
@@ -340,11 +342,28 @@ section {
 
 /* --- Cards --- */
 .card {
+  position: relative;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 1.5rem;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  cursor: pointer;
+}
+
+/* Stretched link: makes entire card clickable via title link */
+.card__title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Ensure buttons/links inside cards remain clickable above the stretched link */
+.card .btn,
+.card .tag {
+  position: relative;
+  z-index: 2;
 }
 
 .card:hover {
@@ -1193,7 +1212,7 @@ section {
 /* --- Responsive --- */
 @media (max-width: 640px) {
   :root {
-    --section-gap: 5rem;
+    --section-gap: 0.5rem;
   }
   h1 { font-size: 1.75rem; }
   h2 { font-size: 1.35rem; }

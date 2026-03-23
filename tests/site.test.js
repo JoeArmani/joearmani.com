@@ -604,6 +604,44 @@ test('Link validation test exists', () => {
     'Missing tests/links.test.js for internal link validation');
 });
 
+test('OG image utility exists', () => {
+  assert(exists('src/utils/og-image.ts'),
+    'Missing src/utils/og-image.ts for OG image generation');
+});
+
+test('OG image endpoint exists for blog posts', () => {
+  assert(exists('src/pages/og/[slug].png.ts'),
+    'Missing dynamic OG image endpoint for blog posts');
+});
+
+test('Default OG image endpoint exists', () => {
+  assert(exists('src/pages/og/default.png.ts'),
+    'Missing default OG image endpoint');
+});
+
+test('BaseLayout always has an OG image (default fallback)', () => {
+  const content = read('src/layouts/BaseLayout.astro');
+  assert(has(content, 'resolvedOgImage'),
+    'BaseLayout should use resolvedOgImage with default fallback');
+  assert(has(content, 'og/default.png'),
+    'BaseLayout should fall back to /og/default.png');
+});
+
+test('PostLayout passes per-post OG image to BaseLayout', () => {
+  const content = read('src/layouts/PostLayout.astro');
+  assert(has(content, 'ogImage='),
+    'PostLayout should pass ogImage prop to BaseLayout');
+  assert(has(content, '/og/'),
+    'PostLayout ogImage should reference /og/ endpoint');
+});
+
+test('TTF font files exist for OG image rendering', () => {
+  assert(exists('public/fonts/plus-jakarta-sans-700.ttf'),
+    'Missing Plus Jakarta Sans TTF for OG image rendering');
+  assert(exists('public/fonts/dm-sans-400.ttf'),
+    'Missing DM Sans TTF for OG image rendering');
+});
+
 // ─── Summary ──────────────────────────────────────────────────────────────────
 
 console.log('\n' + '═'.repeat(50));

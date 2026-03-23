@@ -41,7 +41,7 @@ const relatedPosts = allPosts
   }
 </style>
 
-<BaseLayout title={`${frontmatter.title} | Joe Armani`} description={frontmatter.description}>
+<BaseLayout title={`${frontmatter.title} | Joe Armani`} description={frontmatter.description} ogImage={`https://joearmani.com/og/${slug}.png`}>
   <div id="reading-progress" aria-hidden="true"></div>
   <script>
     const bar = document.getElementById('reading-progress');
