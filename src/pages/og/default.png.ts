@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
     subtitle: 'I build with AI and write about what actually works.',
   });
 
-  return new Response(png, {
+  return new Response(new Uint8Array(png), {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',

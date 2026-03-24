@@ -377,17 +377,21 @@ test('Theme-color meta tags exist in BaseLayout', () => {
   const layout = read('src/layouts/BaseLayout.astro');
   assert(has(layout, 'theme-color'),
     'Missing theme-color meta tag in BaseLayout');
+  assert(has(layout, 'data-dynamic-theme-color'),
+    'BaseLayout should expose a dynamic theme-color meta tag for user-selected themes');
   assert(has(layout, '#0F1117'),
     'Missing dark theme-color value in BaseLayout');
   assert(has(layout, '#F8F9FB'),
     'Missing light theme-color value in BaseLayout');
 });
 
-test('Section gap is reasonable (4-7rem)', () => {
+test('Section gap matches the intentionally tight layout rhythm', () => {
   const match = CSS.match(/--section-gap:\s*([\d.]+)rem/);
   assert(match, 'Could not find --section-gap in global.css');
   const gap = parseFloat(match[1]);
-  assert(gap >= 4 && gap <= 10, `Section gap is ${gap}rem — expected 4-10rem`);
+  assert(gap >= 0.75 && gap <= 1.25, `Section gap is ${gap}rem — expected roughly 1rem`);
+  assert(has(CSS, '--section-gap: 0.5rem'),
+    'Mobile section gap should tighten to 0.5rem');
 });
 
 test('About page has structured section headings', () => {
@@ -468,6 +472,14 @@ test('Giscus category-id is populated (not empty)', () => {
     'Giscus data-category-id should not be empty');
 });
 
+test('Giscus mounts into the placeholder container', () => {
+  const content = read('src/components/Comments.astro');
+  assert(has(content, 'container.appendChild(script)'),
+    'Giscus script should mount into the .giscus placeholder container');
+  assert(lacks(content, 'document.body.appendChild(script)'),
+    'Giscus script should not mount on document.body');
+});
+
 test('Light mode cards have resting shadows', () => {
   assert(has(CSS, '[data-theme="light"] .card'),
     'Light mode should have card-specific shadow styles');
@@ -488,9 +500,15 @@ test('Nav Subscribe link has no button classes', () => {
     'Nav should not use btn--primary or btn--outline on Subscribe link');
 });
 
+test('Theme toggle exposes pressed state for accessibility', () => {
+  const content = read('src/components/ThemeToggle.astro');
+  assert(has(content, 'aria-pressed'),
+    'Theme toggle should expose aria-pressed');
+});
+
 test('Subscribe page reuses Subscribe component', () => {
   const content = read('src/pages/subscribe.astro');
-  assert(has(content, "import Subscribe from") || has(content, 'Subscribe variant='),
+  assert(has(content, "../components/Subscribe.astro") || has(content, 'variant="full"'),
     'Subscribe page should import and use the Subscribe component');
 });
 
@@ -575,6 +593,12 @@ test('Blog search input exists on blog index', () => {
     'Blog index should have a search input with blog-search class');
 });
 
+test('Blog search input has an accessible name', () => {
+  const content = read('src/pages/blog/index.astro');
+  assert(has(content, 'aria-label="Search posts"') || has(content, "aria-label='Search posts'"),
+    'Blog search input should have an accessible name');
+});
+
 test('Blog search CSS exists in global.css', () => {
   assert(has(CSS, '.blog-search__input'),
     'Missing .blog-search__input styles in global.css');
@@ -590,18 +614,34 @@ test('Blog posts have data attributes for search', () => {
 
 test('Dark mode is default for first-time visitors', () => {
   const content = read('src/layouts/BaseLayout.astro');
-  // The inline theme script should NOT use matchMedia to detect system preference
-  // (theme-color meta tags still use prefers-color-scheme, which is correct)
+  // The inline theme script should NOT use matchMedia to detect system preference.
+  // Theme selection should still default to dark and then sync the dynamic theme-color meta tag.
   const themeScript = content.match(/script is:inline[\s\S]*?<\/script>/)?.[0] || '';
   assert(lacks(themeScript, 'matchMedia'),
     'Theme script should not use matchMedia (always default to dark)');
-  assert(has(themeScript, "setAttribute('data-theme', 'dark')") || has(themeScript, 'setAttribute("data-theme", "dark")'),
-    'Theme script should default to dark mode');
+  assert(has(themeScript, "savedTheme === 'light' ? 'light' : 'dark'") || has(themeScript, 'savedTheme === "light" ? "light" : "dark"'),
+    'Theme script should fall back to dark mode when no light preference is saved');
+  assert(has(themeScript, 'data-dynamic-theme-color'),
+    'Theme script should synchronize the dynamic theme-color meta tag');
 });
 
 test('Link validation test exists', () => {
   assert(exists('tests/links.test.js'),
     'Missing tests/links.test.js for internal link validation');
+});
+
+test('Package test script runs link validation', () => {
+  const content = read('package.json');
+  assert(has(content, 'test:links'),
+    'package.json should define a dedicated link validation script');
+  assert(has(content, 'npm run test:site && npm run test:links'),
+    'npm test should run both site and link validation');
+});
+
+test('Package check script exposes Astro type/content checks', () => {
+  const content = read('package.json');
+  assert(has(content, '"check": "astro check"'),
+    'package.json should define an astro check script');
 });
 
 test('OG image utility exists', () => {
@@ -633,6 +673,20 @@ test('PostLayout passes per-post OG image to BaseLayout', () => {
     'PostLayout should pass ogImage prop to BaseLayout');
   assert(has(content, '/og/'),
     'PostLayout ogImage should reference /og/ endpoint');
+});
+
+test('BaseLayout advertises the RSS feed', () => {
+  const content = read('src/layouts/BaseLayout.astro');
+  assert(has(content, 'rel="alternate"') || has(content, "rel='alternate'"),
+    'BaseLayout should advertise the RSS feed with an alternate link');
+  assert(has(content, '/rss.xml'),
+    'BaseLayout alternate link should point to /rss.xml');
+});
+
+test('Blog detail getStaticPaths filters draft posts', () => {
+  const content = read('src/pages/blog/[...slug].astro');
+  assert(has(content, "!data.draft"),
+    'Blog detail route should filter draft posts in getStaticPaths');
 });
 
 test('TTF font files exist for OG image rendering', () => {

@@ -3,9 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
+import { compareEditorialDatesDesc } from '../../utils/dates';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const posts = allPosts.sort((a, b) => compareEditorialDatesDesc(a.data.date, b.data.date));
 
 const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 ---
@@ -30,11 +31,12 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
           <div class="blog-search__wrapper">
             <svg class="blog-search__icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
-              type="text"
+              type="search"
               class="blog-search__input"
               id="blog-search-input"
               placeholder="Search posts..."
               autocomplete="off"
+              aria-label="Search posts"
             />
           </div>
         </div>
@@ -68,48 +70,51 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
   </div>
 </BaseLayout>
 
-<script>
-  const buttons = document.querySelectorAll('.tag-filter__btn');
-  const cards = document.querySelectorAll('#posts-grid .card');
-  const searchInput = document.getElementById('blog-search-input') as HTMLInputElement;
+{posts.length > 0 && (
+  <script>
+    const buttons = document.querySelectorAll('.tag-filter__btn');
+    const cards = document.querySelectorAll('#posts-grid .card');
+    const searchInput = document.getElementById('blog-search-input');
 
-  let activeTag = 'all';
+    if (searchInput instanceof HTMLInputElement) {
+      const searchField = searchInput;
+      let activeTag = 'all';
 
-  function filterPosts() {
-    const query = searchInput.value.toLowerCase().trim();
+      function filterPosts() {
+        const query = searchField.value.toLowerCase().trim();
 
-    cards.forEach((card) => {
-      const wrapper = card.closest('.reveal') as HTMLElement;
-      if (!wrapper) return;
+        cards.forEach((card) => {
+          const wrapper = card.closest('.reveal') as HTMLElement | null;
+          if (!wrapper) return;
 
-      // Tag match
-      let tagMatch = true;
-      if (activeTag !== 'all') {
-        const cardTags = card.getAttribute('data-tags')?.split(',') || [];
-        tagMatch = cardTags.includes(activeTag);
+          let tagMatch = true;
+          if (activeTag !== 'all') {
+            const cardTags = card.getAttribute('data-tags')?.split(',') || [];
+            tagMatch = cardTags.includes(activeTag);
+          }
+
+          let searchMatch = true;
+          if (query) {
+            const title = (wrapper.getAttribute('data-title') || '').toLowerCase();
+            const description = (wrapper.getAttribute('data-description') || '').toLowerCase();
+            const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+            searchMatch = title.includes(query) || description.includes(query) || tags.includes(query);
+          }
+
+          wrapper.style.display = tagMatch && searchMatch ? '' : 'none';
+        });
       }
 
-      // Search match
-      let searchMatch = true;
-      if (query) {
-        const title = (wrapper.getAttribute('data-title') || '').toLowerCase();
-        const description = (wrapper.getAttribute('data-description') || '').toLowerCase();
-        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
-        searchMatch = title.includes(query) || description.includes(query) || tags.includes(query);
-      }
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          buttons.forEach((button) => button.classList.remove('active'));
+          btn.classList.add('active');
+          activeTag = btn.getAttribute('data-tag') || 'all';
+          filterPosts();
+        });
+      });
 
-      wrapper.style.display = tagMatch && searchMatch ? '' : 'none';
-    });
-  }
-
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      buttons.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeTag = btn.getAttribute('data-tag') || 'all';
-      filterPosts();
-    });
-  });
-
-  searchInput.addEventListener('input', filterPosts);
-</script>
+      searchField.addEventListener('input', filterPosts);
+    }
+  </script>
+)}

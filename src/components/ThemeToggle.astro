@@ -1,4 +1,4 @@
-<button class="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+<button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false" title="Switch to light mode">
   <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
     <circle cx="12" cy="12" r="5" />
     <line x1="12" y1="1" x2="12" y2="3" />
@@ -47,12 +47,48 @@
 </style>
 
 <script>
+  const themeColors = { dark: '#0F1117', light: '#F8F9FB' } as const;
+
+  function syncThemeToggle(toggle: Element) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const isLight = theme === 'light';
+
+    toggle.setAttribute('aria-pressed', String(isLight));
+    toggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+    toggle.setAttribute('title', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+  }
+
+  function updateThemeChrome(theme: keyof typeof themeColors) {
+    const meta = document.querySelector('meta[data-dynamic-theme-color]');
+    if (meta) {
+      meta.setAttribute('content', themeColors[theme]);
+    }
+  }
+
   document.querySelectorAll('.theme-toggle').forEach((toggle) => {
+    syncThemeToggle(toggle);
+
     toggle.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'light' ? 'dark' : 'light';
+
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
+
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        // Ignore storage failures and still honor the in-memory theme.
+      }
+
+      updateThemeChrome(next);
+      syncThemeToggle(toggle);
     });
+  });
+
+  new MutationObserver(() => {
+    document.querySelectorAll('.theme-toggle').forEach((toggle) => syncThemeToggle(toggle));
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
   });
 </script>

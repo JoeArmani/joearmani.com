@@ -1,8 +1,10 @@
 ---
+import { formatEditorialDate } from '../utils/dates';
+
 interface Props {
   title: string;
   description: string;
-  date: Date;
+  date: string;
   tags: string[];
   slug: string;
   readingTime?: number;
@@ -12,11 +14,7 @@ interface Props {
 
 const { title, description, date, tags, slug, readingTime, headingLevel = 3, featured = false } = Astro.props;
 
-const formattedDate = date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const formattedDate = formatEditorialDate(date);
 const Heading = `h${headingLevel}` as any;
 ---
 
@@ -25,7 +23,7 @@ const Heading = `h${headingLevel}` as any;
     <a href={`/blog/${slug}`}>{title}</a>
   </Heading>
   <div class="card__meta">
-    <time datetime={date.toISOString()}>{formattedDate}</time>
+    <time datetime={date}>{formattedDate}</time>
     {readingTime && <span> · {readingTime} min read</span>}
   </div>
   <p class="card__excerpt">{description}</p>

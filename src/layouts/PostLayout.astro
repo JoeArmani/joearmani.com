@@ -5,25 +5,19 @@ import Comments from '../components/Comments.astro';
 import PostCard from '../components/PostCard.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getCollection } from 'astro:content';
+import { compareEditorialDatesDesc, formatEditorialDate } from '../utils/dates';
 
 const { frontmatter, slug } = Astro.props;
 
-const formattedDate = frontmatter.date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
-const formattedLastModified = frontmatter.lastModified
-  ? frontmatter.lastModified.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-  : null;
+const formattedDate = formatEditorialDate(frontmatter.date);
+const formattedLastModified = frontmatter.lastModified ? formatEditorialDate(frontmatter.lastModified) : null;
 
 // Get related posts (matching tags, excluding current)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const relatedPosts = allPosts
   .filter((post) => post.id !== slug)
   .filter((post) => post.data.tags.some((tag: string) => frontmatter.tags.includes(tag)))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => compareEditorialDatesDesc(a.data.date, b.data.date))
   .slice(0, 3);
 ---
 
@@ -41,7 +35,14 @@ const relatedPosts = allPosts
   }
 </style>
 
-<BaseLayout title={`${frontmatter.title} | Joe Armani`} description={frontmatter.description} ogImage={`https://joearmani.com/og/${slug}.png`}>
+<BaseLayout
+  title={`${frontmatter.title} | Joe Armani`}
+  description={frontmatter.description}
+  ogImage={`https://joearmani.com/og/${slug}.png`}
+  ogType="article"
+  publishedTime={frontmatter.date}
+  modifiedTime={frontmatter.lastModified}
+>
   <div id="reading-progress" aria-hidden="true"></div>
   <script>
     const bar = document.getElementById('reading-progress');
@@ -58,13 +59,13 @@ const relatedPosts = allPosts
     }, { passive: true });
     updateProgress();
   </script>
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": frontmatter.title,
     "description": frontmatter.description,
-    "datePublished": frontmatter.date.toISOString(),
-    ...(frontmatter.lastModified ? { "dateModified": frontmatter.lastModified.toISOString() } : {}),
+    "datePublished": frontmatter.date,
+    ...(frontmatter.lastModified ? { "dateModified": frontmatter.lastModified } : {}),
     "author": {
       "@type": "Person",
       "name": "Joe Armani",
@@ -85,7 +86,7 @@ const relatedPosts = allPosts
         { label: frontmatter.title },
       ]} />
       <div class="post-header__meta">
-        <time datetime={frontmatter.date.toISOString()}>{formattedDate}</time>
+        <time datetime={frontmatter.date}>{formattedDate}</time>
         {formattedLastModified && formattedLastModified !== formattedDate && (
           <span>Updated {formattedLastModified}</span>
         )}

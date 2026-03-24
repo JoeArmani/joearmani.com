@@ -16,56 +16,78 @@ const links = [
   <div class="nav__inner">
     <a href="/" class="nav__logo">Joe Armani</a>
     <div class="nav__actions">
-      <ul class="nav__links">
-        {links.map(({ href, label }) => (
-          <li>
-            <a
-              href={href}
-              class={pathname.startsWith(href) ? 'active' : ''}
-              aria-current={pathname.startsWith(href) ? 'page' : undefined}
-            >
-              {label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <details class="nav__menu" open>
+        <summary class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </summary>
+        <ul class="nav__links">
+          {links.map(({ href, label }) => (
+            <li>
+              <a
+                href={href}
+                class={pathname.startsWith(href) ? 'active' : ''}
+                aria-current={pathname.startsWith(href) ? 'page' : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
       <ThemeToggle />
-      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
     </div>
   </div>
 </nav>
 
 <script>
+  const navMenu = document.querySelector('.nav__menu') as HTMLDetailsElement | null;
   const hamburger = document.querySelector('.nav__hamburger');
-  const navLinks = document.querySelector('.nav__links');
+  const mobileQuery = window.matchMedia('(max-width: 640px)');
 
-  hamburger?.addEventListener('click', () => {
-    const isOpen = navLinks?.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-  });
+  function syncMenuState() {
+    hamburger?.setAttribute('aria-expanded', String(navMenu?.open ?? false));
+  }
+
+  function syncMenuForViewport() {
+    if (!navMenu) return;
+
+    if (mobileQuery.matches) {
+      navMenu.open = false;
+    } else {
+      navMenu.open = true;
+    }
+
+    syncMenuState();
+  }
+
+  syncMenuForViewport();
+  navMenu?.addEventListener('toggle', syncMenuState);
+  mobileQuery.addEventListener('change', syncMenuForViewport);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navLinks?.classList.contains('open')) {
-      navLinks.classList.remove('open');
-      hamburger?.setAttribute('aria-expanded', 'false');
+    if (e.key === 'Escape' && navMenu?.open) {
+      navMenu.open = false;
+      syncMenuState();
       (hamburger as HTMLElement)?.focus();
     }
   });
 
   document.addEventListener('click', (e) => {
-    if (
-      navLinks?.classList.contains('open') &&
-      !navLinks.contains(e.target as Node) &&
-      !hamburger?.contains(e.target as Node)
-    ) {
-      navLinks.classList.remove('open');
-      hamburger?.setAttribute('aria-expanded', 'false');
+    if (navMenu?.open && !navMenu.contains(e.target as Node) && mobileQuery.matches) {
+      navMenu.open = false;
+      syncMenuState();
     }
+  });
+
+  navMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (!navMenu || !mobileQuery.matches) return;
+      navMenu.open = false;
+      syncMenuState();
+    });
   });
 </script>

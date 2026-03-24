@@ -1,6 +1,7 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import { generateOgImage } from '../../utils/og-image';
+import { formatEditorialDate } from '../../utils/dates';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -13,11 +14,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const GET: APIRoute = async ({ props }) => {
   const { post } = props as { post: any };
 
-  const formattedDate = post.data.date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const formattedDate = formatEditorialDate(post.data.date);
 
   const png = await generateOgImage({
     title: post.data.title,
@@ -26,7 +23,7 @@ export const GET: APIRoute = async ({ props }) => {
     date: formattedDate,
   });
 
-  return new Response(png, {
+  return new Response(new Uint8Array(png), {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',

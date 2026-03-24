@@ -8,9 +8,12 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, ogType = 'website', publishedTime, modifiedTime } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const resolvedOgImage = ogImage || 'https://joearmani.com/og/default.png';
 ---
@@ -19,22 +22,12 @@ const resolvedOgImage = ogImage || 'https://joearmani.com/og/default.png';
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Prevent flash of wrong theme -->
-    <script is:inline>
-      (function() {
-        const saved = localStorage.getItem('theme');
-        if (saved) {
-          document.documentElement.setAttribute('data-theme', saved);
-        } else {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      })();
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Joe Armani" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="Joe Armani RSS Feed" href="/rss.xml" />
 
     <!-- Fonts (self-hosted for performance and privacy) -->
     <link rel="preload" href="/fonts/dm-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -44,16 +37,39 @@ const resolvedOgImage = ogImage || 'https://joearmani.com/og/default.png';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Theme Color (mobile browser chrome) -->
-    <meta name="theme-color" content="#0F1117" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#F8F9FB" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1117" data-dynamic-theme-color />
+
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      (function() {
+        const themeColors = { dark: '#0F1117', light: '#F8F9FB' };
+        let savedTheme = null;
+
+        try {
+          savedTheme = localStorage.getItem('theme');
+        } catch {
+          savedTheme = null;
+        }
+
+        const theme = savedTheme === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+
+        const themeColorMeta = document.querySelector('meta[data-dynamic-theme-color]');
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute('content', themeColors[theme]);
+        }
+      })();
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content="Joe Armani" />
     <meta property="og:image" content={resolvedOgImage} />
+    {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />

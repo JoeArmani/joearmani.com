@@ -5,17 +5,17 @@ import PostCard from '../components/PostCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Subscribe from '../components/Subscribe.astro';
 import { getCollection } from 'astro:content';
+import { compareEditorialDatesDesc } from '../utils/dates';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 
 const featuredPosts = allPosts.filter((p) => p.data.featured);
 
 const latestPosts = allPosts
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => compareEditorialDatesDesc(a.data.date, b.data.date))
   .slice(0, 3);
 
 // Hide "Start Here" when featured posts are all already in Latest Writing (avoids duplication)
-const featuredIds = new Set(featuredPosts.map((p) => p.id));
 const latestIds = new Set(latestPosts.map((p) => p.id));
 const showStartHere = featuredPosts.length > 0 && !featuredPosts.every((p) => latestIds.has(p.id));
 
@@ -28,7 +28,7 @@ const featuredProjects = (await getCollection('projects'))
   title="Joe Armani | Builder, Engineer, AI Practitioner"
   description="I build AI-powered systems and write about what actually works."
 >
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Joe Armani",

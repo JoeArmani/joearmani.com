@@ -17,7 +17,8 @@ Personal website and blog. Built with [Astro](https://astro.build), hosted on [C
 npm install
 npm run dev        # localhost:4321
 npm run build      # static build to dist/
-npm test           # 59 tests
+npm run check      # Astro type/content checks
+npm test           # source + link validation
 ```
 
 ## Project Structure

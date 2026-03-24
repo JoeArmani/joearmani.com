@@ -1,17 +1,31 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { normalizeEditorialDate } from './utils/dates';
+
+const editorialDate = z.union([z.string(), z.date()]).transform((value, ctx) => {
+  try {
+    return normalizeEditorialDate(value);
+  } catch {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Expected a valid editorial date like YYYY-MM-DD.',
+    });
+
+    return z.NEVER;
+  }
+});
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    date: z.coerce.date(),
+    date: editorialDate,
     tags: z.array(z.string()),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
     readingTime: z.number().optional(),
-    lastModified: z.coerce.date().optional(),
+    lastModified: editorialDate.optional(),
   }),
 });
 

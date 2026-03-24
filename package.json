@@ -8,7 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node tests/site.test.js"
+    "check": "astro check",
+    "test:site": "node tests/site.test.js",
+    "test:links": "node tests/links.test.js",
+    "test": "npm run test:site && npm run test:links"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.17",
@@ -16,5 +19,9 @@
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^6.0.5",
     "satori": "^0.26.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "typescript": "^5.9.3"
   }
 }
