@@ -41,7 +41,7 @@ Selling a woodworking factory isn't a quick process. It took about a year to fin
 
 Then COVID hit the US three weeks later.
 
-The timing was either terrible or perfect, depending on how you look at it. I'd just walked away from my entire livelihood with a plan to go back to school, and the world shut down. But it also meant zero distractions. No commute. No temptation to "maybe just consult for a while." The bridge was burned.
+It was a crazy, challenging, and in some cases tragic time for all of us. I'd just walked away from my entire livelihood with a plan to go back to school, and the world shut down. But it also meant zero distractions. No commute. No temptation to "maybe just consult for a while." The bridge was burned.
 
 ## The Accelerated Path
 

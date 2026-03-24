@@ -982,6 +982,22 @@ section {
 }
 
 /* --- About Page --- */
+.about-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.about-headshot {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  margin-bottom: 1.5rem;
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
 .about-content p {
   margin-bottom: 1.5rem;
   color: var(--text-secondary);
