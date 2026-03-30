@@ -8,5 +8,7 @@
   "routes": [
     { "pattern": "joearmani.com", "custom_domain": true },
     { "pattern": "www.joearmani.com", "custom_domain": true }
-  ]
+  ],
+  "workers_dev": true,
+  "preview_urls": true
 }
