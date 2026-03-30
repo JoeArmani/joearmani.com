@@ -5,8 +5,6 @@ status: "Active"
 tags: ["AI/ML", "Agentic", "JavaScript", "TDD"]
 order: 1
 featured: true
-links:
-  github: ""
 ---
 
 ## Overview

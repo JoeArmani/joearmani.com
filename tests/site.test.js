@@ -644,6 +644,47 @@ test('Package check script exposes Astro type/content checks', () => {
     'package.json should define an astro check script');
 });
 
+test('Security headers file exists', () => {
+  assert(exists('public/_headers'),
+    'Missing public/_headers for deployment security headers');
+});
+
+test('Security headers include a CSP and core browser policies', () => {
+  const content = read('public/_headers');
+  assert(has(content, 'Content-Security-Policy:'),
+    '_headers should define a Content-Security-Policy');
+  assert(has(content, "script-src 'self' 'unsafe-inline' https://giscus.app"),
+    'CSP should restrict scripts to self and giscus.app');
+  assert(has(content, "frame-src https://giscus.app"),
+    'CSP should explicitly allow the Giscus frame');
+  assert(has(content, 'Referrer-Policy: strict-origin-when-cross-origin'),
+    '_headers should define Referrer-Policy');
+  assert(has(content, 'X-Content-Type-Options: nosniff'),
+    '_headers should define X-Content-Type-Options');
+});
+
+test('.gitignore covers local deployment state and common secret files', () => {
+  const content = read('.gitignore');
+  assert(has(content, '.wrangler/'),
+    '.gitignore should ignore .wrangler/');
+  assert(has(content, '.dev.vars'),
+    '.gitignore should ignore .dev.vars files');
+  assert(has(content, '.npmrc'),
+    '.gitignore should ignore .npmrc');
+  assert(has(content, 'coverage/'),
+    '.gitignore should ignore coverage output');
+  assert(has(content, '*.pem') && has(content, '*.key'),
+    '.gitignore should ignore common key and certificate files');
+});
+
+test('Project links must validate as https URLs', () => {
+  const content = read('src/content.config.ts');
+  assert(has(content, 'Expected an https URL.'),
+    'Project link schema should enforce https URLs');
+  assert(has(content, "new URL(value).protocol === 'https:'"),
+    'Project link schema should restrict external links to https');
+});
+
 test('OG image utility exists', () => {
   assert(exists('src/utils/og-image.ts'),
     'Missing src/utils/og-image.ts for OG image generation');

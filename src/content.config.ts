@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { NEVER, z } from 'astro/zod';
 import { normalizeEditorialDate } from './utils/dates';
 
 const editorialDate = z.union([z.string(), z.date()]).transform((value, ctx) => {
@@ -7,13 +8,30 @@ const editorialDate = z.union([z.string(), z.date()]).transform((value, ctx) => 
     return normalizeEditorialDate(value);
   } catch {
     ctx.addIssue({
-      code: z.ZodIssueCode.custom,
+      code: 'custom',
       message: 'Expected a valid editorial date like YYYY-MM-DD.',
     });
 
-    return z.NEVER;
+    return NEVER;
   }
 });
+
+const optionalHttpsUrl = z.preprocess(
+  (value) => {
+    if (typeof value !== 'string') {
+      return value;
+    }
+
+    const trimmedValue = value.trim();
+    return trimmedValue === '' ? undefined : trimmedValue;
+  },
+  z
+    .url()
+    .refine((value) => new URL(value).protocol === 'https:', {
+      message: 'Expected an https URL.',
+    })
+    .optional()
+);
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/blog' }),
@@ -39,10 +57,10 @@ const projects = defineCollection({
     order: z.number(),
     featured: z.boolean().default(false),
     links: z.object({
-      github: z.string().optional(),
-      live: z.string().optional(),
-      appStore: z.string().optional(),
-      playStore: z.string().optional(),
+      github: optionalHttpsUrl,
+      live: optionalHttpsUrl,
+      appStore: optionalHttpsUrl,
+      playStore: optionalHttpsUrl,
     }).optional(),
   }),
 });

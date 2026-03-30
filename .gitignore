@@ -10,6 +10,15 @@ dist/
 # Environment
 .env
 .env.*
+.dev.vars
+.dev.vars.*
+.envrc
+.npmrc
+.direnv/
+.wrangler/
+
+# Test output
+coverage/
 
 # OS files
 .DS_Store
@@ -22,8 +31,19 @@ Thumbs.db
 *.swp
 *.swo
 
+# Personal docs (not for repo)
+DISTRIBUTION.md
+
 # Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Keys / certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
