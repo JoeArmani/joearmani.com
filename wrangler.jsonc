@@ -4,5 +4,9 @@
   "compatibility_date": "2026-03-23",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "routes": [
+    { "pattern": "joearmani.com", "custom_domain": true },
+    { "pattern": "www.joearmani.com", "custom_domain": true }
+  ]
 }
