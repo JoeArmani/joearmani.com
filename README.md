@@ -34,5 +34,5 @@ public/
   fonts/         # Self-hosted WOFF2 files
   favicon.svg
 tests/
-  site.test.js   # Structural, content, design system, regression tests
+  site.test.js   # Structural, content, design system, and regression tests
 ```
