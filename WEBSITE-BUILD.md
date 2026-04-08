@@ -1,7 +1,8 @@
 # Joe Armani Personal Website — Build Specification
 
-> **This document is the single source of truth for building joearmani.com.**
-> Read this entire document before writing any code. Follow it precisely.
+> Historical build specification used during the initial development of joearmani.com.
+>
+> Kept in the public repo for context. The live source code is the authoritative implementation, and some detailed sections below reflect the original build plan rather than the current state of the site.
 
 ---
 
@@ -9,15 +10,15 @@
 
 ### Who Is Joe Armani?
 
-Joe Armani is a senior software engineer, AI/ML practitioner, and former business owner building a personal brand at the intersection of AI and production engineering.
+Joe Armani is a senior software engineer, AI/ML practitioner, and former business owner building a public body of work around agentic development, applied AI, and production-minded engineering.
 
-**Career arc:** Ran a woodworking/ecommerce factory for ~8 years → pivoted to software engineering → B.S. in Computer Science (Summa Cum Laude, CSU Global, 2021) → built and shipped a mobile app (Racquet Rivalry) → Senior Software Engineer contracting to the National Cancer Institute on the Connect for Cancer Prevention Study (via Cirrus Lake Solutions) → Master's in AI/ML (CSU Global, 4.0 GPA) → currently focused on agentic AI development, applied ML, and building his personal brand.
+**Career arc:** Ran a woodworking/ecommerce factory for ~8 years → pivoted to software engineering → B.S. in Computer Science (Summa Cum Laude, CSU Global, 2021) → built and shipped a mobile app (Racquet Rivalry) → Senior Software Engineer contracting to the National Cancer Institute on the Connect for Cancer Prevention Study (via Cirrus Lake Solutions) → Master's in AI/ML (CSU Global, 4.0 GPA) → currently focused on agentic AI development, applied ML, and building a durable body of technical work.
 
 **Current work:** By day, full-stack JS/GCP/Firestore development for NCI across 4 repos. By night, building a multi-agent development system, rebuilding Racquet Rivalry with AI-augmented tools, developing a privacy-focused news app, and building an RL trading environment for EMini futures.
 
 ### Positioning
 
-**One-liner:** "Building at the intersection of AI and production engineering — from research to shipped products."
+**One-liner:** "Building with AI and writing about what actually works."
 
 **Tagline:** "AI practitioner. Builder. Entrepreneur."
 
@@ -26,7 +27,7 @@ Joe Armani is a senior software engineer, AI/ML practitioner, and former busines
 ### Audience (priority order)
 
 1. **Developers and engineers** interested in AI-augmented development, agentic workflows, and practical ML
-2. **Hiring managers and collaborators** evaluating Joe for senior/lead roles or partnerships
+2. **Potential employers and collaborators** evaluating Joe for senior or lead roles, partnerships, or consulting work
 3. **AI-curious professionals** who want practitioner insights, not hype
 
 ### Brand
@@ -44,12 +45,12 @@ Joe Armani is a senior software engineer, AI/ML practitioner, and former busines
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Astro 5.x (static output, zero JS by default) |
+| Framework | Astro 6.x (static output, zero JS by default) |
 | Content | Markdown with Astro Content Collections |
 | Styling | Vanilla CSS with custom properties (no Tailwind) |
 | Code highlighting | Shiki (built into Astro), theme: `github-dark-dimmed` |
-| Fonts | Google Fonts: Plus Jakarta Sans (700), DM Sans (400, 500), JetBrains Mono (400) |
-| Hosting | Cloudflare Pages |
+| Fonts | Self-hosted: Plus Jakarta Sans, DM Sans, JetBrains Mono |
+| Hosting | Cloudflare Workers static assets + custom domains |
 | Analytics | Cloudflare Web Analytics (free) or Plausible |
 | Newsletter | Buttondown (embed signup form) |
 
@@ -85,7 +86,7 @@ export default defineConfig({
 
 ### Project Structure
 
-Create every file and directory listed below. Do not add files not listed here.
+Original planned file and directory structure during the first build. The current repository may differ.
 
 ```
 joearmani.com/
@@ -788,8 +789,6 @@ featured: true
 readingTime: 8
 ---
 
-*Write this post yourself, Joe. It's your story and needs your voice. Here's the structure:*
-
 ## The outline
 
 1. **Hook** — Open with a specific moment from the woodworking days that connects to a software engineering concept. Maybe a production optimization that was essentially an algorithm. Something that makes readers go "huh, I never thought about it that way."
@@ -1000,23 +999,28 @@ Before considering any page complete, verify:
 
 ## 7. Deployment
 
-### Cloudflare Pages Setup
+### Cloudflare Workers Setup
 
 1. Push the repo to GitHub
-2. In Cloudflare dashboard → Pages → Create a project → Connect to Git
+2. In Cloudflare dashboard → Workers & Pages → Create or connect the Worker to Git
 3. Build settings:
    - Build command: `npm run build`
-   - Build output directory: `dist`
-   - Node version: 18+
-4. Add custom domain: joearmani.com
-5. Enable Cloudflare Web Analytics (free, no JS snippet needed if using CF Pages)
+   - Deploy command: `npx wrangler deploy`
+   - Node version: 22+
+4. Configure `wrangler.jsonc`:
+   - `assets.directory = "./dist"`
+   - `routes` for `joearmani.com` and `www.joearmani.com`
+   - `workers_dev = true` and `preview_urls = true` for debug URLs
+5. Add a tiny Worker entrypoint that redirects `www` to apex, then falls through to `env.ASSETS.fetch(request)`
+6. Enable Cloudflare Web Analytics in the dashboard if desired
 
 ### DNS (if domain is not already on Cloudflare)
 
 1. Transfer nameservers to Cloudflare (free plan)
-2. Cloudflare Pages will automatically configure the DNS records
+2. Worker custom domains will create the proxied DNS `Worker` records for apex and `www`
 3. SSL is automatic
+4. Keep `www` canonicalized by redirecting it to `joearmani.com`
 
 ---
 
-**End of specification. Build the site, then publish. The world can't see what you don't ship.**
+**End of specification. Retained for reference alongside the live implementation.**

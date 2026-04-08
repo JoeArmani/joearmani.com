@@ -663,6 +663,33 @@ test('Security headers include a CSP and core browser policies', () => {
     '_headers should define X-Content-Type-Options');
 });
 
+test('Worker entry exists for host-level redirects', () => {
+  assert(exists('worker/index.js'),
+    'Missing worker/index.js for custom-domain host normalization');
+});
+
+test('Worker redirects www traffic to the apex domain', () => {
+  const content = read('worker/index.js');
+  assert(has(content, "url.hostname === 'www.joearmani.com'"),
+    'Worker should detect the www hostname');
+  assert(has(content, "url.hostname = 'joearmani.com'"),
+    'Worker should redirect www requests to the apex hostname');
+  assert(has(content, 'Response.redirect') && has(content, '308'),
+    'Worker should issue a permanent redirect for www requests');
+  assert(has(content, 'env.ASSETS.fetch(request)'),
+    'Worker should fall through to static asset serving for non-www traffic');
+});
+
+test('Wrangler runs the Worker before serving static assets', () => {
+  const content = read('wrangler.jsonc');
+  assert(has(content, '"main": "./worker/index.js"'),
+    'wrangler.jsonc should declare the Worker entrypoint');
+  assert(has(content, '"binding": "ASSETS"'),
+    'wrangler.jsonc should expose the static assets binding');
+  assert(has(content, '"run_worker_first": true'),
+    'wrangler.jsonc should run the Worker before static asset resolution');
+});
+
 test('.gitignore covers local deployment state and common secret files', () => {
   const content = read('.gitignore');
   assert(has(content, '.wrangler/'),

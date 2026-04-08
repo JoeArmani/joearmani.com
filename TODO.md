@@ -6,9 +6,9 @@
 
 ## Content
 
-- [x] **Write first blog post** — "From Woodshop to Code" published. ~2,000 words, written with voice skill, covers career arc from Etsy order to AI engineering.
+- [x] **Write first blog post** — "From Woodshop to Code" published. ~2,000 words, covers the career arc from Etsy order to AI engineering.
 - [x] **Set blog post to draft until written** — Published (`draft: false`).
-- [x] **Voice & tone pass** — All static copy reviewed and rewritten. Brand voice skill created (`joe-armani-content`) with shared reference files for consistent future content.
+- [x] **Voice & tone pass** — All static copy reviewed and rewritten, with shared voice and tone references for consistent future content.
 - [ ] **Add headshot / profile photo** — Place in `public/images/`, add to About page. Ensure `alt` text is set.
 - [x] **Review project descriptions** — All four project pages reviewed and current.
 
@@ -86,10 +86,10 @@
 - [x] **Transfer domain to Cloudflare** — Nameservers moved from Bluehost to Cloudflare (free plan). Domain active.
 - [x] **Set up Cloudflare Email Routing** — `joe@joearmani.com` forwards to personal Gmail.
 - [x] **Configure Gmail "Send as"** — Reply from `joe@joearmani.com` via Gmail, Apple Mail, and Gmail app.
-- [x] **Connect Cloudflare Pages** — GitHub repo linked, static build via wrangler.jsonc, auto-deploys on push.
+- [x] **Connect Cloudflare Worker deployment** — GitHub repo linked, Astro build plus `npx wrangler deploy` auto-deploys on push.
 - [x] **Configure `www` redirect** — `www.joearmani.com` redirects to `joearmani.com`.
-- [x] **Verify custom domain** — `joearmani.com` live on Cloudflare Pages with HTTPS. SSL Full (strict).
-- [x] **Enable Cloudflare Web Analytics** — Auto-injected via Cloudflare Pages.
+- [x] **Verify custom domain** — `joearmani.com` live on a Cloudflare Worker custom domain with HTTPS. SSL Full (strict).
+- [x] **Enable Cloudflare Web Analytics** — Managed in the Cloudflare dashboard.
 - [x] **Dark mode default** — First-time visitors always see dark mode. Toggle persists via localStorage.
 
 ---

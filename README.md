@@ -1,6 +1,6 @@
 # joearmani.com
 
-Personal website and blog. Built with [Astro](https://astro.build), hosted on [Cloudflare Pages](https://pages.cloudflare.com).
+Personal website and blog. Built with [Astro](https://astro.build), deployed on [Cloudflare Workers](https://developers.cloudflare.com/workers/) with static assets.
 
 ## Stack
 
@@ -10,6 +10,7 @@ Personal website and blog. Built with [Astro](https://astro.build), hosted on [C
 - **Newsletter:** [Buttondown](https://buttondown.com)
 - **Comments:** [Giscus](https://giscus.app) (GitHub Discussions)
 - **Content:** Markdown via Astro Content Collections
+- **Deployment:** Cloudflare Worker custom domains with a `www -> apex` redirect
 
 ## Development
 
@@ -35,4 +36,13 @@ public/
   favicon.svg
 tests/
   site.test.js   # Structural, content, design system, and regression tests
+worker/
+  index.js       # Cloudflare Worker entry for www -> apex host normalization
 ```
+
+## Deployment
+
+- `npm run build` generates the static site into `dist/`
+- `npx wrangler deploy` publishes the Worker and static assets
+- `worker/index.js` permanently redirects `https://www.joearmani.com/*` to `https://joearmani.com/*`
+- `wrangler.jsonc` owns the apex, `www`, and `workers.dev` routes
