@@ -33,6 +33,10 @@ Thumbs.db
 
 # Personal docs (not for repo)
 DISTRIBUTION.md
+BLOG-IDEAS.md
+CONTENT-STRATEGY.md
+content/drafts/
+drafts/
 
 # Debug logs
 npm-debug.log*
