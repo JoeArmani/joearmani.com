@@ -17,11 +17,11 @@ That sounds absurdly over-engineered for outreach. It is. It also works better t
 
 ## The Problem
 
-Cirrus Lake Solutions is a B2B software engineering and cloud consulting firm. We run marketing campaigns through a vendor who handles the initial outreach. When those campaigns generate opens and clicks, we need follow-ups. Personalized ones. Not the "Hi \{FIRST_NAME\}, just circling back" kind. Real emails that reference the recipient's industry, connect to a relevant case study, and offer a specific engagement model.
+We're a B2B software engineering and cloud consulting firm. We run marketing campaigns through a vendor who handles the initial outreach. When those campaigns generate opens and clicks, we need follow-ups. Personalized ones. Not the "Hi \{FIRST_NAME\}, just circling back" kind. Real emails that reference the recipient's industry, connect to a relevant case study, and offer a specific engagement model.
 
 The math: roughly 90 recipients per day across multiple campaign themes. Cloud adoption, systems integration, legacy modernization, scaling infrastructure. Each email needs to sound like it came from a person who actually looked at the company, not a mail merge that swapped in a logo.
 
-For a while, I was writing these by hand. That lasted about two weeks before I started thinking about automation.
+For a moment, I was writing these by hand. That lasted about twenty minutes before I started thinking about automation.
 
 ## Why Not Just Automate It?
 
@@ -35,7 +35,7 @@ Full automation would need to catch all of those things programmatically. Which 
 
 There's a Pareto angle here that's easy to miss. The manual-first design captures roughly 80% of what full automation would give me (consistent voice, personalization that holds up, reliable delivery, usable reporting) for about 20% of the engineering effort. The remaining 20% of the value, the part full automation actually buys you, would cost 80% of the build. Retries, JSON repair, drift detection, same-institution collision guards, structural fuzzing, a feedback loop for bad generations. All doable. None of it free. At 450 emails a week, I'd be writing a framework to replace 30 minutes of daily review with something I probably wouldn't trust as much as the review itself.
 
-That's not an argument against automation in general. It's an argument that the automation boundary should be chosen deliberately, not assumed. Draw it at the point where your review time becomes the bottleneck instead of the safety net. I'm not there yet.
+That's not an argument against automation in general. It's an argument that the automation boundary should be chosen deliberately, not assumed. Draw it at the point where your review time becomes the bottleneck instead of the safety net. Then refine it over time. Each batch teaches me something: a new source of drift, a rule that needs tightening, a personalization pattern that falls flat. I fold those findings back into SKILL.md after every pass. The manual loop isn't just cheaper. It's a feedback loop that makes the system better every week.
 
 ## The Architecture
 
@@ -43,7 +43,7 @@ The pipeline is a Python CLI with eight commands. Here's the actual flow:
 
 **`prep`** takes the marketing vendor's Excel export, filters recipients by engagement level (clicked > opened > delivered), removes opted-out addresses, enforces a 30-day cooldown between follow-ups per recipient, skips personal email domains, and generates batch-specific prompt files ready to paste into a Claude session.
 
-**Manual Sonnet session.** I paste the generation prompt into Claude (Sonnet), which includes the batch's recipient data, the canonical voice rules, service descriptions, case studies, and structural constraints. Sonnet generates all emails for the batch in a single session. I save the output.
+**Manual Sonnet session.** I paste the generation prompt into Claude (Sonnet), which includes the batch's recipient data, the voice rules, service descriptions, case studies, and structural constraints. Sonnet generates all emails for the batch in a single session. I save the output.
 
 **Manual Opus review.** I paste the review prompt plus Sonnet's output into a separate Claude session running Opus. Opus checks every email against the voice spec, catches structural violations, flags personalization that doesn't match the recipient's actual company, and rewrites where needed. I save the reviewed output.
 
@@ -59,7 +59,7 @@ There's also **`optout`** for suppression list management and **`batches`** for 
 
 <ClsEmailPipelineDiagram />
 
-**How to read this diagram.** There are four horizontal lanes. The top lane shows the external systems the pipeline talks to: the marketing vendor's XLSX export, the Anthropic API (claude-sonnet-4-5 for generation and claude-opus-4-1 for review), and two SendGrid endpoints (Send for dispatch, Activity for telemetry). The second lane is the pipeline proper, reading left to right: `prep`, Sonnet session, Opus review, `import`, `approve`, `send`, `report`. Blue boxes are Python CLI commands; dashed amber boxes are manual Claude sessions I run by hand; the red-bordered `approve` box is an explicit human gate. The third lane zooms in on two things that happen before Sonnet ever sees a recipient: the prep filter chain (opt-out → cooldown 30d → skip personal domains → tier split) and the personalization tier routing (Tier 1 name+topic, Tier 2 +company+industry, Tier 3 +research signal). The purple SKILL.md box is the governance file pulled into both Claude sessions. The fourth lane shows the filesystem artifact each stage persists: `NNN.prep.json`, `NNN.generated.md`, `NNN.reviewed.md`, `NNN.json`, an `approved` status flag, `NNN.sent.jsonl`, and `NNN.report.xlsx`. Utility commands `optout` and `batches` sit off to the side; they mutate or inspect state without advancing a batch through the pipeline.
+**How to read this diagram.** There are four horizontal lanes. The top lane shows the external systems the pipeline talks to: the marketing vendor's XLSX export, the Anthropic API (Sonnet for generation and Opus for review), and two SendGrid endpoints (Send for dispatch, Activity for telemetry). The second lane is the pipeline proper, reading left to right: `prep`, Sonnet session, Opus review, `import`, `approve`, `send`, `report`. Blue boxes are Python CLI commands; dashed amber boxes are manual Claude sessions I run by hand; the red-bordered `approve` box is an explicit human gate. The third lane zooms in on two things that happen before Sonnet ever sees a recipient: the prep filter chain (opt-out → cooldown 30d → skip personal domains → tier split) and the personalization tier routing (Tier 1 name+topic, Tier 2 +company+industry, Tier 3 +research signal). The purple SKILL.md box is the governance file pulled into both Claude sessions. The fourth lane shows the filesystem artifact each stage persists: `NNN.prep.json`, `NNN.generated.md`, `NNN.reviewed.md`, `NNN.json`, an `approved` status flag, `NNN.sent.jsonl`, and `NNN.report.xlsx`. Utility commands `optout` and `batches` sit off to the side; they mutate or inspect state without advancing a batch through the pipeline.
 
 ## The State Machine
 
@@ -79,13 +79,13 @@ Here's where it gets interesting. Generating 450 emails a week means you need co
 
 The rules aren't arbitrary. Subject lines can't repeat more than 4 times per 20-email batch because email providers flag repetition. No single service offering can appear in more than 40% of a batch because we want to showcase the full range. Every case study needs to appear at least twice per 10 emails because they're all real outcomes worth sharing. Same-institution recipients need different subject lines, service angles, and case studies because two people at the same company comparing notes on identical emails kills credibility instantly.
 
-All of this lives in a single file: SKILL.md. It's around 200 lines and it's the canonical source of truth for every email the pipeline generates. Voice rules, structural patterns, greeting format, personalization tiers, CTA requirements, variation constraints, the parser contract. Everything.
+All of this lives in a governance system anchored by a single file: SKILL.md. The core file is around 200 lines, but it references companion files for voice rules, case studies, service descriptions, and structural examples. Together they form the source of truth for every email the pipeline generates. Voice rules, structural patterns, greeting format, personalization tiers, CTA requirements, variation constraints, the parser contract. Everything.
 
-The size matters less than the principle. 200 lines is tight, but it's enough to encode every rule that actually governs the output. And because it's a single file, I can read it in one sitting, diff it cleanly, and hand it to a new Claude session as context without tripping over token budgets.
+The architecture matters more than the size. SKILL.md is the entry point, and because it's a single root file, I can read it in one sitting, diff it cleanly, and hand it to a new Claude session as context without tripping over token budgets. The companion files get pulled in as needed.
 
 When I need to change how emails sound, I change one file. The generation prompts, the review prompts, and the manual workflow all reference SKILL.md as the authority. There's no prompt drift because there's only one source.
 
-This is the same architectural pattern I use for code generation in my agentic development system. There, it's called AGENTS.md. Different domain, same idea: a single canonical contract that governs how the AI operates, what it's allowed to do, and what "done" looks like.
+This is the same architectural pattern I use for software development in my agentic development system. There, it's called AGENTS.md. Different domain, same idea: a single contract that governs how the AI operates, what it's allowed to do, and what "done" looks like.
 
 ## What the Personalization Actually Looks Like
 
@@ -101,13 +101,13 @@ The generation prompt tells Sonnet which tier to target for each recipient based
 
 ## What I've Learned
 
-**Manual doesn't mean blocking.** The pipeline is manual, but I'm not sitting in front of it for hours. A day's batch of about 90 emails involves maybe 30-45 minutes of actual attention from me, spread across the day. I kick off a Sonnet generation session, switch to other work while it runs, come back to paste the output into the Opus review, switch to other work again, then do my final review and send when I'm ready. The Claude sessions are doing the heavy lifting. I'm just the human gate at the critical transitions.
+**Manual doesn't mean blocking.** The pipeline is manual, but I'm not sitting in front of it for hours. A day's batch of about 90 emails involves maybe 30 minutes of actual attention from me, spread across the day. I kick off a Sonnet generation session, switch to other work while it runs, come back to paste the output into the Opus review, switch to other work again, then do my final review and send when I'm ready. The Claude sessions are doing the heavy lifting. I'm just the human gate at the critical transitions.
 
 That multitasking pattern is the thing I keep coming back to across every AI system I build. The productivity win isn't that one agent is fast. It's that multiple agents can be running, on different projects, in different contexts, while I'm giving my attention to whichever one needs a decision right now. I'll write more about this soon — the shift from "wait for the AI" to "the AI waits for me" is the real unlock.
 
 **State machines are underrated for AI workflows.** Every AI pipeline I've built ends up with the same pattern: explicit states, persisted transitions, human gates at the critical points. The temptation is always to make it end-to-end. The reality is that end-to-end means you don't notice problems until they've already shipped.
 
-**A single source of truth for AI behavior is non-negotiable.** Whether it's SKILL.md for email generation or AGENTS.md for code generation, having one canonical file that defines how the AI should behave solves an entire category of problems. Prompt drift, inconsistent output, rules that contradict each other across different prompts. One file, one authority.
+**A single source of truth for AI behavior is non-negotiable.** Whether it's SKILL.md for email generation or AGENTS.md for code generation, having one file that defines how the AI should behave solves an entire category of problems. Prompt drift, inconsistent output, rules that contradict each other across different prompts. One file, one authority.
 
 **The review step pays for itself.** Opus catches things I miss, and I catch things Opus misses. The combination of LLM review plus human review is meaningfully better than either alone. The errors Opus catches tend to be structural: a CTA that doesn't name an engagement model, a subject line that's been used too many times. The errors I catch tend to be contextual: a company description that's technically correct but feels off, a tone that's too aggressive for a first follow-up.
 
@@ -115,7 +115,7 @@ That multitasking pattern is the thing I keep coming back to across every AI sys
 
 Manual-first is right today. It isn't the plan forever. Trying to scale the current approach to 5,000 or 50,000 emails a week would be absurd. At that volume the review time becomes the bottleneck instead of the safety net, and the Pareto math flips. The 80% I currently get from human review becomes cheaper to replace with dedicated tooling than to keep doing by hand. The part that feels expensive now — retries, JSON repair, drift detection, same-institution collision guards, a feedback loop for bad generations — is exactly what you build when you've earned the right to spend that engineering.
 
-So the long-term plan is full automation, but it's earned automation. Every piece I hand over to the system should be one where I've personally seen enough batches to know what the failure modes actually look like. That's the whole reason the pipeline is manual-first. It's a two-year apprenticeship for the engineers who'll eventually build the automated version. By the time I automate the Opus review, I'll have opinions about what Opus reliably catches and what it misses, and those opinions will be grounded in batches I actually read, not in what I imagine happens.
+So the long-term plan is full automation, but it's earned automation. Every piece I hand over to the system should be one where I've personally seen enough batches to know what the failure modes actually look like. That's the whole reason the pipeline is manual-first. By the time I automate the Opus review, I'll have opinions about what Opus reliably catches and what it misses, and those opinions will be grounded in batches I actually read, not in what I imagine happens.
 
 The pipeline runs locally right now. Python CLI, local file storage, manual Claude sessions. The admin app is already scaffolded in Next.js for a cloud migration: Firebase auth, Firestore for batch state, Cloud Storage for artifacts, Cloud Run for sending. The architecture doesn't change. The state machine stays the same. It just moves from my laptop to infrastructure other people on the team can access, which is step one toward the automation path.
 

@@ -1,6 +1,6 @@
 ---
 /**
- * CLS Email Pipeline — Architecture diagram.
+ * Automated, AI-generated email pipeline — Architecture diagram.
  *
  * Inline SVG with accessible <title> and <desc>, so text content is
  * indexable by search engines and readable by assistive tech.
@@ -11,19 +11,19 @@
 
 <figure class="diagram diagram--pipeline">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" role="img" aria-labelledby="pipeTitle pipeDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">
-    <title id="pipeTitle">CLS email pipeline architecture</title>
+    <title id="pipeTitle">Automated, AI-generated email pipeline architecture</title>
     <desc id="pipeDesc">A marketing vendor's recipient export is filtered by prep, handed to a manual Claude Sonnet generation session and a manual Claude Opus review session, imported to JSON, approved by a human, sent through SendGrid, and reported on via SendGrid's Activity API. SKILL.md governs both Claude sessions. Filesystem artifacts persist at every stage.</desc>
     <defs>
       <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
       <marker id="arDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
       <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.manual{fill:#fef3c7;stroke:#b45309;stroke-width:1.5;stroke-dasharray:6 4}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.ext{fill:#e0f2fe;stroke:#0369a1;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.art{fill:#ecfccb;stroke:#4d7c0f;stroke-width:1.25}.util{fill:#fff7ed;stroke:#c2410c;stroke-width:1.25}.err{fill:#fef2f2;stroke:#991b1b;stroke-width:1;stroke-dasharray:3 3}.head{font-weight:700;fill:#0f172a;font-size:14px}.lbl{fill:#0f172a;font-weight:600}.sub{fill:#334155;font-size:11.5px}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px}.artMono{fill:#3f6212;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10.5px}.note{fill:#475569;font-size:11px;font-style:italic}.conn{stroke:#334155;stroke-width:1.5;fill:none}.connDash{stroke:#64748b;stroke-width:1.25;fill:none;stroke-dasharray:5 4}.govArrow{stroke:#7c3aed;stroke-width:1.25;fill:none;stroke-dasharray:4 3}.dTitle{font-size:18px;font-weight:700;fill:#0f172a}.dSubtitle{font-size:12px;fill:#64748b}.legendTitle{font-size:11px;font-weight:700;fill:#334155;letter-spacing:.06em;text-transform:uppercase}.legendText{fill:#334155;font-size:11.5px}</style>
     </defs>
-    <text x="660" y="30" text-anchor="middle" class="dTitle">CLS Email Pipeline — Architecture</text>
+    <text x="660" y="30" text-anchor="middle" class="dTitle">Automated, AI-Generated Email Pipeline Architecture</text>
     <text x="660" y="50" text-anchor="middle" class="dSubtitle">Python CLI · Manual Claude sessions · SendGrid · Filesystem-persisted state</text>
     <rect class="lane" x="10" y="70" width="1300" height="90" rx="8"/>
     <text x="22" y="86" class="laneLabel">External systems</text>
     <g><rect class="ext" x="20" y="96" width="180" height="56" rx="8"/><text x="110" y="117" text-anchor="middle" class="lbl">Marketing Vendor</text><text x="110" y="133" text-anchor="middle" class="sub">XLSX export</text><text x="110" y="147" text-anchor="middle" class="sub">delivered · opened · clicked</text></g>
-    <g><rect class="ext" x="220" y="96" width="360" height="56" rx="8"/><text x="400" y="117" text-anchor="middle" class="lbl">Anthropic API</text><text x="400" y="133" text-anchor="middle" class="mono">claude-sonnet-4-5 · claude-opus-4-1</text><text x="400" y="147" text-anchor="middle" class="sub">generation + review · structured markdown output</text></g>
+    <g><rect class="ext" x="220" y="96" width="360" height="56" rx="8"/><text x="400" y="117" text-anchor="middle" class="lbl">Anthropic API</text><text x="400" y="133" text-anchor="middle" class="mono">Sonnet · Opus</text><text x="400" y="147" text-anchor="middle" class="sub">generation + review · structured markdown output</text></g>
     <g><rect class="ext" x="900" y="96" width="170" height="56" rx="8"/><text x="985" y="117" text-anchor="middle" class="lbl">SendGrid Send</text><text x="985" y="133" text-anchor="middle" class="mono">POST /v3/mail/send</text><text x="985" y="147" text-anchor="middle" class="sub">HTML · signature · UTM</text></g>
     <g><rect class="ext" x="1090" y="96" width="210" height="56" rx="8"/><text x="1195" y="117" text-anchor="middle" class="lbl">SendGrid Activity</text><text x="1195" y="133" text-anchor="middle" class="mono">GET /v3/messages</text><text x="1195" y="147" text-anchor="middle" class="sub">delivered · open · click · bounce</text></g>
     <rect class="lane" x="10" y="180" width="1300" height="140" rx="8"/>
@@ -82,6 +82,6 @@
     <text x="660" y="830" text-anchor="middle" class="note">Dashed lines show persistence (stage → artifact) or governance (SKILL.md → Claude sessions). Solid lines are data flow.</text>
   </svg>
   <figcaption>
-    Figure 1 — CLS email pipeline architecture. Vendor XLSX export flows through <code>prep</code>, a manual Claude Sonnet generation session, a manual Claude Opus review session, <code>import</code>, an <code>approve</code> human gate, <code>send</code>, and <code>report</code>. SKILL.md governs both Claude sessions. Every stage writes a persistent artifact to disk.
+    Figure 1. Automated, AI-generated email pipeline architecture. Vendor XLSX export flows through <code>prep</code>, a manual Claude Sonnet generation session, a manual Claude Opus review session, <code>import</code>, an <code>approve</code> human gate, <code>send</code>, and <code>report</code>. SKILL.md governs both Claude sessions. Every stage writes a persistent artifact to disk.
   </figcaption>
 </figure>

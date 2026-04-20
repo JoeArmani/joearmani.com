@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" role="img" aria-labelledby="pipeTitle pipeDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">
-  <title id="pipeTitle">CLS email pipeline architecture</title>
+  <title id="pipeTitle">Automated, AI-generated email pipeline architecture</title>
   <desc id="pipeDesc">A marketing vendor's recipient export is filtered by prep, handed to a manual Claude Sonnet generation session and a manual Claude Opus review session, imported to JSON, approved by a human, sent through SendGrid, and reported on via SendGrid's Activity API. SKILL.md governs both Claude sessions. Filesystem artifacts persist at every stage.</desc>
   <defs>
     <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -35,7 +35,7 @@
     </style>
   </defs>
 
-  <text x="660" y="30" text-anchor="middle" class="title">CLS Email Pipeline — Architecture</text>
+  <text x="660" y="30" text-anchor="middle" class="title">Automated, AI-Generated Email Pipeline Architecture</text>
   <text x="660" y="50" text-anchor="middle" class="subtitle">Python CLI · Manual Claude sessions · SendGrid · Filesystem-persisted state</text>
 
   <!-- ============ LANE 1: External systems ============ -->
@@ -52,7 +52,7 @@
   <g>
     <rect class="ext" x="220" y="96" width="360" height="56" rx="8"/>
     <text x="400" y="117" text-anchor="middle" class="lbl">Anthropic API</text>
-    <text x="400" y="133" text-anchor="middle" class="mono">claude-sonnet-4-5 · claude-opus-4-1</text>
+    <text x="400" y="133" text-anchor="middle" class="mono">Sonnet · Opus</text>
     <text x="400" y="147" text-anchor="middle" class="sub">generation + review · structured markdown output</text>
   </g>
 
