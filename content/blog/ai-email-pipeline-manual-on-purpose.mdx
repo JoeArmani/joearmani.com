@@ -113,7 +113,7 @@ That multitasking pattern is the thing I keep coming back to across every AI sys
 
 ## Where This Goes Next
 
-Manual-first is right today. It isn't the plan forever. Trying to scale the current approach to 5,000 or 50,000 emails a week would be absurd. At that volume the review time becomes the bottleneck instead of the safety net, and the Pareto math flips. The 80% I currently get from human review becomes cheaper to replace with dedicated tooling than to keep doing by hand. The part that feels expensive now — retries, JSON repair, drift detection, same-institution collision guards, a feedback loop for bad generations — is exactly what you build when you've earned the right to spend that engineering.
+Manual-first is right today. It isn't the plan forever. Trying to scale the current approach would be absurd. At some point, the Pareto math flips. The part that feels expensive now — retries, JSON repair, drift detection, same-institution collision guards, a feedback loop for bad generations — is exactly what gets refined with every new generation.
 
 So the long-term plan is full automation, but it's earned automation. Every piece I hand over to the system should be one where I've personally seen enough batches to know what the failure modes actually look like. That's the whole reason the pipeline is manual-first. By the time I automate the Opus review, I'll have opinions about what Opus reliably catches and what it misses, and those opinions will be grounded in batches I actually read, not in what I imagine happens.
 
