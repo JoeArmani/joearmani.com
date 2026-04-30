@@ -3,7 +3,7 @@ title: "Agentic Development System"
 description: "A spec-driven, multi-agent system for test-driven development across production JavaScript codebases. Works with Claude Code, Gemini CLI, and Codex."
 status: "Active"
 tags: ["AI/ML", "Agentic", "JavaScript", "TDD"]
-order: 1
+order: 2
 featured: true
 ---
 

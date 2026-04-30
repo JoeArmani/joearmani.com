@@ -3,7 +3,7 @@ title: "RL Trading Environment"
 description: "Research on applying deep reinforcement learning to EMini futures trading. Cross-attention models, custom reward engineering, and a lot of humbling results."
 status: "Research"
 tags: ["Python", "PyTorch", "Reinforcement Learning", "Finance"]
-order: 3
+order: 4
 featured: true
 ---
 

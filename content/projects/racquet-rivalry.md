@@ -3,7 +3,7 @@ title: "Racquet Rivalry"
 description: "A mobile app connecting local racquet sports players by skill level and match preferences. Currently undergoing a ground-up rebuild."
 status: "Rebuilding"
 tags: ["Flutter", "Firebase", "GCP", "Mobile"]
-order: 2
+order: 3
 featured: true
 links:
   live: "https://racquetrivalry.com"

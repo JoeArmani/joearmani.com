@@ -1,0 +1,149 @@
+---
+/**
+ * Operator control — the automation boundary (stacked).
+ *
+ * Verifiable / fast-lane work in the top section; gray-area work in the
+ * bottom section, with a deliberate horizontal boundary between them
+ * labeled as a product choice. Stacked rather than side-by-side so each
+ * section can use the full prose-column width without click-to-zoom.
+ *
+ * Inline SVG with accessible <title> and <desc>, so text content is
+ * indexable by search engines and readable by assistive tech.
+ *
+ * Used in: content/blog/operator-control-for-agentic-systems.mdx
+ */
+---
+
+<figure class="diagram diagram--boundary">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 970" role="img" aria-labelledby="ocBndTitle ocBndDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+    <title id="ocBndTitle">The automation boundary in operator control</title>
+    <desc id="ocBndDesc">Two sections separated by a deliberate horizontal boundary. The top section shows verifiable work that moves quickly because the feedback loop closes itself — running an approved command, inspecting a file, producing a diff, running tests, fetching an API result, validating structured output. The bottom section shows gray-area work that needs operator visibility because the feedback loop closes through a person — prioritization, customer impact, external messages, public claims, memory boundaries, taste, risk, and deciding when not to proceed. The boundary itself is a violet dashed line labeled as a product choice rather than a default.</desc>
+    <defs>
+      <marker id="arBnd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.gray{fill:#fef3c7;stroke:#b45309;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700}.sub{fill:#334155;font-size:16px}.note{fill:#475569;font-size:15px;font-style:italic}.dTitle{font-size:34px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:17px;fill:#475569}.colTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.colTitleAuto{fill:#1e3a8a}.colTitleGray{fill:#7c2d12}.legendText{fill:#334155;font-size:14px}.legendTitle{font-size:13px;font-weight:700;fill:#334155;letter-spacing:.06em;text-transform:uppercase}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:8 5}.boundaryLabel{fill:#6d28d9;font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.cardTitle{font-size:17px;font-weight:700;fill:#0f172a}.cardNote{fill:#475569;font-size:14px;font-style:italic}.flag{fill:#15803d;font-size:16px;font-weight:700}.flagWarn{fill:#b45309;font-size:14px;font-weight:700}.flagRisk{fill:#b91c1c;font-size:14px;font-weight:700}</style>
+    </defs>
+
+    <!-- Header -->
+    <text x="660" y="36" text-anchor="middle" class="dTitle">The Automation Boundary</text>
+    <text x="660" y="62" text-anchor="middle" class="dSubtitle">Verifiable work moves fast because the feedback loop closes itself · gray-area work stays visible because the loop closes through an operator</text>
+
+    <!-- TOP SECTION: Verifiable / fast lane -->
+    <rect class="lane" x="20" y="86" width="1280" height="380" rx="10"/>
+    <text x="44" y="118" class="colTitle colTitleAuto">Verifiable · fast lane</text>
+    <text x="44" y="146" class="sub">The system can self-check the work. Run it, watch for errors, move on.</text>
+
+    <!-- 6 boxes in a single row -->
+    <g>
+      <rect class="cli" x="40" y="180" width="200" height="110" rx="8"/>
+      <text x="140" y="208" text-anchor="middle" class="cardTitle">run approved command</text>
+      <text x="140" y="232" text-anchor="middle" class="sub">policy-allowed shell,</text>
+      <text x="140" y="250" text-anchor="middle" class="sub">scoped tool</text>
+      <text x="140" y="276" text-anchor="middle" class="cardNote">exit code is the verdict</text>
+      <text x="226" y="200" text-anchor="middle" class="flag">✓</text>
+
+      <rect class="cli" x="252" y="180" width="200" height="110" rx="8"/>
+      <text x="352" y="208" text-anchor="middle" class="cardTitle">inspect file</text>
+      <text x="352" y="232" text-anchor="middle" class="sub">read · search ·</text>
+      <text x="352" y="250" text-anchor="middle" class="sub">diff against base</text>
+      <text x="352" y="276" text-anchor="middle" class="cardNote">side-effect-free</text>
+      <text x="438" y="200" text-anchor="middle" class="flag">✓</text>
+
+      <rect class="cli" x="464" y="180" width="200" height="110" rx="8"/>
+      <text x="564" y="208" text-anchor="middle" class="cardTitle">produce diff</text>
+      <text x="564" y="232" text-anchor="middle" class="sub">deterministic,</text>
+      <text x="564" y="250" text-anchor="middle" class="sub">reviewable</text>
+      <text x="564" y="276" text-anchor="middle" class="cardNote">no commit, no push</text>
+      <text x="650" y="200" text-anchor="middle" class="flag">✓</text>
+
+      <rect class="cli" x="676" y="180" width="200" height="110" rx="8"/>
+      <text x="776" y="208" text-anchor="middle" class="cardTitle">run tests</text>
+      <text x="776" y="232" text-anchor="middle" class="sub">pass / fail is</text>
+      <text x="776" y="250" text-anchor="middle" class="sub">the contract</text>
+      <text x="776" y="276" text-anchor="middle" class="cardNote">flakes excepted, not normalised</text>
+      <text x="862" y="200" text-anchor="middle" class="flag">✓</text>
+
+      <rect class="cli" x="888" y="180" width="200" height="110" rx="8"/>
+      <text x="988" y="208" text-anchor="middle" class="cardTitle">fetch API result</text>
+      <text x="988" y="232" text-anchor="middle" class="sub">scoped GET,</text>
+      <text x="988" y="250" text-anchor="middle" class="sub">schema-validated</text>
+      <text x="988" y="276" text-anchor="middle" class="cardNote">read-only, allow-listed</text>
+      <text x="1074" y="200" text-anchor="middle" class="flag">✓</text>
+
+      <rect class="cli" x="1100" y="180" width="200" height="110" rx="8"/>
+      <text x="1200" y="208" text-anchor="middle" class="cardTitle">validate output</text>
+      <text x="1200" y="232" text-anchor="middle" class="sub">schema check,</text>
+      <text x="1200" y="250" text-anchor="middle" class="sub">parser contract</text>
+      <text x="1200" y="276" text-anchor="middle" class="cardNote">fail loud, never silent</text>
+      <text x="1286" y="200" text-anchor="middle" class="flag">✓</text>
+    </g>
+
+    <text x="44" y="332" class="head" fill="#1e3a8a">Why this side moves fast</text>
+    <text x="44" y="358" class="sub">The feedback loop is closed by the system: an exit code, a schema check, a test result, a parser contract.</text>
+    <text x="44" y="382" class="sub">Operator review on this side is sampled and forensic, not sequential.</text>
+    <text x="44" y="416" class="note">Slowing this work down with approvals on every step would be miserable.</text>
+
+    <!-- BOUNDARY (horizontal, between sections) -->
+    <line class="boundary" x1="40" y1="490" x2="1280" y2="490"/>
+    <rect x="500" y="478" width="320" height="26" rx="13" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.5"/>
+    <text x="660" y="496" text-anchor="middle" class="boundaryLabel">The boundary — a product choice</text>
+
+    <!-- BOTTOM SECTION: Gray-area / operator surface -->
+    <rect class="lane" x="20" y="520" width="1280" height="430" rx="10"/>
+    <text x="44" y="552" class="colTitle colTitleGray">Gray-area · operator surface</text>
+    <text x="44" y="580" class="sub">The system can describe the work, but it cannot verify the call. An operator does.</text>
+
+    <!-- 8 boxes, 4 cols x 2 rows -->
+    <g>
+      <!-- Row 1 -->
+      <rect class="gray" x="40" y="608" width="296" height="92" rx="8"/>
+      <text x="188" y="636" text-anchor="middle" class="cardTitle">prioritization</text>
+      <text x="188" y="660" text-anchor="middle" class="sub">what's worth doing first</text>
+      <text x="188" y="684" text-anchor="middle" class="cardNote">no oracle for this</text>
+
+      <rect class="gray" x="352" y="608" width="296" height="92" rx="8"/>
+      <text x="500" y="636" text-anchor="middle" class="cardTitle">customer impact</text>
+      <text x="500" y="660" text-anchor="middle" class="sub">who feels this change</text>
+      <text x="500" y="684" text-anchor="middle" class="cardNote">judgment call</text>
+
+      <rect class="gate" x="664" y="608" width="296" height="92" rx="8"/>
+      <text x="812" y="636" text-anchor="middle" class="cardTitle">external messages</text>
+      <text x="812" y="660" text-anchor="middle" class="sub">email, Slack, PR comment</text>
+      <text x="812" y="684" text-anchor="middle" class="flagRisk">consequential</text>
+
+      <rect class="gate" x="976" y="608" width="296" height="92" rx="8"/>
+      <text x="1124" y="636" text-anchor="middle" class="cardTitle">public claims</text>
+      <text x="1124" y="660" text-anchor="middle" class="sub">post, ship, publish</text>
+      <text x="1124" y="684" text-anchor="middle" class="flagRisk">consequential</text>
+
+      <!-- Row 2 -->
+      <rect class="gov" x="40" y="716" width="296" height="92" rx="8"/>
+      <text x="188" y="744" text-anchor="middle" class="cardTitle">memory boundaries</text>
+      <text x="188" y="768" text-anchor="middle" class="sub">what to remember, scope</text>
+      <text x="188" y="792" text-anchor="middle" class="cardNote">scope-defining</text>
+
+      <rect class="gray" x="352" y="716" width="296" height="92" rx="8"/>
+      <text x="500" y="744" text-anchor="middle" class="cardTitle">taste</text>
+      <text x="500" y="768" text-anchor="middle" class="sub">tone · phrasing · feel</text>
+      <text x="500" y="792" text-anchor="middle" class="cardNote">subjective</text>
+
+      <rect class="gate" x="664" y="716" width="296" height="92" rx="8"/>
+      <text x="812" y="744" text-anchor="middle" class="cardTitle">risk</text>
+      <text x="812" y="768" text-anchor="middle" class="sub">reversibility, blast radius</text>
+      <text x="812" y="792" text-anchor="middle" class="flagRisk">always visible</text>
+
+      <rect class="gov" x="976" y="716" width="296" height="92" rx="8"/>
+      <text x="1124" y="744" text-anchor="middle" class="cardTitle">deciding when not to proceed</text>
+      <text x="1124" y="768" text-anchor="middle" class="sub">stop · narrow · ask</text>
+      <text x="1124" y="792" text-anchor="middle" class="cardNote">load-bearing</text>
+    </g>
+
+    <text x="44" y="848" class="head" fill="#7c2d12">Why this side stays visible</text>
+    <text x="44" y="874" class="sub">No exit code can confirm taste. No schema can confirm "this is the right customer to email."</text>
+    <text x="44" y="898" class="sub">The operator owns the call, and the surfaces have to make that call easy. External-action items (red border) carry an explicit guardrail; memory and "when not to proceed" (violet) shape the agent's scope itself.</text>
+    <text x="44" y="932" class="note">Slowing this work down with approvals is the point.</text>
+
+  </svg>
+  <figcaption>
+    Figure 2. The automation boundary is a product choice, not a side effect. <strong>Verifiable work</strong> (top) moves quickly because the feedback loop closes itself — an exit code, a test, a schema. <strong>Gray-area work</strong> (bottom) stays visible because the feedback loop closes through an operator — taste, risk, customer impact, the call to stop. The lists aren't exhaustive and the line moves over time, but the shape stays.
+  </figcaption>
+</figure>
