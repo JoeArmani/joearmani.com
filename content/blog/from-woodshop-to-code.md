@@ -4,7 +4,7 @@ description: "How running my woodworking factory taught me more about building s
 date: 2026-03-22
 tags: ["career", "ai-ml"]
 draft: false
-featured: true
+featured: false
 readingTime: 8
 lastModified: 2026-03-23
 ---
