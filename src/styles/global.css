@@ -139,6 +139,15 @@
   --radius-lg: 16px;
 }
 
+/* On large screens, widen the content column so prose, project pages,
+   and figures all share the same column width. Below 1080px the column
+   stays at 720px for mobile/tablet readability. */
+@media (min-width: 1080px) {
+  :root {
+    --content-width: 1280px;
+  }
+}
+
 /* --- Reset --- */
 *, *::before, *::after {
   margin: 0;

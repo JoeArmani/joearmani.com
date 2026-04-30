@@ -1,0 +1,146 @@
+---
+/**
+ * Agent theater vs operator control — comparison diagram (stacked).
+ *
+ * Two panels, top (agent theater) and bottom (operator control), so each
+ * panel can use the full content width — labels stay readable in the
+ * standard prose column without click-to-zoom. Click-to-zoom is provided
+ * by DiagramZoom in the PostLayout.
+ *
+ * Inline SVG with accessible <title> and <desc>, so text content is
+ * indexable by search engines and readable by assistive tech.
+ *
+ * Used in: content/blog/operator-control-for-agentic-systems.mdx
+ */
+---
+
+<figure class="diagram diagram--comparison">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1020" role="img" aria-labelledby="ocCmpTitle ocCmpDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+    <title id="ocCmpTitle">Agent theater vs operator control</title>
+    <desc id="ocCmpDesc">Two panels show the same agent task under two operating models. The top panel — agent theater — renders the agent as a single opaque box with a prompt arrow in and a result arrow out, the middle is implicit and forensic reconstruction is the only review path. The bottom panel — operator control — renders the same task with a visible task lane, state badges (running, waiting, blocked, done), an owner, an approval guardrail before any external action, an intervention path the operator can use to stop, redirect, or narrow, and a violet dashed boundary representing the agent's memory, permissions, and external-action scope.</desc>
+    <defs>
+      <marker id="arOC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+      <marker id="arOCDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.ext{fill:#e0f2fe;stroke:#0369a1;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.iv{fill:#fff7ed;stroke:#c2410c;stroke-width:1.5}.opaque{fill:#1e293b;stroke:#0f172a;stroke-width:1.5}.opaqueInner{fill:#475569;fill-opacity:0.45;stroke:none}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700;font-size:18px}.lblOnDark{fill:#f1f5f9;font-weight:700;font-size:22px}.subOnDark{fill:#cbd5e1;font-size:16px;font-style:italic}.sub{fill:#334155;font-size:16px}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}.note{fill:#475569;font-size:15px;font-style:italic}.conn{stroke:#334155;stroke-width:2;fill:none}.connDash{stroke:#64748b;stroke-width:1.75;fill:none;stroke-dasharray:5 4}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:7 4}.dTitle{font-size:34px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:17px;fill:#475569}.panelTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.panelTitleTheater{fill:#475569}.panelTitleControl{fill:#0f172a}.legendText{fill:#1e293b;font-size:15px;font-weight:500}.legendTitle{font-size:14px;font-weight:800;fill:#1e293b;letter-spacing:.06em;text-transform:uppercase}.pill{font-size:14px;font-weight:700}.boundaryLabel{fill:#6d28d9;font-size:15px;font-weight:700;letter-spacing:.05em}</style>
+    </defs>
+
+    <!-- Header -->
+    <text x="660" y="36" text-anchor="middle" class="dTitle">Agent Theater vs Operator Control</text>
+    <text x="660" y="62" text-anchor="middle" class="dSubtitle">Same task · two operating models · the difference is what the operator can see</text>
+
+    <!-- TOP PANEL: Agent theater -->
+    <rect class="lane" x="20" y="86" width="1280" height="400" rx="10"/>
+    <text x="44" y="118" class="panelTitle panelTitleTheater">Agent theater</text>
+    <text x="44" y="146" class="sub">The middle is implicit. The operator sees a prompt and a result.</text>
+
+    <!-- Prompt in -->
+    <rect class="ext" x="80" y="246" width="180" height="80" rx="8"/>
+    <text x="170" y="282" text-anchor="middle" class="lbl">prompt</text>
+    <text x="170" y="306" text-anchor="middle" class="sub">"do the thing"</text>
+
+    <!-- Opaque agent box -->
+    <rect class="opaque" x="380" y="200" width="560" height="180" rx="12"/>
+    <rect class="opaqueInner" x="400" y="220" width="520" height="140" rx="8"/>
+    <text x="660" y="250" text-anchor="middle" class="lblOnDark">agent</text>
+    <text x="660" y="290" text-anchor="middle" class="subOnDark">…</text>
+    <text x="660" y="316" text-anchor="middle" class="subOnDark">(work happens)</text>
+    <text x="660" y="342" text-anchor="middle" class="subOnDark">…</text>
+
+    <!-- Result out -->
+    <rect class="ext" x="1060" y="246" width="180" height="80" rx="8"/>
+    <text x="1150" y="282" text-anchor="middle" class="lbl">result</text>
+    <text x="1150" y="306" text-anchor="middle" class="sub">"here you go"</text>
+
+    <!-- Arrows -->
+    <path class="conn" d="M260 286 L380 286" marker-end="url(#arOC)"/>
+    <path class="conn" d="M940 286 L1060 286" marker-end="url(#arOC)"/>
+
+    <!-- Footer note for theater -->
+    <rect x="60" y="400" width="1200" height="74" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.25"/>
+    <text x="84" y="426" class="head" fill="#991b1b">What the operator can see</text>
+    <text x="84" y="450" class="sub">• Status: unknown — looks like "still running"   • Tools used, retries, branches: implicit, mixed into chat scrollback</text>
+    <text x="84" y="468" class="sub">• Approval moments and blocks: not surfaced unless they fail loud   • Risky actions: indistinguishable from cheap ones</text>
+
+    <!-- BOTTOM PANEL: Operator control -->
+    <rect class="lane" x="20" y="510" width="1280" height="430" rx="10"/>
+    <text x="44" y="542" class="panelTitle panelTitleControl">Operator control</text>
+    <text x="44" y="570" class="sub">Same task. The middle is made legible to whoever owns the work.</text>
+
+    <!-- Memory & permission boundary -->
+    <rect class="boundary" x="60" y="600" width="1200" height="200" rx="14"/>
+    <text x="660" y="622" text-anchor="middle" class="boundaryLabel">MEMORY · PERMISSIONS · EXTERNAL-ACTION SCOPE</text>
+
+    <!-- Inside the boundary: prompt → task → gate → result -->
+    <rect class="ext" x="80" y="652" width="120" height="80" rx="8"/>
+    <text x="140" y="688" text-anchor="middle" class="lbl">prompt</text>
+    <text x="140" y="710" text-anchor="middle" class="sub">in</text>
+
+    <!-- Task box with state badges -->
+    <rect class="cli" x="240" y="640" width="640" height="140" rx="10"/>
+    <text x="560" y="664" text-anchor="middle" class="head">task: build feature X</text>
+    <text x="560" y="685" text-anchor="middle" class="mono">owner · agent-3 · since 14:02</text>
+    <text x="262" y="715" class="sub">state:</text>
+    <g>
+      <rect x="318" y="700" width="76" height="22" rx="11" fill="#eef2ff" stroke="#4338ca"/>
+      <text x="356" y="716" text-anchor="middle" class="pill" fill="#4338ca">running</text>
+      <rect x="402" y="700" width="76" height="22" rx="11" fill="#e0f2fe" stroke="#0369a1"/>
+      <text x="440" y="716" text-anchor="middle" class="pill" fill="#0369a1">waiting</text>
+      <rect x="486" y="700" width="76" height="22" rx="11" fill="#fef2f2" stroke="#991b1b" stroke-dasharray="3 2"/>
+      <text x="524" y="716" text-anchor="middle" class="pill" fill="#991b1b">blocked</text>
+      <rect x="570" y="700" width="118" height="22" rx="11" fill="#fee2e2" stroke="#b91c1c"/>
+      <text x="629" y="716" text-anchor="middle" class="pill" fill="#b91c1c">needs approval</text>
+      <rect x="696" y="700" width="64" height="22" rx="11" fill="#dcfce7" stroke="#15803d"/>
+      <text x="728" y="716" text-anchor="middle" class="pill" fill="#15803d">done</text>
+    </g>
+    <text x="262" y="748" class="sub">last action: <tspan class="mono">read repo/spec.md</tspan> · 12s ago</text>
+    <text x="262" y="768" class="sub">waiting on: <tspan fill="#b91c1c" font-weight="700">approval before deploy</tspan></text>
+
+    <!-- Approval gate -->
+    <rect class="gate" x="920" y="652" width="140" height="80" rx="8"/>
+    <text x="990" y="688" text-anchor="middle" class="lbl">approval</text>
+    <text x="990" y="710" text-anchor="middle" class="sub">guardrail</text>
+
+    <!-- Result -->
+    <rect class="ext" x="1100" y="652" width="120" height="80" rx="8"/>
+    <text x="1160" y="688" text-anchor="middle" class="lbl">result</text>
+    <text x="1160" y="710" text-anchor="middle" class="sub">out</text>
+
+    <!-- Inner arrows -->
+    <path class="conn" d="M200 692 L240 692" marker-end="url(#arOC)"/>
+    <path class="conn" d="M880 692 L920 692" marker-end="url(#arOC)"/>
+    <path class="conn" d="M1060 692 L1100 692" marker-end="url(#arOC)"/>
+
+    <!-- Operator surfaces (outside the boundary) -->
+    <text x="60" y="840" class="laneLabel">Operator surfaces</text>
+    <rect class="iv" x="60" y="852" width="380" height="64" rx="8"/>
+    <text x="250" y="880" text-anchor="middle" class="lbl">intervention path</text>
+    <text x="250" y="902" text-anchor="middle" class="mono" fill="#c2410c">stop · redirect · narrow</text>
+
+    <rect class="cli" x="460" y="852" width="360" height="64" rx="8"/>
+    <text x="640" y="880" text-anchor="middle" class="lbl">visible task lane</text>
+    <text x="640" y="902" text-anchor="middle" class="sub">status, owner, history</text>
+
+    <rect class="gate" x="840" y="852" width="420" height="64" rx="8"/>
+    <text x="1050" y="880" text-anchor="middle" class="lbl">approval moments</text>
+    <text x="1050" y="902" text-anchor="middle" class="sub">approve · deny · narrow</text>
+
+    <!-- Surface arrows piercing the boundary -->
+    <path class="connDash" d="M250 852 L420 800" marker-end="url(#arOCDash)"/>
+    <path class="connDash" d="M640 852 L640 800" marker-end="url(#arOCDash)"/>
+    <path class="connDash" d="M1050 852 L990 732" marker-end="url(#arOCDash)"/>
+
+    <!-- Legend -->
+    <g transform="translate(40,968)">
+      <text x="0" y="0" class="legendTitle">Legend</text>
+      <rect class="cli" x="0" y="14" width="22" height="16" rx="3"/><text x="32" y="28" class="legendText">Task / automated work</text>
+      <rect class="gate" x="220" y="14" width="22" height="16" rx="3"/><text x="252" y="28" class="legendText">Human gate / approval</text>
+      <rect class="ext" x="450" y="14" width="22" height="16" rx="3"/><text x="482" y="28" class="legendText">External boundary in / out</text>
+      <rect class="iv" x="690" y="14" width="22" height="16" rx="3"/><text x="722" y="28" class="legendText">Intervention path</text>
+      <rect x="900" y="14" width="22" height="16" rx="3" fill="none" stroke="#7c3aed" stroke-dasharray="5 3"/><text x="932" y="28" class="legendText">Memory · permissions scope</text>
+      <rect class="opaque" x="1170" y="14" width="22" height="16" rx="3"/><text x="1202" y="28" class="legendText">Opaque agent</text>
+    </g>
+  </svg>
+  <figcaption>
+    Figure 1. Same task, two operating models. <strong>Agent theater</strong> (top) hides the middle so the system looks autonomous. <strong>Operator control</strong> (bottom) surfaces the middle so the work stays delegable: visible state, an owner, an approval guardrail before consequential action, and an intervention path the operator can reach for at any time.
+  </figcaption>
+</figure>

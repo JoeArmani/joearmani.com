@@ -4,6 +4,7 @@ import Subscribe from '../components/Subscribe.astro';
 import Comments from '../components/Comments.astro';
 import PostCard from '../components/PostCard.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import DiagramZoom from '../components/DiagramZoom.astro';
 import { getCollection } from 'astro:content';
 import { compareEditorialDatesDesc, formatEditorialDate } from '../utils/dates';
 
@@ -43,6 +44,7 @@ const relatedPosts = allPosts
   publishedTime={frontmatter.date}
   modifiedTime={frontmatter.lastModified}
 >
+  <DiagramZoom />
   <div id="reading-progress" aria-hidden="true"></div>
   <script>
     const bar = document.getElementById('reading-progress');
