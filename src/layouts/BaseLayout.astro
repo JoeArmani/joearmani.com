@@ -16,6 +16,11 @@ interface Props {
 const { title, description, ogImage, ogType = 'website', publishedTime, modifiedTime } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const resolvedOgImage = ogImage || 'https://joearmani.com/og/default.png';
+
+// Cloudflare Web Analytics token. Set PUBLIC_CF_WEB_ANALYTICS_TOKEN in .env (or
+// the build environment) to enable the beacon. Leave unset to skip rendering.
+// Get the token from Cloudflare dashboard → Web Analytics → site → JS snippet.
+const cfWebAnalyticsToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 ---
 
 <!doctype html>
@@ -77,8 +82,15 @@ const resolvedOgImage = ogImage || 'https://joearmani.com/og/default.png';
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedOgImage} />
 
-    <!-- Cloudflare Web Analytics (placeholder) -->
-    <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_TOKEN"}'></script> -->
+    <!-- Cloudflare Web Analytics (renders only when PUBLIC_CF_WEB_ANALYTICS_TOKEN is set) -->
+    {cfWebAnalyticsToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${cfWebAnalyticsToken}"}`}
+      ></script>
+    )}
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
