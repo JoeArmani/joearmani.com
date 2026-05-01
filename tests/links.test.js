@@ -81,23 +81,24 @@ const astroFiles = [
 ];
 
 const mdFiles = [
-  ...collectFiles('content/blog', ['.md']),
-  ...collectFiles('content/projects', ['.md']),
+  ...collectFiles('content/blog', ['.md', '.mdx']),
+  ...collectFiles('content/projects', ['.md', '.mdx']),
 ];
 
 const allFiles = [...astroFiles, ...mdFiles];
 
 // ─── Build the set of known content slugs ────────────────────────────────────
 
-const blogSlugs = collectFiles('content/blog', ['.md']).map((f) => {
+const blogSlugs = collectFiles('content/blog', ['.md', '.mdx']).map((f) => {
   // content/blog/from-woodshop-to-code.md → from-woodshop-to-code
+  // content/blog/operator-control-for-agentic-systems.mdx → operator-control-for-agentic-systems
   const parts = f.split('/');
-  return parts[parts.length - 1].replace(/\.md$/, '');
+  return parts[parts.length - 1].replace(/\.mdx?$/, '');
 });
 
-const projectSlugs = collectFiles('content/projects', ['.md']).map((f) => {
+const projectSlugs = collectFiles('content/projects', ['.md', '.mdx']).map((f) => {
   const parts = f.split('/');
-  return parts[parts.length - 1].replace(/\.md$/, '');
+  return parts[parts.length - 1].replace(/\.mdx?$/, '');
 });
 
 // ─── Extract internal links from all files ───────────────────────────────────
@@ -121,8 +122,8 @@ function extractLinks() {
       if (link) found.push({ link, file });
     }
 
-    // 2. Markdown-style links [text](/path) in .md files
-    if (ext === '.md') {
+    // 2. Markdown-style links [text](/path) in .md and .mdx files
+    if (ext === '.md' || ext === '.mdx') {
       const mdLinkRegex = /\[([^\]]*)\]\(([^)]+)\)/g;
       let ml;
       while ((ml = mdLinkRegex.exec(content)) !== null) {
