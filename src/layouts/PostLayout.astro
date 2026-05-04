@@ -106,11 +106,9 @@ const relatedPosts = allPosts
     </div>
     <div class="container--narrow" style="margin-top: 3rem;">
       <hr style="border: none; border-top: 1px solid var(--border); margin-bottom: 3rem;" />
-      <Subscribe variant="compact" />
-      <Comments />
       {relatedPosts.length > 0 && (
         <div class="related-posts">
-          <h2>Related Posts</h2>
+          <h2>Keep Reading</h2>
           <div class="post-grid">
             {relatedPosts.map((post) => (
               <PostCard
@@ -125,6 +123,10 @@ const relatedPosts = allPosts
           </div>
         </div>
       )}
+      <div style="margin-top: 3rem;">
+        <Subscribe variant="compact" />
+      </div>
+      <Comments />
     </div>
   </article>
 </BaseLayout>

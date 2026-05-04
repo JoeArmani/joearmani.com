@@ -13,7 +13,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 
 <BaseLayout
   title="Writing | Joe Armani"
-  description="Writing on AI development, agentic tools, and building products. Includes the failures."
+  description="Writing on AI development, agentic tools, and building software products."
 >
   <div class="container">
     <Breadcrumbs items={[
@@ -22,7 +22,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
     ]} />
     <div class="page-header">
       <h1>Writing</h1>
-      <p class="page-header__subtitle">Writing on AI development, agentic tools, and building products. Includes the failures.</p>
+      <p class="page-header__subtitle">Writing on AI development, agentic tools, and building software products.</p>
     </div>
 
     {posts.length > 0 ? (
