@@ -1,9 +1,9 @@
 ---
 /**
- * Agent theater vs operator control — comparison diagram (stacked).
+ * Agent theater vs operator control comparison diagram (stacked).
  *
  * Two panels, top (agent theater) and bottom (operator control), so each
- * panel can use the full content width — labels stay readable in the
+ * panel can use the full content width, so labels stay readable in the
  * standard prose column without click-to-zoom. Click-to-zoom is provided
  * by DiagramZoom in the PostLayout.
  *
@@ -17,7 +17,7 @@
 <figure class="diagram diagram--comparison">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1020" role="img" aria-labelledby="ocCmpTitle ocCmpDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
     <title id="ocCmpTitle">Agent theater vs operator control</title>
-    <desc id="ocCmpDesc">Two panels show the same agent task under two operating models. The top panel — agent theater — renders the agent as a single opaque box with a prompt arrow in and a result arrow out, the middle is implicit and forensic reconstruction is the only review path. The bottom panel — operator control — renders the same task with a visible task lane, state badges (running, waiting, blocked, done), an owner, an approval guardrail before any external action, an intervention path the operator can use to stop, redirect, or narrow, and a violet dashed boundary representing the agent's memory, permissions, and external-action scope.</desc>
+    <desc id="ocCmpDesc">Two panels show the same agent task under two operating models. The top panel, agent theater, renders the agent as a single opaque box with a prompt arrow in and a result arrow out, the middle is implicit and forensic reconstruction is the only review path. The bottom panel, operator control, renders the same task with a visible task lane, state badges (running, waiting, blocked, done), an owner, an approval guardrail before any external action, an intervention path the operator can use to stop, redirect, or narrow, and a violet dashed boundary representing the agent's memory, permissions, and external-action scope.</desc>
     <defs>
       <marker id="arOC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
       <marker id="arOCDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
@@ -58,7 +58,7 @@
     <!-- Footer note for theater -->
     <rect x="60" y="400" width="1200" height="74" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.25"/>
     <text x="84" y="426" class="head" fill="#991b1b">What the operator can see</text>
-    <text x="84" y="450" class="sub">• Status: unknown — looks like "still running"   • Tools used, retries, branches: implicit, mixed into chat scrollback</text>
+    <text x="84" y="450" class="sub">• Status: unknown (looks like "still running")   • Tools used, retries, branches: implicit, mixed into chat scrollback</text>
     <text x="84" y="468" class="sub">• Approval moments and blocks: not surfaced unless they fail loud   • Risky actions: indistinguishable from cheap ones</text>
 
     <!-- BOTTOM PANEL: Operator control -->

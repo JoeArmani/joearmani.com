@@ -20,7 +20,7 @@ Built with Flutter for cross-platform iOS/Android deployment, with Firebase (Fir
 
 ## Why Rebuild?
 
-The original app was my first major mobile project, built when I was a junior developer. Since then: two years of production engineering at NCI, a Master's in AI/ML, and the agentic development system I now use daily.
+The original app was my first major mobile project, built when I was a junior developer. Since then: three years of production engineering at NCI, a Master's in AI/ML, and the agentic development system I now use daily.
 
 I'm using the rebuild to apply the agentic development system I've built, and documenting the whole process on the blog.
 
