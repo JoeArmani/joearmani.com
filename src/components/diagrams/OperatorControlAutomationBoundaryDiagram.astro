@@ -1,6 +1,6 @@
 ---
 /**
- * Operator control — the automation boundary (stacked).
+ * Operator control: the automation boundary (stacked).
  *
  * Verifiable / fast-lane work in the top section; gray-area work in the
  * bottom section, with a deliberate horizontal boundary between them
@@ -17,7 +17,7 @@
 <figure class="diagram diagram--boundary">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 970" role="img" aria-labelledby="ocBndTitle ocBndDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
     <title id="ocBndTitle">The automation boundary in operator control</title>
-    <desc id="ocBndDesc">Two sections separated by a deliberate horizontal boundary. The top section shows verifiable work that moves quickly because the feedback loop closes itself — running an approved command, inspecting a file, producing a diff, running tests, fetching an API result, validating structured output. The bottom section shows gray-area work that needs operator visibility because the feedback loop closes through a person — prioritization, customer impact, external messages, public claims, memory boundaries, taste, risk, and deciding when not to proceed. The boundary itself is a violet dashed line labeled as a product choice rather than a default.</desc>
+    <desc id="ocBndDesc">Two sections separated by a deliberate horizontal boundary. The top section shows verifiable work that moves quickly because the feedback loop closes itself: running an approved command, inspecting a file, producing a diff, running tests, fetching an API result, validating structured output. The bottom section shows gray-area work that needs operator visibility because the feedback loop closes through a person: prioritization, customer impact, external messages, public claims, memory boundaries, taste, risk, and deciding when not to proceed. The boundary itself is a violet dashed line labeled as a product choice rather than a default.</desc>
     <defs>
       <marker id="arBnd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
       <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.gray{fill:#fef3c7;stroke:#b45309;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700}.sub{fill:#334155;font-size:16px}.note{fill:#475569;font-size:15px;font-style:italic}.dTitle{font-size:34px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:17px;fill:#475569}.colTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.colTitleAuto{fill:#1e3a8a}.colTitleGray{fill:#7c2d12}.legendText{fill:#334155;font-size:14px}.legendTitle{font-size:13px;font-weight:700;fill:#334155;letter-spacing:.06em;text-transform:uppercase}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:8 5}.boundaryLabel{fill:#6d28d9;font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.cardTitle{font-size:17px;font-weight:700;fill:#0f172a}.cardNote{fill:#475569;font-size:14px;font-style:italic}.flag{fill:#15803d;font-size:16px;font-weight:700}.flagWarn{fill:#b45309;font-size:14px;font-weight:700}.flagRisk{fill:#b91c1c;font-size:14px;font-weight:700}</style>
@@ -85,7 +85,7 @@
     <!-- BOUNDARY (horizontal, between sections) -->
     <line class="boundary" x1="40" y1="490" x2="1280" y2="490"/>
     <rect x="500" y="478" width="320" height="26" rx="13" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.5"/>
-    <text x="660" y="496" text-anchor="middle" class="boundaryLabel">The boundary — a product choice</text>
+    <text x="660" y="496" text-anchor="middle" class="boundaryLabel">The boundary: a product choice</text>
 
     <!-- BOTTOM SECTION: Gray-area / operator surface -->
     <rect class="lane" x="20" y="520" width="1280" height="430" rx="10"/>
@@ -144,6 +144,6 @@
 
   </svg>
   <figcaption>
-    Figure 2. The automation boundary is a product choice, not a side effect. <strong>Verifiable work</strong> (top) moves quickly because the feedback loop closes itself — an exit code, a test, a schema. <strong>Gray-area work</strong> (bottom) stays visible because the feedback loop closes through an operator — taste, risk, customer impact, the call to stop. The lists aren't exhaustive and the line moves over time, but the shape stays.
+    Figure 2. The automation boundary is a product choice, not a side effect. <strong>Verifiable work</strong> (top) moves quickly because the feedback loop closes itself with an exit code, a test, or a schema. <strong>Gray-area work</strong> (bottom) stays visible because the feedback loop closes through an operator who weighs taste, risk, customer impact, and the call to stop. The lists aren't exhaustive and the line moves over time, but the shape stays.
   </figcaption>
 </figure>

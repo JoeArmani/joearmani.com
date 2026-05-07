@@ -22,24 +22,24 @@ const Heading = `h${headingLevel}` as any;
 ---
 
 <article class="card card--project">
-  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+  <div class="card__header">
     <Heading class="card__title" style="margin-bottom: 0;">
       <a href={`/projects/${slug}`}>{title}</a>
     </Heading>
     <span class={`status-badge ${statusClass}`}>{status}</span>
   </div>
   <p class="card__excerpt">{description}</p>
-  <div class="tags" style="margin-top: 0.75rem;">
+  <div class="tags">
     {tags.map((tag) => (
       <span class="tag">{tag}</span>
     ))}
   </div>
   {hasLinks && (
-    <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
-      {links!.github && <a href={links!.github} class="btn btn--outline" style="padding: 0.4rem 1rem; font-size: 0.85rem;" target="_blank" rel="noopener noreferrer">GitHub</a>}
-      {links!.live && <a href={links!.live} class="btn btn--outline" style="padding: 0.4rem 1rem; font-size: 0.85rem;" target="_blank" rel="noopener noreferrer">Live Site</a>}
-      {links!.appStore && <a href={links!.appStore} class="btn btn--outline" style="padding: 0.4rem 1rem; font-size: 0.85rem;" target="_blank" rel="noopener noreferrer">App Store</a>}
-      {links!.playStore && <a href={links!.playStore} class="btn btn--outline" style="padding: 0.4rem 1rem; font-size: 0.85rem;" target="_blank" rel="noopener noreferrer">Play Store</a>}
+    <div class="card__links">
+      {links!.github && <a href={links!.github} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">GitHub</a>}
+      {links!.live && <a href={links!.live} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">Live Site</a>}
+      {links!.appStore && <a href={links!.appStore} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">App Store</a>}
+      {links!.playStore && <a href={links!.playStore} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">Play Store</a>}
     </div>
   )}
 </article>

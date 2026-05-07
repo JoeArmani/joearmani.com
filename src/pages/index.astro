@@ -25,8 +25,8 @@ const featuredProjects = (await getCollection('projects'))
 ---
 
 <BaseLayout
-  title="Joe Armani | Builder, Engineer, AI Practitioner"
-  description="I build AI-powered systems and write about what actually works."
+  title="Joe Armani | Engineer building with AI"
+  description="Software Engineer. Building with AI and writing the manual as I go."
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
@@ -70,6 +70,7 @@ const featuredProjects = (await getCollection('projects'))
     <section class="container">
       <div class="section-header reveal">
         <h2>Latest Writing</h2>
+        <a href="/blog" class="section-link">View all posts →</a>
       </div>
       <div class="post-grid">
         {latestPosts.map((post) => (
@@ -86,15 +87,13 @@ const featuredProjects = (await getCollection('projects'))
           </div>
         ))}
       </div>
-      <div style="text-align: center; margin-top: 2rem;">
-        <a href="/blog" class="section-link">View All Posts →</a>
-      </div>
     </section>
   )}
 
   <section class="container">
     <div class="section-header reveal">
       <h2>What I'm Building</h2>
+      <a href="/projects" class="section-link">See all projects →</a>
     </div>
     <div class="project-list">
       {featuredProjects.map((project) => (
@@ -110,15 +109,9 @@ const featuredProjects = (await getCollection('projects'))
         </div>
       ))}
     </div>
-    <div style="text-align: center; margin-top: 2rem;">
-      <a href="/projects" class="section-link">See All Projects →</a>
-    </div>
   </section>
 
   <section class="container">
-    <div class="section-header reveal">
-      <h2>Subscribe</h2>
-    </div>
     <div class="reveal">
       <Subscribe variant="full" />
     </div>

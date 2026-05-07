@@ -27,7 +27,7 @@ const Heading = `h${headingLevel}` as any;
     {readingTime && <span> · {readingTime} min read</span>}
   </div>
   <p class="card__excerpt">{description}</p>
-  <div class="tags" style="margin-top: 0.75rem;">
+  <div class="tags">
     {tags.map((tag) => (
       <span class="tag">{tag}</span>
     ))}

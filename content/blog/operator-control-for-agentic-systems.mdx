@@ -16,17 +16,17 @@ import OperatorControlComparisonDiagram from '../../src/components/diagrams/Oper
 import OperatorControlAutomationBoundaryDiagram from '../../src/components/diagrams/OperatorControlAutomationBoundaryDiagram.astro';
 import OperatorControlApprovalAnatomyDiagram from '../../src/components/diagrams/OperatorControlApprovalAnatomyDiagram.astro';
 
-I run multiple AI agents at the same time. Different projects, different contexts, different tools. The ones I trust are the ones I can see — what they're working on, why, what they're waiting on, what they already tried. The ones I can't see, I either micromanage in chat or stop using.
+I run multiple AI agents at the same time. Different projects, different contexts, different tools. The ones I trust are the ones I can see: what they're working on, why, what they're waiting on, what they already tried. The ones I can't see, I either micromanage in chat or stop using.
 
 That's the real product question for any agentic system, and it's the one I keep coming back to while building OpenClaw: **operator control, not agent theater.**
 
 Agent demos can hide the middle. A prompt goes in, something impressive comes out, and the system feels magical because the work is mostly invisible. That's fine for showing capability. It's not enough once an agent starts doing real work.
 
-The serious question isn't whether the agent can act. It's whether I can see what it's doing, understand why, and intervene when needed. Operator trust is the product layer that determines whether agent systems become usable for real work — not the model, not the chat UI, not the appearance of autonomy. The product is whether the human responsible for the work can trust the system while the work is happening.
+The serious question isn't whether the agent can act. It's whether I can see what it's doing, understand why, and intervene when needed. Operator trust is the product layer that determines whether agent systems become usable for real work, not the model, not the chat UI, not the appearance of autonomy. The product is whether the human responsible for the work can trust the system while the work is happening.
 
 <OperatorControlComparisonDiagram />
 
-**How to read this diagram.** Two panels show the same agent task. On top, *agent theater* — a single opaque box with a prompt going in and a result coming out. The middle is implicit. Status, tools used, retries, blocks, approvals — all of it is mixed into chat scrollback or hidden entirely, so the only review path is forensic. Below it, *operator control* — same prompt, same result, but the middle is decomposed into surfaces an operator can actually use: a visible task lane with state badges, an owner, an approval guardrail before any consequential action, and an intervention path the operator can reach for at any time. The violet dashed line is the agent's effective scope — its memory, its permissions, what it's allowed to touch. The operator works on the surfaces; the agent works inside the boundary.
+**How to read this diagram.** Two panels show the same agent task. On top, *agent theater*: a single opaque box with a prompt going in and a result coming out. The middle is implicit. Status, tools used, retries, blocks, approvals are all mixed into chat scrollback or hidden entirely, so the only review path is forensic. Below it, *operator control*: same prompt, same result, but the middle is decomposed into surfaces an operator can actually use. A visible task lane with state badges, an owner, an approval guardrail before any consequential action, and an intervention path the operator can reach for at any time. The violet dashed line is the agent's effective scope: its memory, its permissions, what it's allowed to touch. The operator works on the surfaces; the agent works inside the boundary.
 
 ## What operator trust requires
 
@@ -34,7 +34,7 @@ Operator trust comes from concrete product choices, not vibes.
 
 Can I see the work? Can I tell who or what owns it? Can I see whether it's running, blocked, waiting, or complete? Can I tell when approval is needed? Can I stop, redirect, or narrow the work where the system supports it?
 
-If the answer is no, I don't have a trustworthy agent system. I have hidden work — work that might look autonomous from the outside, that might even complete the task sometimes, but is operationally fragile underneath. Agent theater makes the system look capable. Operator control makes it usable.
+If the answer is no, I don't have a trustworthy agent system. I have hidden work. Hidden work might look autonomous from the outside, might even complete the task sometimes, but it's operationally fragile underneath. Agent theater makes the system look capable. Operator control makes it usable.
 
 For me, operator control means visible work, clear ownership, approval points, intervention paths, and boundaries around memory, permissions, and external action. Those aren't extra UI details. They're part of the operating model.
 
@@ -48,13 +48,13 @@ That's the operating cost of opacity, and it shows up in three predictable ways.
 
 **Blocked work is easy to miss.** An agent can say it's working while it's actually waiting on a failed command, a missing credential, an unclear instruction, or an approval that never reached the right surface. If the operator can't see that state, the task just feels unreliable.
 
-**Risky actions become harder to catch.** Agent systems get more useful as they gain access to tools — and more dangerous in the same step. Sending messages, changing files, persisting memory, touching production systems, expanding permissions: none of those should happen silently just because the agent has enough context to try. The more an agent can do, the more important it becomes to know when not to let it proceed silently.
+**Risky actions become harder to catch.** Agent systems get more useful as they gain access to tools, and more dangerous in the same step. Sending messages, changing files, persisting memory, touching production systems, expanding permissions: none of those should happen silently just because the agent has enough context to try. The more an agent can do, the more important it becomes to know when not to let it proceed silently.
 
 ## Opacity gets expensive later
 
 It's tempting to treat operator control as something to add after the product works. Add task status later. Add approvals later. Add memory controls later. Add better logs later.
 
-That's backwards. Opacity gets harder to fix as the system grows. Once silent execution becomes the default, every layer starts forming around that assumption — task state, routing, memory, permissions, logs, approvals, recovery paths, and user experience. By the time the system feels hard to trust, control isn't a small UI addition anymore. It's an architecture and operating-model problem.
+That's backwards. Opacity gets harder to fix as the system grows. Once silent execution becomes the default, every layer starts forming around that assumption: task state, routing, memory, permissions, logs, approvals, recovery paths, and user experience. By the time the system feels hard to trust, control isn't a small UI addition anymore. It's an architecture and operating-model problem.
 
 That's why I'm building OpenClaw around operator control from the start. OpenClaw doesn't need to pretend every model call is predictable. It needs the surrounding system to make the work visible, owned, inspectable, and bounded.
 
@@ -62,11 +62,11 @@ That's why I'm building OpenClaw around operator control from the start. OpenCla
 
 Operator control doesn't mean asking for approval on every step. That would be miserable.
 
-Some agent work is concrete and checkable. The system can run it, watch the feedback loop close, and move on. Other work isn't — the call lives in someone's head, and the operator owns it. The boundary between those two kinds of work is the actual product decision.
+Some agent work is concrete and checkable. The system can run it, watch the feedback loop close, and move on. Other work isn't. The call lives in someone's head, and the operator owns it. The boundary between those two kinds of work is the actual product decision.
 
 <OperatorControlAutomationBoundaryDiagram />
 
-**How to read this diagram.** The top section is the work where the system can self-check — running an approved or policy-allowed command, inspecting a file, producing a diff, running tests, fetching an API result, validating structured output. The feedback loop is closed by the system itself: an exit code, a schema check, a test result, a parser contract. Slowing that work down with approvals on every step would be miserable. The bottom section is gray-area work — prioritization, customer impact, external messages, public claims, memory boundaries, taste, risk, deciding when not to proceed. None of those have an exit code. The feedback loop closes through an operator. The dashed violet line between them is the boundary itself, and labeling it that way is the point: it's a deliberate product choice, not a default that fell out of how the model happens to be plumbed. The line moves over time as failure modes get understood, but the shape stays.
+**How to read this diagram.** The top section is the work where the system can self-check: running an approved or policy-allowed command, inspecting a file, producing a diff, running tests, fetching an API result, validating structured output. The feedback loop is closed by the system itself, with an exit code, a schema check, a test result, or a parser contract. Slowing that work down with approvals on every step would be miserable. The bottom section is gray-area work: prioritization, customer impact, external messages, public claims, memory boundaries, taste, risk, deciding when not to proceed. None of those have an exit code. The feedback loop closes through an operator. The dashed violet line between them is the boundary itself, and labeling it that way is the point. It's a deliberate product choice, not a default that fell out of how the model happens to be plumbed. The line moves over time as failure modes get understood, but the shape stays.
 
 A system can automate the safe parts and still pause before the consequential ones. That's the pattern I want.
 
@@ -78,13 +78,13 @@ A good one is different.
 
 <OperatorControlApprovalAnatomyDiagram />
 
-**How to read this diagram.** The card in the center is a schematic, not a UI mock — what an approval should communicate, broken into the six pieces an operator actually needs. **Action**, named in one line and verb-first, so it's reviewable on its own. **Why**, the reasoning that produced it, tied to the spec or instruction the agent is working from. **What will change**, the concrete delta — which rows, which files, which calls go out. **Risk**, as a profile rather than a single label: reversibility, blast radius, scope of effect. **Evidence**, as pointers — the spec line, the prior tool calls, the diff preview — rather than a summary. And **outcomes**, with three buttons rather than two: *narrow* matters because it lets the operator scope the work down without killing the task. The annotations on either side say what each region carries; the leader lines connect the principle to the row.
+**How to read this diagram.** The card in the center is a schematic, not a UI mock. It's what an approval should communicate, broken into the six pieces an operator actually needs. **Action**, named in one line and verb-first, so it's reviewable on its own. **Why**, the reasoning that produced it, tied to the spec or instruction the agent is working from. **What will change**, the concrete delta: which rows, which files, which calls go out. **Risk**, as a profile rather than a single label: reversibility, blast radius, scope of effect. **Evidence**, as pointers (the spec line, the prior tool calls, the diff preview) rather than a summary. And **outcomes**, with three buttons rather than two: *narrow* matters because it lets the operator scope the work down without killing the task. The annotations on either side say what each region carries; the leader lines connect the principle to the row.
 
 Approvals matter most when an agent can take external or hard-to-reverse actions. OWASP's LLM guidance flags excessive functionality, excessive permissions, and excessive autonomy as real risks in agentic systems, and that maps directly to the product problem I care about. If the system can act, the operator needs clear control over the actions that matter. The approval shouldn't be a random popup. It should be part of the workflow state.
 
 ## How this shapes OpenClaw
 
-OpenClaw is my attempt to make agent work feel operational instead of mysterious — to treat agent work as something that has task records, visible state, owners, handoffs, approval points, memory boundaries, permission boundaries, resumable workflows, and operator-facing status.
+OpenClaw is my attempt to make agent work feel operational instead of mysterious, treating agent work as something with task records, visible state, owners, handoffs, approval points, memory boundaries, permission boundaries, resumable workflows, and operator-facing status.
 
 The product direction isn't *agents disappear and everything just happens.* It's delegated work that remains visible enough to trust. Background tasks should be inspectable. Workflows should have durable state. Consequential commands should go through approval guardrails. Multi-step work shouldn't rely only on chat context. If something is blocked, the system should make that inspectable where the workflow or task layer supports it.
 
