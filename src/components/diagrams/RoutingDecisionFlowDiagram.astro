@@ -1,0 +1,147 @@
+---
+/**
+ * Routing decision flow (state machine).
+ *
+ * Inbound work enters from the left, hits a classify step, and branches
+ * into three paths: route to owner (happy path), ambiguous (loops back
+ * through operator review), and no owner (escalates to operator who can
+ * create a lane or reassign). Side annotations name the two invariants:
+ * context is filtered per route, and the operator has visibility on
+ * every edge.
+ *
+ * Inline SVG with accessible <title> and <desc>, so text content is
+ * indexable by search engines and readable by assistive tech.
+ *
+ * Used in: content/blog/memory-routing-and-bounded-ownership-in-agent-teams.mdx
+ */
+---
+
+<figure class="diagram diagram--state-machine">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 720" role="img" aria-labelledby="routFlwTitle routFlwDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+    <title id="routFlwTitle">Routing decision flow</title>
+    <desc id="routFlwDesc">A state machine showing how inbound work becomes owned work. Inbound work in cyan enters from the left, hits a classify step in blue, and branches into three paths. The top path, route to owner in purple, leads to handle in lane in blue and ends at complete in lime. The middle path, ambiguous in amber, leads to operator review in red and loops back to classify. The bottom path, no owner in amber, leads to escalate or create lane in red. Side annotations name two invariants: context is filtered per route, and the operator has visibility on every edge.</desc>
+    <defs>
+      <marker id="arRout" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+      <marker id="arRoutLoop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b45309"/></marker>
+      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.ext{fill:#e0f2fe;stroke:#0369a1;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.art{fill:#ecfccb;stroke:#4d7c0f;stroke-width:1.5}.gray{fill:#fef3c7;stroke:#b45309;stroke-width:1.5}.iv{fill:#fff7ed;stroke:#c2410c;stroke-width:1.5}.head{font-weight:700;fill:#0f172a;font-size:20px}.lbl{fill:#0f172a;font-weight:700;font-size:18px}.sub{fill:#334155;font-size:14px}.note{fill:#475569;font-size:14px;font-style:italic}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}.conn{stroke:#334155;stroke-width:2;fill:none}.connLoop{stroke:#b45309;stroke-width:1.75;fill:none;stroke-dasharray:5 3}.dTitle{font-size:32px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:16px;fill:#475569}.edgeLbl{fill:#475569;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}.legendText{fill:#1e293b;font-size:14px;font-weight:500}.legendTitle{font-size:13px;font-weight:800;fill:#1e293b;letter-spacing:.06em;text-transform:uppercase}.invariantBox{fill:#fff7ed;stroke:#c2410c;stroke-width:1.25}.invariantTitle{fill:#7c2d12;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.invariantText{fill:#7c2d12;font-size:13px;font-weight:600}.eyeText{fill:#c2410c;font-size:14px;font-weight:700}</style>
+    </defs>
+
+    <!-- Header -->
+    <text x="660" y="34" text-anchor="middle" class="dTitle">Routing Decision Flow</text>
+    <text x="660" y="60" text-anchor="middle" class="dSubtitle">Inbound work · classify · route · branch on ambiguity · operator visibility on every edge</text>
+
+    <!-- Background lane -->
+    <rect class="lane" x="20" y="84" width="1280" height="540" rx="10"/>
+
+    <!-- Invariants strip across the top -->
+    <rect class="invariantBox" x="40" y="104" width="600" height="46" rx="8"/>
+    <text x="60" y="124" class="invariantTitle">Invariant · context per route</text>
+    <text x="60" y="142" class="invariantText">Each route filters context for the receiving lane. No ambient sharing.</text>
+
+    <rect class="invariantBox" x="680" y="104" width="600" height="46" rx="8"/>
+    <text x="700" y="124" class="invariantTitle">Invariant · operator visibility on every edge</text>
+    <text x="700" y="142" class="invariantText">Every transition surfaces who handled it, when, and why.</text>
+
+    <!-- Inbound work (entry) -->
+    <rect class="ext" x="40" y="312" width="160" height="80" rx="10"/>
+    <text x="120" y="342" text-anchor="middle" class="lbl">inbound work</text>
+    <text x="120" y="364" text-anchor="middle" class="sub">new task or message</text>
+    <text x="120" y="382" text-anchor="middle" class="mono">request · event · prompt</text>
+
+    <!-- Classify -->
+    <rect class="cli" x="260" y="302" width="220" height="100" rx="10"/>
+    <text x="370" y="328" text-anchor="middle" class="head">classify</text>
+    <text x="370" y="350" text-anchor="middle" class="sub">what kind of work</text>
+    <text x="370" y="366" text-anchor="middle" class="sub">who should own it</text>
+    <text x="370" y="386" text-anchor="middle" class="mono">rules · types · matchers</text>
+
+    <!-- Inbound -> Classify -->
+    <path class="conn" d="M200 352 L260 352" marker-end="url(#arRout)"/>
+
+    <!-- TOP BRANCH: Route to owner -> Handle in lane -> Complete -->
+    <rect class="gov" x="540" y="186" width="220" height="92" rx="10"/>
+    <text x="650" y="214" text-anchor="middle" class="lbl">route to owner</text>
+    <text x="650" y="236" text-anchor="middle" class="sub">context filtered for lane</text>
+    <text x="650" y="258" text-anchor="middle" class="mono">lane = builder · growth · etc.</text>
+
+    <rect class="cli" x="820" y="186" width="220" height="92" rx="10"/>
+    <text x="930" y="214" text-anchor="middle" class="lbl">handle in lane</text>
+    <text x="930" y="236" text-anchor="middle" class="sub">scoped work happens</text>
+    <text x="930" y="258" text-anchor="middle" class="mono">uses lane memory only</text>
+
+    <rect class="art" x="1100" y="186" width="180" height="92" rx="10"/>
+    <text x="1190" y="214" text-anchor="middle" class="lbl">complete</text>
+    <text x="1190" y="236" text-anchor="middle" class="sub">artifact produced</text>
+    <text x="1190" y="258" text-anchor="middle" class="mono">handoff or done</text>
+
+    <!-- Classify -> Route -->
+    <path class="conn" d="M420 302 L600 278" marker-end="url(#arRout)"/>
+    <text x="650" y="174" text-anchor="middle" class="edgeLbl">owner identified</text>
+
+    <!-- Route -> Handle -->
+    <path class="conn" d="M760 232 L820 232" marker-end="url(#arRout)"/>
+
+    <!-- Handle -> Complete -->
+    <path class="conn" d="M1040 232 L1100 232" marker-end="url(#arRout)"/>
+
+    <!-- MIDDLE BRANCH: Ambiguous -> Operator review -> loop back -->
+    <rect class="gray" x="540" y="318" width="220" height="92" rx="10"/>
+    <text x="650" y="346" text-anchor="middle" class="lbl">ambiguous</text>
+    <text x="650" y="368" text-anchor="middle" class="sub">multiple lanes could own it</text>
+    <text x="650" y="390" text-anchor="middle" class="mono">judgment required</text>
+
+    <rect class="gate" x="820" y="318" width="220" height="92" rx="10"/>
+    <text x="930" y="346" text-anchor="middle" class="lbl">operator review</text>
+    <text x="930" y="368" text-anchor="middle" class="sub">approve route · pick lane</text>
+    <text x="930" y="390" text-anchor="middle" class="mono">approve · redirect · split</text>
+
+    <!-- Classify -> Ambiguous (straight) -->
+    <path class="conn" d="M480 360 L540 360" marker-end="url(#arRout)"/>
+
+    <!-- Ambiguous -> Operator review -->
+    <path class="conn" d="M760 364 L820 364" marker-end="url(#arRout)"/>
+
+    <!-- Operator review -> loop back to Classify -->
+    <path class="connLoop" d="M930 410 L930 470 L370 470 L370 402" marker-end="url(#arRoutLoop)"/>
+    <text x="650" y="464" text-anchor="middle" class="edgeLbl" fill="#b45309">re-route with operator decision</text>
+
+    <!-- BOTTOM BRANCH: No owner -> Escalate -->
+    <rect class="gray" x="540" y="498" width="220" height="92" rx="10"/>
+    <text x="650" y="526" text-anchor="middle" class="lbl">no owner</text>
+    <text x="650" y="548" text-anchor="middle" class="sub">no lane exists yet</text>
+    <text x="650" y="570" text-anchor="middle" class="mono">novel work pattern</text>
+
+    <rect class="gate" x="820" y="498" width="240" height="92" rx="10"/>
+    <text x="940" y="526" text-anchor="middle" class="lbl">escalate</text>
+    <text x="940" y="548" text-anchor="middle" class="sub">create lane · reassign · defer</text>
+    <text x="940" y="570" text-anchor="middle" class="mono">operator decision</text>
+
+    <!-- Classify -> No owner -->
+    <path class="conn" d="M420 402 L600 498" marker-end="url(#arRout)"/>
+    <text x="650" y="486" text-anchor="middle" class="edgeLbl">no lane matches</text>
+
+    <!-- No owner -> Escalate -->
+    <path class="conn" d="M760 544 L820 544" marker-end="url(#arRout)"/>
+
+    <!-- Operator eye annotations on transitions -->
+    <text x="900" y="178" class="eyeText">👁 visible</text>
+    <text x="1180" y="178" class="eyeText">👁 visible</text>
+    <text x="930" y="310" text-anchor="middle" class="eyeText">👁 visible</text>
+    <text x="940" y="490" text-anchor="middle" class="eyeText">👁 visible</text>
+
+    <!-- Legend -->
+    <g transform="translate(40,652)">
+      <text x="0" y="0" class="legendTitle">Legend</text>
+      <rect class="ext" x="0" y="12" width="22" height="16" rx="3"/><text x="32" y="26" class="legendText">Inbound / external</text>
+      <rect class="cli" x="180" y="12" width="22" height="16" rx="3"/><text x="212" y="26" class="legendText">Automated step</text>
+      <rect class="gov" x="350" y="12" width="22" height="16" rx="3"/><text x="382" y="26" class="legendText">Owned route</text>
+      <rect class="gray" x="490" y="12" width="22" height="16" rx="3"/><text x="522" y="26" class="legendText">Judgment / branch</text>
+      <rect class="gate" x="650" y="12" width="22" height="16" rx="3"/><text x="682" y="26" class="legendText">Operator gate</text>
+      <rect class="art" x="800" y="12" width="22" height="16" rx="3"/><text x="832" y="26" class="legendText">Completed artifact</text>
+      <rect class="invariantBox" x="960" y="12" width="22" height="16" rx="3"/><text x="992" y="26" class="legendText">Invariant strip</text>
+    </g>
+  </svg>
+  <figcaption>
+    Figure 4. Routing decision flow. Inbound work hits a classify step that branches into three paths: <strong>owner identified</strong> routes the work to the right lane with filtered context, <strong>ambiguous</strong> hands the route decision to the operator and loops back, and <strong>no owner</strong> escalates to the operator who can create a lane or reassign. The two invariants across the top hold for every transition: context is filtered per route, and the operator has visibility on every edge.
+  </figcaption>
+</figure>
