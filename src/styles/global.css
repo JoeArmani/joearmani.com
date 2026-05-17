@@ -815,21 +815,6 @@ section {
 
 .section-header h2 {
   margin-top: 0;
-  position: relative;
-  padding-left: 0.85rem;
-}
-
-/* Small warm accent bar before each section heading — reinforces warm identity
-   below the hero. 4px wide, sits flush with cap-height. */
-.section-header h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.35em;
-  bottom: 0.25em;
-  width: 4px;
-  border-radius: 2px;
-  background: var(--accent-warm);
 }
 
 .section-link {
@@ -850,6 +835,22 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
+}
+
+/* Equalize post-card heights across the row, and pin tags to the bottom so the
+   cards don't end at different vertical positions when excerpts differ in length. */
+.post-grid .reveal {
+  display: flex;
+}
+
+.post-grid .card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-grid .card .tags {
+  margin-top: auto;
 }
 
 /* --- Project List --- */
