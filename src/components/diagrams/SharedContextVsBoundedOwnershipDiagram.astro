@@ -1,0 +1,170 @@
+---
+/**
+ * Shared-context trap vs bounded ownership (stacked).
+ *
+ * Two panels stacked so each can use the full prose-column width.
+ * The top panel shows a chaotic shared-context blob with four agents
+ * pulling from and writing to it. The bottom panel shows the same
+ * four agents in scoped lanes, with an explicit routing layer between
+ * inbound work and the lanes, and an operator surface above.
+ *
+ * Inline SVG with accessible <title> and <desc>, so text content is
+ * indexable by search engines and readable by assistive tech.
+ *
+ * Used in: content/blog/memory-routing-and-bounded-ownership-in-agent-teams.mdx
+ */
+---
+
+<figure class="diagram diagram--comparison">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1020" role="img" aria-labelledby="bndCmpTitle bndCmpDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+    <title id="bndCmpTitle">Shared-context trap vs bounded ownership</title>
+    <desc id="bndCmpDesc">Two panels show the same four agents under two operating models. The top panel, the shared-context trap, places a dark slate blob labeled "shared context" at the center with four agent nodes around it. Bidirectional arrows connect every agent to the blob, annotated with stale assumption, leaked preference, and ambient influence. The bottom panel, bounded ownership, places an operator surface at the top, a purple routing layer in the middle, and four agent lanes below. Each lane is wrapped in a violet dashed boundary representing scoped memory, and an explicit arrow flows from the routing layer into each lane.</desc>
+    <defs>
+      <marker id="arBnd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+      <marker id="arBndChaos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker>
+      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.ext{fill:#e0f2fe;stroke:#0369a1;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.art{fill:#ecfccb;stroke:#4d7c0f;stroke-width:1.25}.iv{fill:#fff7ed;stroke:#c2410c;stroke-width:1.5}.opaque{fill:#1e293b;stroke:#0f172a;stroke-width:1.5}.opaqueInner{fill:#475569;fill-opacity:0.45;stroke:none}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700;font-size:18px}.lblOnDark{fill:#f1f5f9;font-weight:700;font-size:20px}.subOnDark{fill:#cbd5e1;font-size:14px;font-style:italic}.sub{fill:#334155;font-size:16px}.note{fill:#475569;font-size:15px;font-style:italic}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px}.conn{stroke:#334155;stroke-width:2;fill:none}.connChaos{stroke:#94a3b8;stroke-width:1.5;fill:none}.connRoute{stroke:#6d28d9;stroke-width:2.25;fill:none}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:7 4}.dTitle{font-size:32px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:16px;fill:#475569}.panelTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.panelTitleTrap{fill:#475569}.panelTitleOwn{fill:#0f172a}.legendText{fill:#1e293b;font-size:14px;font-weight:500}.legendTitle{font-size:13px;font-weight:800;fill:#1e293b;letter-spacing:.06em;text-transform:uppercase}.chip{font-size:14px;font-weight:600;fill:#cbd5e1}.scopeLabel{fill:#6d28d9;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.annoText{fill:#7c2d12;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}</style>
+    </defs>
+
+    <!-- Header -->
+    <text x="660" y="34" text-anchor="middle" class="dTitle">Shared-Context Trap vs Bounded Ownership</text>
+    <text x="660" y="60" text-anchor="middle" class="dSubtitle">More context isn't more coordination · ownership is what makes agent teamwork inspectable</text>
+
+    <!-- TOP PANEL: Shared-context trap -->
+    <rect class="lane" x="20" y="86" width="1280" height="400" rx="10"/>
+    <text x="44" y="118" class="panelTitle panelTitleTrap">Shared-context trap</text>
+    <text x="44" y="146" class="sub">Everything is available. Nothing has an owner.</text>
+
+    <!-- Central opaque blob -->
+    <rect class="opaque" x="450" y="220" width="420" height="180" rx="14"/>
+    <rect class="opaqueInner" x="470" y="240" width="380" height="140" rx="10"/>
+    <text x="660" y="268" text-anchor="middle" class="lblOnDark">shared context</text>
+    <text x="660" y="296" text-anchor="middle" class="subOnDark">every preference · every workflow · every prior decision</text>
+    <g>
+      <rect x="488" y="316" width="116" height="22" rx="11" fill="#334155" stroke="#64748b" stroke-width="1"/>
+      <text x="546" y="332" text-anchor="middle" class="chip">site rules</text>
+      <rect x="612" y="316" width="116" height="22" rx="11" fill="#334155" stroke="#64748b" stroke-width="1"/>
+      <text x="670" y="332" text-anchor="middle" class="chip">growth notes</text>
+      <rect x="736" y="316" width="118" height="22" rx="11" fill="#334155" stroke="#64748b" stroke-width="1"/>
+      <text x="795" y="332" text-anchor="middle" class="chip">customer notes</text>
+      <rect x="528" y="346" width="116" height="22" rx="11" fill="#334155" stroke="#64748b" stroke-width="1"/>
+      <text x="586" y="362" text-anchor="middle" class="chip">tool prefs</text>
+      <rect x="652" y="346" width="146" height="22" rx="11" fill="#334155" stroke="#64748b" stroke-width="1"/>
+      <text x="725" y="362" text-anchor="middle" class="chip">stale assumptions</text>
+    </g>
+
+    <!-- Four agent nodes around the blob -->
+    <rect class="cli" x="80" y="190" width="200" height="68" rx="8"/>
+    <text x="180" y="218" text-anchor="middle" class="lbl">Builder agent</text>
+    <text x="180" y="240" text-anchor="middle" class="sub">site, content</text>
+
+    <rect class="cli" x="1040" y="190" width="200" height="68" rx="8"/>
+    <text x="1140" y="218" text-anchor="middle" class="lbl">Growth agent</text>
+    <text x="1140" y="240" text-anchor="middle" class="sub">positioning</text>
+
+    <rect class="cli" x="80" y="370" width="200" height="68" rx="8"/>
+    <text x="180" y="398" text-anchor="middle" class="lbl">Support agent</text>
+    <text x="180" y="420" text-anchor="middle" class="sub">customer reply</text>
+
+    <rect class="cli" x="1040" y="370" width="200" height="68" rx="8"/>
+    <text x="1140" y="398" text-anchor="middle" class="lbl">Ops agent</text>
+    <text x="1140" y="420" text-anchor="middle" class="sub">workflows, tools</text>
+
+    <!-- Chaotic bidirectional arrows: each agent <-> blob -->
+    <path class="connChaos" d="M280 224 L450 256" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M450 290 L280 234" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M1040 224 L870 256" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M870 290 L1040 234" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M280 404 L450 364" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M450 376 L280 414" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M1040 404 L870 364" marker-end="url(#arBndChaos)"/>
+    <path class="connChaos" d="M870 376 L1040 414" marker-end="url(#arBndChaos)"/>
+
+    <!-- Annotations -->
+    <text x="338" y="184" class="annoText">stale assumption</text>
+    <text x="970" y="184" text-anchor="end" class="annoText">leaked preference</text>
+    <text x="338" y="462" class="annoText">cross-lane influence</text>
+    <text x="970" y="462" text-anchor="end" class="annoText">ambient context drag</text>
+
+    <!-- BOTTOM PANEL: Bounded ownership -->
+    <rect class="lane" x="20" y="512" width="1280" height="440" rx="10"/>
+    <text x="44" y="544" class="panelTitle panelTitleOwn">Bounded ownership</text>
+    <text x="44" y="572" class="sub">Each lane owns its memory. The routing layer decides who handles inbound work.</text>
+
+    <!-- Operator surface -->
+    <rect class="iv" x="460" y="592" width="400" height="44" rx="22"/>
+    <text x="660" y="620" text-anchor="middle" class="lbl">operator · sees routes &amp; handoffs</text>
+
+    <!-- Inbound work -->
+    <rect class="ext" x="60" y="660" width="140" height="56" rx="8"/>
+    <text x="130" y="684" text-anchor="middle" class="lbl">inbound</text>
+    <text x="130" y="704" text-anchor="middle" class="sub">new task / message</text>
+
+    <!-- Routing layer -->
+    <rect class="gov" x="240" y="650" width="840" height="76" rx="10"/>
+    <text x="660" y="678" text-anchor="middle" class="head">routing layer</text>
+    <text x="660" y="704" text-anchor="middle" class="sub">classifies inbound · dispatches to owner · filters context per route</text>
+
+    <!-- Inbound -> Routing -->
+    <path class="conn" d="M200 688 L240 688" marker-end="url(#arBnd)"/>
+
+    <!-- Four lane boundaries -->
+    <!-- Lane 1 -->
+    <rect class="boundary" x="44" y="772" width="294" height="156" rx="10"/>
+    <text x="56" y="794" class="scopeLabel">scope · site memory</text>
+    <rect class="cli" x="64" y="804" width="254" height="60" rx="8"/>
+    <text x="191" y="828" text-anchor="middle" class="lbl">Builder agent</text>
+    <text x="191" y="848" text-anchor="middle" class="sub">site, content</text>
+    <rect class="art" x="64" y="876" width="254" height="42" rx="6"/>
+    <text x="191" y="902" text-anchor="middle" class="mono">site_rules.md · voice.md</text>
+
+    <!-- Lane 2 -->
+    <rect class="boundary" x="358" y="772" width="294" height="156" rx="10"/>
+    <text x="370" y="794" class="scopeLabel">scope · growth memory</text>
+    <rect class="cli" x="378" y="804" width="254" height="60" rx="8"/>
+    <text x="505" y="828" text-anchor="middle" class="lbl">Growth agent</text>
+    <text x="505" y="848" text-anchor="middle" class="sub">positioning</text>
+    <rect class="art" x="378" y="876" width="254" height="42" rx="6"/>
+    <text x="505" y="902" text-anchor="middle" class="mono">positioning.md · audience.md</text>
+
+    <!-- Lane 3 -->
+    <rect class="boundary" x="672" y="772" width="294" height="156" rx="10"/>
+    <text x="684" y="794" class="scopeLabel">scope · support memory</text>
+    <rect class="cli" x="692" y="804" width="254" height="60" rx="8"/>
+    <text x="819" y="828" text-anchor="middle" class="lbl">Support agent</text>
+    <text x="819" y="848" text-anchor="middle" class="sub">customer reply</text>
+    <rect class="art" x="692" y="876" width="254" height="42" rx="6"/>
+    <text x="819" y="902" text-anchor="middle" class="mono">tickets.md · escalations.md</text>
+
+    <!-- Lane 4 -->
+    <rect class="boundary" x="986" y="772" width="294" height="156" rx="10"/>
+    <text x="998" y="794" class="scopeLabel">scope · ops memory</text>
+    <rect class="cli" x="1006" y="804" width="254" height="60" rx="8"/>
+    <text x="1133" y="828" text-anchor="middle" class="lbl">Ops agent</text>
+    <text x="1133" y="848" text-anchor="middle" class="sub">workflows, tools</text>
+    <rect class="art" x="1006" y="876" width="254" height="42" rx="6"/>
+    <text x="1133" y="902" text-anchor="middle" class="mono">workflows.md · runbooks.md</text>
+
+    <!-- Routing -> each lane -->
+    <path class="connRoute" d="M400 726 L190 772" marker-end="url(#arBnd)"/>
+    <path class="connRoute" d="M560 726 L505 772" marker-end="url(#arBnd)"/>
+    <path class="connRoute" d="M760 726 L819 772" marker-end="url(#arBnd)"/>
+    <path class="connRoute" d="M920 726 L1133 772" marker-end="url(#arBnd)"/>
+
+    <!-- Operator dashed view lines into routing -->
+    <path d="M660 636 L660 650" stroke="#c2410c" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+
+    <!-- Legend -->
+    <g transform="translate(40,976)">
+      <text x="0" y="0" class="legendTitle">Legend</text>
+      <rect class="cli" x="0" y="12" width="22" height="16" rx="3"/><text x="32" y="26" class="legendText">Agent</text>
+      <rect class="gov" x="120" y="12" width="22" height="16" rx="3"/><text x="152" y="26" class="legendText">Routing layer</text>
+      <rect class="art" x="290" y="12" width="22" height="16" rx="3"/><text x="322" y="26" class="legendText">Scoped memory file</text>
+      <rect class="iv" x="490" y="12" width="22" height="16" rx="3"/><text x="522" y="26" class="legendText">Operator surface</text>
+      <rect x="680" y="12" width="22" height="16" rx="3" fill="none" stroke="#7c3aed" stroke-dasharray="5 3"/><text x="712" y="26" class="legendText">Lane / memory boundary</text>
+      <rect class="opaque" x="940" y="12" width="22" height="16" rx="3"/><text x="972" y="26" class="legendText">Shared blob (trap)</text>
+    </g>
+  </svg>
+  <figcaption>
+    Figure 1. The same four agents under two operating models. <strong>Shared-context trap</strong> (top): every agent pulls from and writes to one blob, and "more context" turns into stale assumptions, leaked preferences, and ambient influence across lanes. <strong>Bounded ownership</strong> (bottom): each agent has a scoped memory, a routing layer decides who owns inbound work, and the operator can see the routes and handoffs.
+  </figcaption>
+</figure>

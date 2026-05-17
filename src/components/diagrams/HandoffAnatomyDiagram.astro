@@ -1,0 +1,171 @@
+---
+/**
+ * Handoff anatomy schematic.
+ *
+ * A schematic handoff "card" in the center showing the five load-bearing
+ * rows that should cross when one agent hands work to another: from/to,
+ * why, what was already done, context filter (include / exclude), expected
+ * output, and the boundaries that still apply (approval + intervention).
+ * Side annotations on either side explain why each row matters. A
+ * contrast strip below names the bad handoff and the good handoff.
+ *
+ * Schematic, not a UI mock.
+ *
+ * Inline SVG with accessible <title> and <desc>, so text content is
+ * indexable by search engines and readable by assistive tech.
+ *
+ * Used in: content/blog/memory-routing-and-bounded-ownership-in-agent-teams.mdx
+ */
+---
+
+<figure class="diagram diagram--approval-anatomy">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" role="img" aria-labelledby="hndAnaTitle hndAnaDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15">
+    <title id="hndAnaTitle">Anatomy of a good handoff</title>
+    <desc id="hndAnaDesc">A schematic handoff card in the center divided into five labeled rows. The header row names the source and target agents with an arrow between them. Row one names why the handoff is happening. Row two summarizes what was already done with an artifact pointer. Row three shows the context filter, listing items to include in green chips and items to exclude in dashed gray chips with reasons named below. Row four names the expected output as a single gov-purple chip. Row five names the boundaries that still apply, including a red approval gate and an orange operator intervention pill. Side annotations on the left and right point to specific rows and explain why each carries weight. A contrast strip at the bottom shows a bad handoff in dark slate and a good handoff in purple.</desc>
+    <defs>
+      <marker id="arHnd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+      <marker id="arHndAgent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4338ca"/></marker>
+      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.head{font-weight:700;fill:#0f172a;font-size:18px}.lbl{fill:#0f172a;font-weight:600}.sub{fill:#334155;font-size:14px}.note{fill:#475569;font-size:14px;font-style:italic}.dTitle{font-size:32px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:16px;fill:#475569}.connDash{stroke:#94a3b8;stroke-width:1.5;fill:none;stroke-dasharray:4 3}.legendText{fill:#334155;font-size:14px}.legendTitle{font-size:13px;font-weight:700;fill:#334155;letter-spacing:.06em;text-transform:uppercase}.cardOuter{fill:#fafaff;stroke:#4338ca;stroke-width:2.5}.cardHead{fill:#eef2ff;stroke:none}.cardHeadTitle{fill:#3730a3;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.rowLine{stroke:#c7d2fe;stroke-width:1;fill:none}.rowLabel{fill:#475569;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.actionMono{fill:#1e293b;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;font-weight:700}.changeMono{fill:#3f6212;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}.agentBadge{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.agentBadgeText{fill:#3730a3;font-size:13.5px;font-weight:700}.chipInc{fill:#ecfccb;stroke:#4d7c0f;stroke-width:1.25}.chipIncText{fill:#3f6212;font-size:12.5px;font-weight:700}.chipExc{fill:#f1f5f9;stroke:#cbd5e1;stroke-width:1.25;stroke-dasharray:4 3}.chipExcText{fill:#64748b;font-size:12.5px;font-weight:600}.exclReason{fill:#475569;font-size:11px;font-style:italic}.outChip{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.outChipText{fill:#5b21b6;font-size:13px;font-weight:700}.approvalChip{fill:#fee2e2;stroke:#b91c1c;stroke-width:1.5}.approvalChipText{fill:#b91c1c;font-size:12.5px;font-weight:700}.intervChip{fill:#fff7ed;stroke:#c2410c;stroke-width:1.5}.intervChipText{fill:#c2410c;font-size:12.5px;font-weight:700}.annoBox{fill:#ffffff;stroke:#cbd5e1;stroke-width:1}.annoTitle{fill:#0f172a;font-size:13.5px;font-weight:700}.annoText{fill:#334155;font-size:12.5px}.badBox{fill:#1e293b;stroke:#0f172a;stroke-width:1}.badText{fill:#cbd5e1;font-size:13px;font-weight:600}.goodBox{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.goodText{fill:#5b21b6;font-size:13px;font-weight:700}.stripLabel{fill:#475569;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}</style>
+    </defs>
+
+    <!-- Header -->
+    <text x="660" y="32" text-anchor="middle" class="dTitle">Anatomy of a Good Handoff</text>
+    <text x="660" y="54" text-anchor="middle" class="dSubtitle">What crosses the boundary when one agent hands work to another · schematic, not a UI mock</text>
+
+    <!-- Background lane -->
+    <rect class="lane" x="20" y="80" width="1280" height="700" rx="8"/>
+
+    <!-- CARD (center) -->
+    <rect class="cardOuter" x="430" y="104" width="460" height="596" rx="10"/>
+    <!-- Header bar -->
+    <rect class="cardHead" x="430" y="104" width="460" height="58" rx="10"/>
+    <rect class="cardHead" x="430" y="142" width="460" height="20"/>
+    <text x="444" y="127" class="cardHeadTitle">handoff</text>
+    <text x="876" y="127" text-anchor="end" class="cardHeadTitle" fill="#3730a3">task crosses the boundary</text>
+
+    <!-- From → To agent badges -->
+    <rect class="agentBadge" x="446" y="132" width="148" height="22" rx="11"/>
+    <text x="520" y="148" text-anchor="middle" class="agentBadgeText">Builder agent</text>
+    <path stroke="#4338ca" stroke-width="2" fill="none" d="M598 143 L716 143" marker-end="url(#arHndAgent)"/>
+    <rect class="agentBadge" x="722" y="132" width="148" height="22" rx="11"/>
+    <text x="796" y="148" text-anchor="middle" class="agentBadgeText">Growth agent</text>
+
+    <!-- Row 1: Why -->
+    <text x="444" y="184" class="rowLabel">1 · Why this handoff</text>
+    <text x="444" y="208" class="sub">Growth lane owns positioning copy.</text>
+    <text x="444" y="226" class="sub">Builder doesn't claim that lane; passing the rough draft over.</text>
+    <line class="rowLine" x1="440" y1="246" x2="880" y2="246"/>
+
+    <!-- Row 2: What was already done -->
+    <text x="444" y="266" class="rowLabel">2 · What was already done</text>
+    <text x="444" y="288" class="changeMono">drafts/launch-copy.md · v1 saved</text>
+    <text x="444" y="306" class="sub">3 versions tried · final attempt stored with notes</text>
+    <line class="rowLine" x1="440" y1="326" x2="880" y2="326"/>
+
+    <!-- Row 3: Context filter -->
+    <text x="444" y="346" class="rowLabel">3 · Context filter</text>
+    <text x="444" y="364" class="annoText" font-weight="700" fill="#3f6212">Include</text>
+    <g>
+      <rect class="chipInc" x="528" y="350" width="84" height="20" rx="10"/>
+      <text x="570" y="364" text-anchor="middle" class="chipIncText">draft v1</text>
+      <rect class="chipInc" x="620" y="350" width="96" height="20" rx="10"/>
+      <text x="668" y="364" text-anchor="middle" class="chipIncText">voice rules</text>
+      <rect class="chipInc" x="724" y="350" width="118" height="20" rx="10"/>
+      <text x="783" y="364" text-anchor="middle" class="chipIncText">intended channel</text>
+    </g>
+    <text x="444" y="394" class="annoText" font-weight="700" fill="#64748b">Exclude</text>
+    <g>
+      <rect class="chipExc" x="528" y="380" width="118" height="20" rx="10"/>
+      <text x="587" y="394" text-anchor="middle" class="chipExcText">site publish rules</text>
+      <rect class="chipExc" x="654" y="380" width="118" height="20" rx="10"/>
+      <text x="713" y="394" text-anchor="middle" class="chipExcText">customer notes</text>
+      <rect class="chipExc" x="780" y="380" width="92" height="20" rx="10"/>
+      <text x="826" y="394" text-anchor="middle" class="chipExcText">tool prefs</text>
+    </g>
+    <text x="528" y="416" class="exclReason">not relevant · different lane · private to ops</text>
+    <line class="rowLine" x1="440" y1="430" x2="880" y2="430"/>
+
+    <!-- Row 4: Expected output -->
+    <text x="444" y="450" class="rowLabel">4 · Expected output</text>
+    <rect class="outChip" x="444" y="460" width="244" height="26" rx="13"/>
+    <text x="566" y="478" text-anchor="middle" class="outChipText">growth-voice draft v2</text>
+    <text x="700" y="478" class="sub">ready for operator review</text>
+    <line class="rowLine" x1="440" y1="504" x2="880" y2="504"/>
+
+    <!-- Row 5: Boundaries still in effect -->
+    <text x="444" y="524" class="rowLabel">5 · Boundaries still in effect</text>
+    <rect class="approvalChip" x="444" y="534" width="200" height="26" rx="13"/>
+    <text x="544" y="552" text-anchor="middle" class="approvalChipText">approval before publish</text>
+    <rect class="intervChip" x="654" y="534" width="218" height="26" rx="13"/>
+    <text x="763" y="552" text-anchor="middle" class="intervChipText">operator: pause · redirect · narrow</text>
+    <text x="444" y="582" class="sub">The handoff narrows the work, not the safety boundary.</text>
+    <text x="444" y="602" class="note">Approval and intervention still apply across the boundary.</text>
+
+    <!-- LEFT-SIDE ANNOTATIONS -->
+    <!-- Anno for header (From → To) -->
+    <rect class="annoBox" x="40" y="116" width="360" height="56" rx="6"/>
+    <text x="56" y="134" class="annoTitle">Named on both sides</text>
+    <text x="56" y="152" class="annoText">Source and target are specific agents,</text>
+    <text x="56" y="168" class="annoText">not "the next step" or "another assistant."</text>
+    <path class="connDash" d="M400 143 L430 143" marker-end="url(#arHnd)"/>
+
+    <!-- Anno for Why -->
+    <rect class="annoBox" x="40" y="196" width="360" height="56" rx="6"/>
+    <text x="56" y="214" class="annoTitle">Reasoning, not just dispatch</text>
+    <text x="56" y="232" class="annoText">Tied to why this agent doesn't own the work,</text>
+    <text x="56" y="248" class="annoText">so the receiving lane can verify the route.</text>
+    <path class="connDash" d="M400 223 L430 213" marker-end="url(#arHnd)"/>
+
+    <!-- Anno for Context filter -->
+    <rect class="annoBox" x="40" y="370" width="360" height="74" rx="6"/>
+    <text x="56" y="388" class="annoTitle">Include what's needed. Exclude on purpose.</text>
+    <text x="56" y="406" class="annoText">Naming what gets left out, and why, is what stops</text>
+    <text x="56" y="422" class="annoText">cross-lane influence from leaking through the handoff.</text>
+    <text x="56" y="438" class="annoText" font-style="italic">Filter is part of the spec.</text>
+    <path class="connDash" d="M400 400 L430 380" marker-end="url(#arHnd)"/>
+
+    <!-- RIGHT-SIDE ANNOTATIONS -->
+    <!-- Anno for What done -->
+    <rect class="annoBox" x="920" y="262" width="360" height="56" rx="6"/>
+    <text x="936" y="280" class="annoTitle">Artifact pointer, not retelling</text>
+    <text x="936" y="298" class="annoText">The receiving agent reads the artifact;</text>
+    <text x="936" y="314" class="annoText">it doesn't reconstruct prior work from prose.</text>
+    <path class="connDash" d="M890 290 L920 290" marker-end="url(#arHnd)"/>
+
+    <!-- Anno for Expected -->
+    <rect class="annoBox" x="920" y="442" width="360" height="56" rx="6"/>
+    <text x="936" y="460" class="annoTitle">Named deliverable</text>
+    <text x="936" y="478" class="annoText">The receiving agent knows when it's done.</text>
+    <text x="936" y="494" class="annoText">"A growth-voice draft" beats "something to use."</text>
+    <path class="connDash" d="M890 470 L920 470" marker-end="url(#arHnd)"/>
+
+    <!-- Anno for Boundaries -->
+    <rect class="annoBox" x="920" y="528" width="360" height="74" rx="6"/>
+    <text x="936" y="546" class="annoTitle">Safety boundaries don't transfer away</text>
+    <text x="936" y="564" class="annoText">Approval gates and the operator's intervention</text>
+    <text x="936" y="580" class="annoText">path persist across the handoff. The boundary</text>
+    <text x="936" y="596" class="annoText">moves with the work, not against it.</text>
+    <path class="connDash" d="M890 552 L920 552" marker-end="url(#arHnd)"/>
+
+    <!-- Contrast strip below the card -->
+    <text x="660" y="734" text-anchor="middle" class="stripLabel">Two shapes a handoff can take</text>
+    <rect class="badBox" x="120" y="744" width="500" height="42" rx="8"/>
+    <text x="370" y="772" text-anchor="middle" class="badText">"here's everything, good luck"  ·  next agent reconstructs the work</text>
+    <rect class="goodBox" x="700" y="744" width="500" height="42" rx="8"/>
+    <text x="950" y="772" text-anchor="middle" class="goodText">scoped · named · reviewable  ·  next agent picks up the artifact</text>
+
+    <!-- Legend at bottom -->
+    <g transform="translate(40,818)">
+      <text x="0" y="0" class="legendTitle">Legend</text>
+      <rect class="agentBadge" x="0" y="12" width="22" height="16" rx="8"/><text x="32" y="26" class="legendText">Agent badge</text>
+      <rect class="chipInc" x="140" y="12" width="22" height="16" rx="8"/><text x="172" y="26" class="legendText">Include chip</text>
+      <rect class="chipExc" x="280" y="12" width="22" height="16" rx="8"/><text x="312" y="26" class="legendText">Exclude chip</text>
+      <rect class="approvalChip" x="420" y="12" width="22" height="16" rx="8"/><text x="452" y="26" class="legendText">Approval gate</text>
+      <rect class="intervChip" x="560" y="12" width="22" height="16" rx="8"/><text x="592" y="26" class="legendText">Operator intervention</text>
+      <rect class="outChip" x="740" y="12" width="22" height="16" rx="8"/><text x="772" y="26" class="legendText">Expected output</text>
+    </g>
+  </svg>
+  <figcaption>
+    Figure 3. What a good handoff communicates. Source and target named on both sides, the reason for the handoff, the artifact already produced, an explicit context filter (include / exclude with reasons), a named deliverable, and the boundaries that still apply (approval before publish, operator pause / redirect / narrow). The bottom strip names the contrast: a bad handoff dumps everything across; a good handoff scopes, names, and stays reviewable.
+  </figcaption>
+</figure>

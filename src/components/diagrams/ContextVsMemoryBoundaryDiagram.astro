@@ -1,0 +1,137 @@
+---
+/**
+ * Context vs memory boundary (stacked).
+ *
+ * Two stacked sections separated by a deliberate horizontal boundary
+ * labeled as a product choice. The top section is run-time context that
+ * the model sees during a run: prompt input, tool call history,
+ * retrieved snippets, system instructions. The bottom section is
+ * persisted memory the system writes down: workspace files, scope
+ * rules, durable preferences, approved facts. Side annotations name
+ * the properties of each.
+ *
+ * Inline SVG with accessible <title> and <desc>, so text content is
+ * indexable by search engines and readable by assistive tech.
+ *
+ * Used in: content/blog/memory-routing-and-bounded-ownership-in-agent-teams.mdx
+ */
+---
+
+<figure class="diagram diagram--boundary">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" role="img" aria-labelledby="ctxMemTitle ctxMemDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+    <title id="ctxMemTitle">Context vs memory: the boundary that makes the system inspectable</title>
+    <desc id="ctxMemDesc">Two stacked sections separated by a violet dashed boundary line labeled as a product choice. The top section shows run-time context in blue: prompt input, tool call history, retrieved snippets, and system instructions, with annotations naming it as ephemeral, bounded to one run, and dying on completion. The bottom section shows persisted memory in purple: workspace files, scope rules, durable preferences, and approved facts, with annotations naming it as owned, reviewable, scoped, and decaying explicitly. The boundary itself is the point: context flows in and out per run, memory is written down and recalled through explicit tools.</desc>
+    <defs>
+      <marker id="arCtxMem" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.art{fill:#ecfccb;stroke:#4d7c0f;stroke-width:1.25}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700;font-size:18px}.sub{fill:#334155;font-size:16px}.note{fill:#475569;font-size:15px;font-style:italic}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px}.monoPurple{fill:#6d28d9;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px}.dTitle{font-size:32px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:16px;fill:#475569}.colTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.colTitleCtx{fill:#1e3a8a}.colTitleMem{fill:#4c1d95}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:8 5}.boundaryLabel{fill:#6d28d9;font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.cardTitle{font-size:17px;font-weight:700;fill:#0f172a}.cardSub{fill:#334155;font-size:14px}.cardNote{fill:#475569;font-size:13px;font-style:italic}.propTitle{fill:#0f172a;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.propText{fill:#334155;font-size:14px}.propBox{fill:#ffffff;stroke:#cbd5e1;stroke-width:1}.legendText{fill:#334155;font-size:13px}.legendTitle{font-size:12px;font-weight:700;fill:#334155;letter-spacing:.06em;text-transform:uppercase}</style>
+    </defs>
+
+    <!-- Header -->
+    <text x="660" y="34" text-anchor="middle" class="dTitle">Context Is Not Memory</text>
+    <text x="660" y="60" text-anchor="middle" class="dSubtitle">Run-time context dies with the run · persisted memory is written down, owned, and recalled through explicit tools</text>
+
+    <!-- TOP SECTION: Context (run-time) -->
+    <rect class="lane" x="20" y="84" width="1280" height="320" rx="10"/>
+    <text x="44" y="116" class="colTitle colTitleCtx">Context · run-time</text>
+    <text x="44" y="144" class="sub">What the model sees during a single run. Bounded by the window, shaped by what the system includes.</text>
+
+    <!-- 4 context cards -->
+    <g>
+      <rect class="cli" x="40" y="180" width="220" height="124" rx="8"/>
+      <text x="150" y="208" text-anchor="middle" class="cardTitle">prompt input</text>
+      <text x="150" y="232" text-anchor="middle" class="cardSub">user message,</text>
+      <text x="150" y="250" text-anchor="middle" class="cardSub">current instruction</text>
+      <text x="150" y="280" text-anchor="middle" class="cardNote">in for this turn only</text>
+
+      <rect class="cli" x="272" y="180" width="220" height="124" rx="8"/>
+      <text x="382" y="208" text-anchor="middle" class="cardTitle">tool call history</text>
+      <text x="382" y="232" text-anchor="middle" class="cardSub">what was tried,</text>
+      <text x="382" y="250" text-anchor="middle" class="cardSub">what came back</text>
+      <text x="382" y="280" text-anchor="middle" class="cardNote">scrollback within the run</text>
+
+      <rect class="cli" x="504" y="180" width="220" height="124" rx="8"/>
+      <text x="614" y="208" text-anchor="middle" class="cardTitle">retrieved snippets</text>
+      <text x="614" y="232" text-anchor="middle" class="cardSub">docs, references,</text>
+      <text x="614" y="250" text-anchor="middle" class="cardSub">just-in-time facts</text>
+      <text x="614" y="280" text-anchor="middle" class="cardNote">pulled per turn, not kept</text>
+
+      <rect class="cli" x="736" y="180" width="220" height="124" rx="8"/>
+      <text x="846" y="208" text-anchor="middle" class="cardTitle">system instructions</text>
+      <text x="846" y="232" text-anchor="middle" class="cardSub">role, rules,</text>
+      <text x="846" y="250" text-anchor="middle" class="cardSub">tool definitions</text>
+      <text x="846" y="280" text-anchor="middle" class="cardNote">re-injected each call</text>
+    </g>
+
+    <!-- Properties (right side) -->
+    <rect class="propBox" x="980" y="180" width="300" height="124" rx="8"/>
+    <text x="996" y="200" class="propTitle">Properties</text>
+    <text x="996" y="226" class="propText">• <tspan font-weight="700">ephemeral</tspan>: dies on completion</text>
+    <text x="996" y="248" class="propText">• <tspan font-weight="700">bounded</tspan>: fits in the window</text>
+    <text x="996" y="270" class="propText">• <tspan font-weight="700">composable</tspan>: system decides what to include</text>
+    <text x="996" y="292" class="propText">• <tspan font-weight="700">opaque to next run</tspan></text>
+
+    <text x="44" y="354" class="head" fill="#1e3a8a">Where context lives</text>
+    <text x="44" y="378" class="sub">In the call. In the window. Mixed into whatever the system chooses to send this turn. Reusing context across runs requires writing something down.</text>
+
+    <!-- BOUNDARY: split into two segments with a wide gap; label sits cleanly in the middle, no dashed line behind it -->
+    <line class="boundary" x1="40" y1="428" x2="400" y2="428"/>
+    <line class="boundary" x1="920" y1="428" x2="1280" y2="428"/>
+    <rect x="430" y="412" width="460" height="34" rx="17" fill="#ffffff" stroke="#6d28d9" stroke-width="1.75"/>
+    <text x="660" y="434" text-anchor="middle" class="boundaryLabel">The boundary that makes the system inspectable</text>
+
+    <!-- BOTTOM SECTION: Memory (persisted) -->
+    <rect class="lane" x="20" y="458" width="1280" height="320" rx="10"/>
+    <text x="44" y="490" class="colTitle colTitleMem">Memory · persisted</text>
+    <text x="44" y="518" class="sub">What the system writes down. Scoped, owned, reviewable, recalled through explicit tools.</text>
+
+    <!-- 4 memory cards -->
+    <g>
+      <rect class="gov" x="40" y="554" width="220" height="124" rx="8"/>
+      <text x="150" y="582" text-anchor="middle" class="cardTitle">workspace files</text>
+      <text x="150" y="606" text-anchor="middle" class="monoPurple">memory/*.md</text>
+      <text x="150" y="624" text-anchor="middle" class="cardSub">inspectable by humans</text>
+      <text x="150" y="654" text-anchor="middle" class="cardNote">written down, not hidden state</text>
+
+      <rect class="gov" x="272" y="554" width="220" height="124" rx="8"/>
+      <text x="382" y="582" text-anchor="middle" class="cardTitle">scope rules</text>
+      <text x="382" y="606" text-anchor="middle" class="cardSub">which lane this memory</text>
+      <text x="382" y="624" text-anchor="middle" class="cardSub">belongs to</text>
+      <text x="382" y="654" text-anchor="middle" class="cardNote">ownership is named</text>
+
+      <rect class="art" x="504" y="554" width="220" height="124" rx="8"/>
+      <text x="614" y="582" text-anchor="middle" class="cardTitle">durable preferences</text>
+      <text x="614" y="606" text-anchor="middle" class="cardSub">voice rules, defaults,</text>
+      <text x="614" y="624" text-anchor="middle" class="cardSub">tone, safety lines</text>
+      <text x="614" y="654" text-anchor="middle" class="cardNote">survives runs and sessions</text>
+
+      <rect class="art" x="736" y="554" width="220" height="124" rx="8"/>
+      <text x="846" y="582" text-anchor="middle" class="cardTitle">approved facts</text>
+      <text x="846" y="606" text-anchor="middle" class="cardSub">decisions the operator</text>
+      <text x="846" y="624" text-anchor="middle" class="cardSub">confirmed</text>
+      <text x="846" y="654" text-anchor="middle" class="cardNote">reviewable, removable</text>
+    </g>
+
+    <!-- Properties (right side) -->
+    <rect class="propBox" x="980" y="554" width="300" height="124" rx="8"/>
+    <text x="996" y="574" class="propTitle">Properties</text>
+    <text x="996" y="600" class="propText">• <tspan font-weight="700">owned</tspan>: a lane is responsible</text>
+    <text x="996" y="622" class="propText">• <tspan font-weight="700">reviewable</tspan>: humans can see it</text>
+    <text x="996" y="644" class="propText">• <tspan font-weight="700">scoped</tspan>: recall is explicit, not ambient</text>
+    <text x="996" y="666" class="propText">• <tspan font-weight="700">decays explicitly</tspan>: updated or removed</text>
+
+    <text x="44" y="728" class="head" fill="#4c1d95">Where memory lives</text>
+    <text x="44" y="752" class="sub">In files, scoped stores, or workspaces the system controls. Pulled into context only when the route asks for it. The operator can read what's there.</text>
+
+    <!-- Legend -->
+    <g transform="translate(40,808)">
+      <text x="0" y="0" class="legendTitle">Legend</text>
+      <rect class="cli" x="0" y="12" width="22" height="16" rx="3"/><text x="32" y="26" class="legendText">Context surface</text>
+      <rect class="gov" x="170" y="12" width="22" height="16" rx="3"/><text x="202" y="26" class="legendText">Memory store</text>
+      <rect class="art" x="320" y="12" width="22" height="16" rx="3"/><text x="352" y="26" class="legendText">Persisted artifact</text>
+      <rect x="490" y="12" width="22" height="16" rx="3" fill="none" stroke="#7c3aed" stroke-dasharray="5 3"/><text x="522" y="26" class="legendText">Context/memory boundary</text>
+    </g>
+  </svg>
+  <figcaption>
+    Figure 2. Context is not memory. <strong>Context</strong> (top) is what the model sees during one run: prompt, tool history, retrieved snippets, system instructions. It dies on completion. <strong>Memory</strong> (bottom) is what the system writes down: files, scope rules, durable preferences, approved facts. It's owned, scoped, and reviewable. The violet boundary between them is a product choice, not a default.
+  </figcaption>
+</figure>
