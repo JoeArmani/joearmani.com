@@ -20,7 +20,7 @@ const Heading = `h${headingLevel}` as any;
 
 <article class:list={['card', 'card--post', { 'card--featured': featured }]} data-tags={tags.join(',')}>
   <Heading class="card__title">
-    <a href={`/blog/${slug}`}>{title}</a>
+    <a href={`/blog/${slug}/`}>{title}</a>
   </Heading>
   <div class="card__meta">
     <time datetime={date}>{formattedDate}</time>

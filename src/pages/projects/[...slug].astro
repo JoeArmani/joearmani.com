@@ -24,7 +24,7 @@ const hasLinks = links && (links.github || links.live || links.appStore || links
     <div class="project-header">
       <Breadcrumbs items={[
         { label: "Home", href: "/" },
-        { label: "Projects", href: "/projects" },
+        { label: "Projects", href: "/projects/" },
         { label: project.data.title },
       ]} />
       <h1>{project.data.title}</h1>
@@ -46,6 +46,6 @@ const hasLinks = links && (links.github || links.live || links.appStore || links
     <div class="prose">
       <Content />
     </div>
-    <a href="/projects" class="back-link">← Back to Projects</a>
+    <a href="/projects/" class="back-link">← Back to Projects</a>
   </div>
 </BaseLayout>
