@@ -1027,7 +1027,7 @@ section {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent-warm);
+  color: var(--text-secondary);
 }
 .home-now__text { font-size: 1.05rem; color: var(--text-primary); line-height: 1.5; }
 
