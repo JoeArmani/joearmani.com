@@ -894,7 +894,7 @@ section {
   text-transform: uppercase;
 }
 
-.home-sectionhead__num { font-weight: 600; color: var(--accent-warm); }
+.home-sectionhead__num { font-weight: 600; color: var(--text-secondary); }
 .home-sectionhead__label { font-weight: 600; color: var(--text-primary); }
 .home-sectionhead__rule { flex: 1; }
 .home-sectionhead__link {
