@@ -1618,7 +1618,7 @@ section {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-warm);
+  color: var(--text-secondary);
   margin-bottom: 0.9rem;
 }
 .page-header__kicker::before {
