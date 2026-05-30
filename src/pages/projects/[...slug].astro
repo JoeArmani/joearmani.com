@@ -20,32 +20,32 @@ const hasLinks = links && (links.github || links.live || links.appStore || links
 ---
 
 <BaseLayout title={`${project.data.title} | Joe Armani`} description={project.data.description}>
-  <div class="container--narrow">
-    <div class="project-header">
-      <Breadcrumbs items={[
-        { label: "Home", href: "/" },
-        { label: "Projects", href: "/projects/" },
-        { label: project.data.title },
-      ]} />
-      <h1>{project.data.title}</h1>
-      <div class="project-header__meta">
-        <span class={`status-badge ${statusClass}`}>{project.data.status}</span>
-        {project.data.tags.map((tag) => (
-          <span class="tag">{tag}</span>
-        ))}
+  <div class="project-header container--narrow">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Projects", href: "/projects/" },
+      { label: project.data.title },
+    ]} />
+    <h1>{project.data.title}</h1>
+    <div class="project-header__meta">
+      <span class={`status-badge ${statusClass}`}>{project.data.status}</span>
+      {project.data.tags.map((tag) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+    {hasLinks && (
+      <div class="project-header__links">
+        {links!.github && <a href={links!.github} class="btn btn--outline" target="_blank" rel="noopener noreferrer">GitHub</a>}
+        {links!.live && <a href={links!.live} class="btn btn--outline" target="_blank" rel="noopener noreferrer">Live Site</a>}
+        {links!.appStore && <a href={links!.appStore} class="btn btn--outline" target="_blank" rel="noopener noreferrer">App Store</a>}
+        {links!.playStore && <a href={links!.playStore} class="btn btn--outline" target="_blank" rel="noopener noreferrer">Play Store</a>}
       </div>
-      {hasLinks && (
-        <div class="project-header__links">
-          {links!.github && <a href={links!.github} class="btn btn--outline" target="_blank" rel="noopener noreferrer">GitHub</a>}
-          {links!.live && <a href={links!.live} class="btn btn--outline" target="_blank" rel="noopener noreferrer">Live Site</a>}
-          {links!.appStore && <a href={links!.appStore} class="btn btn--outline" target="_blank" rel="noopener noreferrer">App Store</a>}
-          {links!.playStore && <a href={links!.playStore} class="btn btn--outline" target="_blank" rel="noopener noreferrer">Play Store</a>}
-        </div>
-      )}
-    </div>
-    <div class="prose">
-      <Content />
-    </div>
+    )}
+  </div>
+  <div class="prose">
+    <Content />
+  </div>
+  <div class="container--narrow">
     <a href="/projects/" class="back-link">← Back to Projects</a>
   </div>
 </BaseLayout>

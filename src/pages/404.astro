@@ -6,11 +6,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   title="Page Not Found | Joe Armani"
   description="The page you're looking for doesn't exist."
 >
-  <div class="container--narrow" style="padding-top: 6rem; padding-bottom: 6rem; text-align: center;">
-    <h1>404</h1>
-    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">Nothing here.</p>
-    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">Might've moved. Might never have existed. Either way, here's where to go from here:</p>
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <div class="notfound container--narrow">
+    <p class="notfound__kicker">Error · 404</p>
+    <h1 class="notfound__code">404</h1>
+    <p class="notfound__lead">Nothing here.</p>
+    <p class="notfound__sub">Might've moved. Might never have existed. Either way, here's where to go from here:</p>
+    <div class="notfound__ctas">
       <a href="/" class="btn btn--primary">Back to Home</a>
       <a href="/blog/" class="btn btn--outline">Read the Blog</a>
     </div>

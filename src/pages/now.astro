@@ -7,15 +7,17 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
   title="Now | Joe Armani"
   description="What I'm currently working on, reading, and building."
 >
-  <div class="container--narrow" style="padding-top: 3rem; padding-bottom: 4rem;">
+  <div class="container--narrow" style="padding-bottom: 4rem;">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Now" },
     ]} />
-    <div class="about-content">
+    <div class="page-header">
+      <p class="page-header__kicker">Currently</p>
       <h1>Now</h1>
-      <p>What I'm focused on right now.</p>
-
+      <p class="page-header__subtitle">What I'm focused on right now.</p>
+    </div>
+    <div class="about-content">
       <h2>Building</h2>
       <ul>
         <li><strong>CourtMix</strong>: Ground-up Racquet Rivalry rebuild using the agentic development system. Moving significantly faster than the original build.</li>
