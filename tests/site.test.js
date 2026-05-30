@@ -85,27 +85,31 @@ test('All page files contain Astro frontmatter delimiters', () => {
 
 group('2. Content Integrity — brand voice rewrites');
 
-test('Hero pre-tagline says "Builder · Engineer · AI Practitioner"', () => {
+test('Hero h1 uses split title lines ("I build" / "with AI.")', () => {
   const content = read('src/components/Hero.astro');
-  assert(has(content, 'Builder · Engineer · AI Practitioner'),
-    'Expected "Builder · Engineer · AI Practitioner" in Hero.astro');
+  assert(has(content, 'hero__line">I build</span>'),
+    'Expected "I build" hero title line in Hero.astro');
+  assert(has(content, 'hero__line"><em>with AI.</em></span>'),
+    'Expected "with AI." hero title line in Hero.astro');
 });
 
-test('Hero pre-tagline does NOT say old "AI Practitioner · Builder · Entrepreneur"', () => {
+test('Hero subtitle says "And write about what actually works."', () => {
   const content = read('src/components/Hero.astro');
-  assert(lacks(content, 'AI Practitioner · Builder · Entrepreneur'),
-    'Found old tagline "AI Practitioner · Builder · Entrepreneur" — should be updated');
+  assert(has(content, 'And write about what actually works.'),
+    'Expected hero subtitle in Hero.astro');
 });
 
-test('Hero h1 says "I build with AI and write about what actually works."', () => {
+test('Hero does NOT use removed pre-tagline element', () => {
   const content = read('src/components/Hero.astro');
-  assert(has(content, 'I build with AI and write about what actually works.'),
-    'Hero h1 text mismatch in Hero.astro');
+  assert(lacks(content, 'hero__pre'),
+    'Hero should not use removed hero__pre element');
+  assert(lacks(content, 'Builder · Engineer · AI Practitioner'),
+    'Removed pre-tagline copy should not return in Hero.astro');
 });
 
-test('Home page title is "Joe Armani | Builder, Engineer, AI Practitioner"', () => {
+test('Home page title is "Joe Armani | Engineer building with AI"', () => {
   const content = read('src/pages/index.astro');
-  assert(has(content, 'Joe Armani | Builder, Engineer, AI Practitioner'),
+  assert(has(content, 'Joe Armani | Engineer building with AI'),
     'Homepage <title> mismatch in index.astro');
 });
 
@@ -146,10 +150,10 @@ test('About page has "Outside Work" section heading', () => {
     '"Outside Work" heading missing from about.astro');
 });
 
-test('Blog subtitle says "Includes the failures" (not "lessons from the trenches")', () => {
+test('Blog subtitle describes AI development writing (not old "trenches" copy)', () => {
   const content = read('src/pages/blog/index.astro');
-  assert(has(content, 'Includes the failures'),
-    'Expected "Includes the failures" in blog/index.astro');
+  assert(has(content, 'Writing on AI development, agentic tools, and building software products.'),
+    'Expected blog page subtitle in blog/index.astro');
   assert(lacks(content, 'lessons from the trenches'),
     'Old phrase "lessons from the trenches" still present in blog/index.astro');
 });
@@ -273,12 +277,15 @@ test('Reading progress bar exists in PostLayout.astro', () => {
 
 group('5. No Regressions');
 
-test('Hero pre-tagline font-size is >= 0.875rem', () => {
-  const match = CSS.match(/\.hero__pre\s*\{[^}]*font-size:\s*([\d.]+)rem/);
-  assert(match, 'Could not locate .hero__pre font-size in global.css');
-  const size = parseFloat(match[1]);
+test('Hero subtitle font-size is readable (>= 0.875rem)', () => {
+  const block = CSS.match(/\.hero__sub\s*\{[^}]*\}/)?.[0] ?? '';
+  assert(has(block, 'font-size:'),
+    'Could not locate .hero__sub font-size in global.css');
+  const remMatch = block.match(/font-size:\s*(?:clamp\()?([\d.]+)rem/);
+  assert(remMatch, 'hero__sub font-size should declare a rem minimum');
+  const size = parseFloat(remMatch[1]);
   assert(size >= 0.875,
-    `hero__pre font-size is ${size}rem — expected >= 0.875rem (was inadvertently shrunk)`);
+    `hero__sub font-size minimum is ${size}rem — expected >= 0.875rem`);
 });
 
 test('Subscribe input has a visible border defined', () => {
@@ -347,13 +354,14 @@ test('Hero does NOT have scroll indicator', () => {
     'Hero still contains scroll indicator element (should be removed)');
 });
 
-test('Hero height is capped (not 100vh)', () => {
-  assert(lacks(CSS, 'calc(100vh'),
-    'Hero still uses calc(100vh) — should be reduced to ~80vh');
-  const match = CSS.match(/\.hero\s*\{[^}]*min-height:\s*min\((\d+)vh/);
-  assert(match, 'Could not locate .hero min-height with min() in global.css');
-  const vh = parseInt(match[1]);
-  assert(vh <= 85, `Hero min-height is ${vh}vh — expected <= 85vh`);
+test('Hero uses padding-based layout (not full-viewport height)', () => {
+  const heroBlock = CSS.match(/\.hero\s*\{[^}]*\}/)?.[0] ?? '';
+  assert(has(heroBlock, 'padding:'),
+    '.hero should use padding for vertical rhythm');
+  assert(lacks(heroBlock, 'min-height:'),
+    '.hero should not force a viewport min-height');
+  assert(lacks(heroBlock, 'calc(100vh'),
+    'Hero should not use calc(100vh) height');
 });
 
 test('Fonts are self-hosted (no Google Fonts links)', () => {
@@ -422,12 +430,16 @@ test('Footer has brand tagline', () => {
     'Footer tagline text missing');
 });
 
-test('Homepage section order: Subscribe after What I\'m Building (conclusion CTA)', () => {
+test('Homepage section order: Subscribe CTA after Writing, Building, and Now', () => {
   const content = read('src/pages/index.astro');
-  const subIdx = content.indexOf('>Subscribe</h2>');
-  const buildIdx = content.indexOf('>What I\'m Building</h2>');
-  assert(subIdx > 0 && buildIdx > 0 && subIdx > buildIdx,
-    'Subscribe section should appear after "What I\'m Building" on homepage');
+  const writingIdx = content.indexOf('id="writing"');
+  const buildingIdx = content.indexOf('id="building"');
+  const nowIdx = content.indexOf('id="now"');
+  const subIdx = content.indexOf('<Subscribe');
+  assert(
+    writingIdx > 0 && buildingIdx > writingIdx && nowIdx > buildingIdx && subIdx > nowIdx,
+    'Subscribe should appear after Writing, Building, and Now sections on homepage',
+  );
 });
 
 test('Subscribe card accent uses --accent-warm (not --accent-blue)', () => {
@@ -488,9 +500,10 @@ test('Light mode cards have resting shadows', () => {
 });
 
 test('Light mode bg-surface is white (#FFFFFF) for card depth', () => {
-  // Cards should be white floating on off-white page background
-  const lightBlock = CSS.split('[data-theme="light"]')[1]?.split('}')[0] || '';
-  assert(lightBlock.includes('--bg-surface: #FFFFFF'),
+  const lightIdx = CSS.indexOf('[data-theme="light"] {');
+  assert(lightIdx >= 0, 'Could not find light theme token block in global.css');
+  const lightBlock = CSS.slice(lightIdx, CSS.indexOf('}', lightIdx));
+  assert(has(lightBlock, '--bg-surface: #FFFFFF'),
     'Light mode --bg-surface should be #FFFFFF for card depth effect');
 });
 
@@ -519,10 +532,14 @@ test('Prose has horizontal padding for mobile', () => {
     '.prose should have horizontal padding for mobile readability');
 });
 
-test('Homepage has smart Start Here deduplication logic', () => {
+test('Homepage writing section uses numbered home-feed (latest 3 posts)', () => {
   const content = read('src/pages/index.astro');
-  assert(has(content, 'showStartHere'),
-    'Homepage should use showStartHere logic to avoid duplicate post display');
+  assert(has(content, 'home-feed'),
+    'Homepage should render posts in the home-feed list');
+  assert(has(content, '.slice(0, 3)'),
+    'Homepage should show only the three latest posts');
+  assert(lacks(content, 'showStartHere'),
+    'Removed showStartHere deduplication should not return on homepage');
 });
 
 // ─── 7. Post-Launch Features ──────────────────────────────────────────────────
