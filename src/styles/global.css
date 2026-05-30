@@ -1653,7 +1653,7 @@ section {
   font-size: 0.78rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--accent-warm);
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 .notfound__code {
