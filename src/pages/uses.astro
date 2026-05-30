@@ -7,15 +7,17 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
   title="What I Use | Joe Armani"
   description="The tools, tech stack, and hardware I use to build AI-powered systems and ship products."
 >
-  <div class="container--narrow" style="padding-top: 3rem; padding-bottom: 4rem;">
+  <div class="container--narrow" style="padding-bottom: 4rem;">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Uses" },
     ]} />
-    <div class="about-content">
+    <div class="page-header">
+      <p class="page-header__kicker">Tools &amp; stack</p>
       <h1>What I Use</h1>
-      <p>Tools, stack, and workflows behind what I build. Updated as things change.</p>
-
+      <p class="page-header__subtitle">Tools, stack, and workflows behind what I build. Updated as things change.</p>
+    </div>
+    <div class="about-content">
       <h2>Development</h2>
       <ul>
         <li><strong>Claude Code + Claude</strong>: My primary development environment. I run agentic workflows where Claude handles implementation from specs while I focus on architecture and review. Most of this site was built this way.</li>

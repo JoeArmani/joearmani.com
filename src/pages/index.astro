@@ -1,32 +1,36 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import PostCard from '../components/PostCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import Subscribe from '../components/Subscribe.astro';
 import { getCollection } from 'astro:content';
 import { compareEditorialDatesDesc } from '../utils/dates';
+import { formatEditorialDate } from '../utils/dates';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-
-const featuredPosts = allPosts.filter((p) => p.data.featured);
 
 const latestPosts = allPosts
   .sort((a, b) => compareEditorialDatesDesc(a.data.date, b.data.date))
   .slice(0, 3);
 
-// Hide "Start Here" when featured posts are all already in Latest Writing (avoids duplication)
-const latestIds = new Set(latestPosts.map((p) => p.id));
-const showStartHere = featuredPosts.length > 0 && !featuredPosts.every((p) => latestIds.has(p.id));
-
 const featuredProjects = (await getCollection('projects'))
   .filter((p) => p.data.featured)
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 4);
+
+// "Now" — kept in sync with /now. A short, quiet snapshot for the homepage.
+const now = [
+  { kind: 'Building', text: 'Racquet Rivalry — ground-up rebuild on the agentic dev system' },
+  { kind: 'Working', text: 'Senior Software Engineer at NCI — Connect for Cancer' },
+  { kind: 'Learning', text: 'Agentic workflows — the pace right now is hard to overstate' },
+  { kind: 'Training', text: 'Century ride prep — 100mi in the Taos mountains this summer' },
+];
+
+const nowUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 ---
 
 <BaseLayout
   title="Joe Armani | Engineer building with AI"
-  description="Software Engineer. Building with AI and writing the manual as I go."
+  description="Software Engineer. Building with AI, writing the manual as I go."
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
@@ -40,75 +44,78 @@ const featuredProjects = (await getCollection('projects'))
       "url": "https://joearmani.com/about"
     }
   })} />
+
   <Hero />
 
-  {showStartHere && (
-    <section class="container">
-      <div class="section-header reveal">
-        <h2>Start Here</h2>
-      </div>
-      <div class="featured-grid">
-        {featuredPosts.map((post) => (
-          <div class="reveal">
-            <PostCard
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.date}
-              tags={post.data.tags}
-              slug={post.id}
-              readingTime={post.data.readingTime}
-              headingLevel={2}
-              featured={true}
-            />
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
-
   {latestPosts.length > 0 && (
-    <section class="container">
-      <div class="section-header reveal">
-        <h2>Latest Writing</h2>
-        <a href="/blog/" class="section-link">View all posts →</a>
+    <section class="container--narrow home-section" id="writing">
+      <div class="home-sectionhead reveal">
+        <span class="home-sectionhead__num">01</span>
+        <span class="home-sectionhead__label">Writing</span>
+        <span class="home-sectionhead__rule"></span>
+        <a href="/blog/" class="home-sectionhead__link">All posts →</a>
       </div>
-      <div class="post-grid">
-        {latestPosts.map((post) => (
-          <div class="reveal">
-            <PostCard
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.date}
-              tags={post.data.tags}
-              slug={post.id}
-              readingTime={post.data.readingTime}
-              featured={post.data.featured}
-            />
-          </div>
+      <ol class="home-feed">
+        {latestPosts.map((post, i) => (
+          <li class="home-feed__entry reveal">
+            <a class="home-feed__link" href={`/blog/${post.id}`}>
+              <div class="home-feed__side">
+                <span class="home-feed__idx">{String(i + 1).padStart(2, '0')}</span>
+                <span class="home-feed__date">{formatEditorialDate(post.data.date)}</span>
+              </div>
+              <div class="home-feed__body">
+                <h3 class="home-feed__title">{post.data.title}</h3>
+                <p class="home-feed__blurb">{post.data.description}</p>
+                <div class="home-feed__meta">
+                  {post.data.readingTime && <span>{post.data.readingTime} min read</span>}
+                  {post.data.readingTime && <span class="home-feed__dot">·</span>}
+                  <span>{post.data.tags.join(' · ')}</span>
+                </div>
+              </div>
+              <span class="home-feed__go" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   )}
 
-  <section class="container">
-    <div class="section-header reveal">
-      <h2>What I'm Building</h2>
-      <a href="/projects/" class="section-link">See all projects →</a>
+  <section class="container--narrow home-section" id="building">
+    <div class="home-sectionhead reveal">
+      <span class="home-sectionhead__num">02</span>
+      <span class="home-sectionhead__label">Building</span>
+      <span class="home-sectionhead__rule"></span>
+      <a href="/projects/" class="home-sectionhead__link">All projects →</a>
     </div>
-    <div class="project-list">
+    <div class="home-projgrid">
       {featuredProjects.map((project) => (
-        <div class="reveal">
-          <ProjectCard
-            title={project.data.title}
-            description={project.data.description}
-            status={project.data.status}
-            tags={project.data.tags}
-            slug={project.id}
-            links={project.data.links}
-          />
-        </div>
+        <a class="home-proj reveal" href={`/projects/${project.id}`}>
+          <div class="home-proj__head">
+            <h3 class="home-proj__title">{project.data.title}</h3>
+            <span class={`home-proj__status status-badge status-badge--${project.data.status.toLowerCase()}`}>{project.data.status}</span>
+          </div>
+          <p class="home-proj__blurb">{project.data.description}</p>
+          <div class="home-proj__stack">{project.data.tags.join('  ·  ')}</div>
+        </a>
       ))}
     </div>
+  </section>
+
+  <section class="container--narrow home-section" id="now">
+    <div class="home-sectionhead reveal">
+      <span class="home-sectionhead__num">03</span>
+      <span class="home-sectionhead__label">Now</span>
+      <span class="home-sectionhead__rule"></span>
+      <a href="/now/" class="home-sectionhead__link">Updated {nowUpdated} →</a>
+    </div>
+    <ul class="home-now">
+      {now.map((item) => (
+        <li class="reveal">
+          <span class="home-now__kind">{item.kind}</span>
+          <span class="home-now__text">{item.text}</span>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <section class="container">
