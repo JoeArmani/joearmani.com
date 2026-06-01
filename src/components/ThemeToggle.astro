@@ -1,4 +1,4 @@
-<button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false" title="Switch to light mode">
+<button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="true" title="Switch to dark mode">
   <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
     <circle cx="12" cy="12" r="5" />
     <line x1="12" y1="1" x2="12" y2="3" />
@@ -38,12 +38,12 @@
     height: 20px;
   }
 
-  /* Show sun in dark mode, moon in light mode */
-  .theme-toggle__moon { display: none; }
-  .theme-toggle__sun { display: block; }
+  /* Show sun in dark mode, moon in light mode (light is the default) */
+  .theme-toggle__moon { display: block; }
+  .theme-toggle__sun { display: none; }
 
-  [data-theme="light"] .theme-toggle__moon { display: block; }
-  [data-theme="light"] .theme-toggle__sun { display: none; }
+  [data-theme="dark"] .theme-toggle__moon { display: none; }
+  [data-theme="dark"] .theme-toggle__sun { display: block; }
 </style>
 
 <script>

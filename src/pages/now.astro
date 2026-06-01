@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { nowSections, nowUpdated } from '../data/now';
 ---
 
 <BaseLayout
@@ -12,39 +14,25 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
       { label: "Home", href: "/" },
       { label: "Now" },
     ]} />
-    <div class="page-header">
-      <p class="page-header__kicker">Currently</p>
-      <h1>Now</h1>
-      <p class="page-header__subtitle">What I'm focused on right now.</p>
-    </div>
+    <PageHeader
+      kicker="Currently"
+      title="Now"
+      subtitle="What I'm focused on right now."
+    />
     <div class="about-content">
-      <h2>Building</h2>
-      <ul>
-        <li><strong>CourtMix</strong>: Ground-up Racquet Rivalry rebuild using the agentic development system. Moving significantly faster than the original build.</li>
-        <li><strong>Custom email system</strong>: A Claude + SendGrid pipeline for automated, personalized outbound email.</li>
-        <li><strong>This website</strong>: joearmani.com is always in progress. Always something to ship.</li>
-        <li><strong>Agentic development system</strong>: Refining the spec/test-driven workflow that runs all the projects above.</li>
-      </ul>
-
-      <h2>Working</h2>
-      <ul>
-        <li><strong>Senior Software Engineer at NCI</strong>: Building data tools for the Connect for Cancer Prevention Study. Three years in and the work still feels meaningful.</li>
-      </ul>
-
-      <h2>Learning</h2>
-      <ul>
-        <li><strong>AI tooling and agentic workflows</strong>: Following closely. The pace right now is hard to overstate.</li>
-        <li><strong>Anthropic, OpenAI, and the broader ecosystem</strong>: Keeping tabs on what's shipping and what's worth testing.</li>
-      </ul>
-
-      <h2>Training</h2>
-      <ul>
-        <li><strong>Hot yoga and sculpt</strong>: Regular classes at CorePower. Non-negotiable part of the week.</li>
-        <li><strong>Century ride prep</strong>: Training for a 100-mile ride in the Taos mountains this summer.</li>
-      </ul>
+      {nowSections.map((section) => (
+        <Fragment>
+          <h2>{section.kind}</h2>
+          <ul>
+            {section.items.map((item) => (
+              <li><strong>{item.lead}</strong>: {item.body}</li>
+            ))}
+          </ul>
+        </Fragment>
+      ))}
 
       <p style="margin-top: 2.5rem; font-size: 0.9rem; color: var(--text-muted);">
-        Updated roughly monthly. Last update: May 2026.
+        Updated roughly monthly. Last update: {nowUpdated}.
       </p>
     </div>
   </div>

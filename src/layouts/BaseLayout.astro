@@ -38,7 +38,7 @@ const cfWebAnalyticsToken = '6882444c50494877a1a37ddb3131f3d8';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Theme Color (mobile browser chrome) -->
-    <meta name="theme-color" content="#0F1117" data-dynamic-theme-color />
+    <meta name="theme-color" content="#F8F9FB" data-dynamic-theme-color />
 
     <!-- Prevent flash of wrong theme -->
     <script is:inline>
@@ -52,7 +52,7 @@ const cfWebAnalyticsToken = '6882444c50494877a1a37ddb3131f3d8';
           savedTheme = null;
         }
 
-        const theme = savedTheme === 'light' ? 'light' : 'dark';
+        const theme = savedTheme === 'dark' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', theme);
 
         const themeColorMeta = document.querySelector('meta[data-dynamic-theme-color]');

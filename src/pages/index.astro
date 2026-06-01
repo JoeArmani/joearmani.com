@@ -5,6 +5,7 @@ import Subscribe from '../components/Subscribe.astro';
 import { getCollection } from 'astro:content';
 import { compareEditorialDatesDesc } from '../utils/dates';
 import { formatEditorialDate } from '../utils/dates';
+import { nowSections, nowUpdated } from '../data/now';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 
@@ -16,16 +17,6 @@ const featuredProjects = (await getCollection('projects'))
   .filter((p) => p.data.featured)
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 4);
-
-// "Now" — kept in sync with /now. A short, quiet snapshot for the homepage.
-const now = [
-  { kind: 'Building', text: 'Racquet Rivalry — ground-up rebuild on the agentic dev system' },
-  { kind: 'Working', text: 'Senior Software Engineer at NCI — Connect for Cancer' },
-  { kind: 'Learning', text: 'Agentic workflows — the pace right now is hard to overstate' },
-  { kind: 'Training', text: 'Century ride prep — 100mi in the Taos mountains this summer' },
-];
-
-const nowUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 ---
 
 <BaseLayout
@@ -50,17 +41,15 @@ const nowUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year:
   {latestPosts.length > 0 && (
     <section class="container--narrow home-section" id="writing">
       <div class="home-sectionhead reveal">
-        <span class="home-sectionhead__num">01</span>
         <span class="home-sectionhead__label">Writing</span>
         <span class="home-sectionhead__rule"></span>
         <a href="/blog/" class="home-sectionhead__link">All posts →</a>
       </div>
       <ol class="home-feed">
-        {latestPosts.map((post, i) => (
+        {latestPosts.map((post) => (
           <li class="home-feed__entry reveal">
             <a class="home-feed__link" href={`/blog/${post.id}`}>
               <div class="home-feed__side">
-                <span class="home-feed__idx">{String(i + 1).padStart(2, '0')}</span>
                 <span class="home-feed__date">{formatEditorialDate(post.data.date)}</span>
               </div>
               <div class="home-feed__body">
@@ -82,7 +71,6 @@ const nowUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year:
 
   <section class="container--narrow home-section" id="building">
     <div class="home-sectionhead reveal">
-      <span class="home-sectionhead__num">02</span>
       <span class="home-sectionhead__label">Building</span>
       <span class="home-sectionhead__rule"></span>
       <a href="/projects/" class="home-sectionhead__link">All projects →</a>
@@ -103,16 +91,15 @@ const nowUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year:
 
   <section class="container--narrow home-section" id="now">
     <div class="home-sectionhead reveal">
-      <span class="home-sectionhead__num">03</span>
       <span class="home-sectionhead__label">Now</span>
       <span class="home-sectionhead__rule"></span>
       <a href="/now/" class="home-sectionhead__link">Updated {nowUpdated} →</a>
     </div>
     <ul class="home-now">
-      {now.map((item) => (
+      {nowSections.map((section) => (
         <li class="reveal">
-          <span class="home-now__kind">{item.kind}</span>
-          <span class="home-now__text">{item.text}</span>
+          <span class="home-now__kind">{section.kind}</span>
+          <span class="home-now__text">{section.summary}</span>
         </li>
       ))}
     </ul>

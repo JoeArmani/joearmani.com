@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHeader from '../components/PageHeader.astro';
 ---
 
 <BaseLayout
@@ -12,11 +13,11 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
       { label: "Home", href: "/" },
       { label: "Uses" },
     ]} />
-    <div class="page-header">
-      <p class="page-header__kicker">Tools &amp; stack</p>
-      <h1>What I Use</h1>
-      <p class="page-header__subtitle">Tools, stack, and workflows behind what I build. Updated as things change.</p>
-    </div>
+    <PageHeader
+      kicker="Tools & stack"
+      title="What I Use"
+      subtitle="Tools, stack, and workflows behind what I build. Updated as things change."
+    />
     <div class="about-content">
       <h2>Development</h2>
       <ul>

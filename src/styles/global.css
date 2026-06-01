@@ -1,7 +1,7 @@
 /* ===== Design System — joearmani.com =====
  *
- * Tokens are CSS custom properties on :root (dark, default) and
- * [data-theme="light"]. Theme is set on <html> via inline script in
+ * Tokens are CSS custom properties on :root (light, default) and
+ * [data-theme="dark"]. Theme is set on <html> via inline script in
  * BaseLayout.astro to avoid FOUC. localStorage persists user choice.
  *
  * Color families:
@@ -61,53 +61,8 @@
 
 /* --- Custom Properties --- */
 
-/* Dark theme (default) */
-:root, [data-theme="dark"] {
-  --bg-primary: #0F1117;
-  --bg-surface: #161B22;
-  --bg-surface-hover: #1C2333;
-  --bg-code: #0D1117;
-
-  --text-primary: #E6EDF3;
-  --text-secondary: #8B949E;
-  --text-muted: #7D8590;
-
-  --accent-blue: #3B82F6;
-  --accent-blue-hover: #60A5FA;
-  --accent-amber: #F59E0B;
-  --accent-warm: #E8913A;
-  --accent-green: #22C55E;
-
-  --border: #21262D;
-  --border-light: #30363D;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-
-  --nav-bg: rgba(15, 17, 23, 0.85);
-  --tag-blue-bg: rgba(59, 130, 246, 0.1);
-  --tag-blue-border: rgba(59, 130, 246, 0.2);
-  --tag-amber-bg: rgba(245, 158, 11, 0.1);
-  --tag-amber-border: rgba(245, 158, 11, 0.2);
-  --tag-warm-bg: rgba(232, 145, 58, 0.1);
-  --tag-warm-border: rgba(232, 145, 58, 0.2);
-  --tag-green-bg: rgba(34, 197, 94, 0.08);
-  --tag-green-border: rgba(34, 197, 94, 0.15);
-  --tag-neutral-bg: rgba(139, 148, 158, 0.1);
-  --tag-neutral-border: rgba(139, 148, 158, 0.2);
-  --btn-primary-bg: #2563EB;
-  --btn-primary-hover: #3B82F6;
-  --focus-ring: rgba(59, 130, 246, 0.2);
-
-  --hero-gradient-1: rgba(232, 145, 58, 0.10);   /* Warm — primary ambient tone */
-  --hero-gradient-2: rgba(59, 130, 246, 0.07);   /* Blue — secondary accent */
-  --hero-gradient-3: rgba(34, 197, 94, 0.04);    /* Green — quiet third */
-
-  color-scheme: dark;
-}
-
-/* Light theme */
+/* Light theme (default) */
+:root,
 [data-theme="light"] {
   --bg-primary: #F8F9FB;           /* Off-white page, so white cards pop */
   --bg-surface: #FFFFFF;           /* White cards float above the page */
@@ -126,6 +81,8 @@
 
   --border: #D0D7DE;
   --border-light: #C8CED5;
+  --hero-grid: var(--border-light);   /* Hero graph-paper lines */
+  --hero-grid-opacity: 0.5;
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -151,6 +108,54 @@
   --hero-gradient-3: rgba(22, 163, 74, 0.05);    /* Green — quiet third */
 
   color-scheme: light;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-primary: #0F1117;
+  --bg-surface: #161B22;
+  --bg-surface-hover: #1C2333;
+  --bg-code: #0D1117;
+
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted: #7D8590;
+
+  --accent-blue: #3B82F6;
+  --accent-blue-hover: #60A5FA;
+  --accent-amber: #F59E0B;
+  --accent-warm: #E8913A;
+  --accent-green: #22C55E;
+
+  --border: #21262D;
+  --border-light: #30363D;
+  --hero-grid: #3F4A57;               /* Brighter than border-light so the grid reads on near-black */
+  --hero-grid-opacity: 0.8;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --nav-bg: rgba(15, 17, 23, 0.85);
+  --tag-blue-bg: rgba(59, 130, 246, 0.1);
+  --tag-blue-border: rgba(59, 130, 246, 0.2);
+  --tag-amber-bg: rgba(245, 158, 11, 0.1);
+  --tag-amber-border: rgba(245, 158, 11, 0.2);
+  --tag-warm-bg: rgba(232, 145, 58, 0.1);
+  --tag-warm-border: rgba(232, 145, 58, 0.2);
+  --tag-green-bg: rgba(34, 197, 94, 0.08);
+  --tag-green-border: rgba(34, 197, 94, 0.15);
+  --tag-neutral-bg: rgba(139, 148, 158, 0.1);
+  --tag-neutral-border: rgba(139, 148, 158, 0.2);
+  --btn-primary-bg: #2563EB;
+  --btn-primary-hover: #3B82F6;
+  --focus-ring: rgba(59, 130, 246, 0.2);
+
+  --hero-gradient-1: rgba(232, 145, 58, 0.10);   /* Warm — primary ambient tone */
+  --hero-gradient-2: rgba(59, 130, 246, 0.07);   /* Blue — secondary accent */
+  --hero-gradient-3: rgba(34, 197, 94, 0.04);    /* Green — quiet third */
+
+  color-scheme: dark;
 }
 
 /* Shared variables (don't change with theme) */
@@ -396,6 +401,7 @@ section {
 .nav__hamburger svg {
   width: 24px;
   height: 24px;
+  display: block;        /* avoid inline baseline gap so the icon centers with the logo + toggle */
 }
 
 @media (max-width: 640px) {
@@ -429,11 +435,11 @@ section {
 /* --- Cards --- */
 .card {
   position: relative;
-  background: var(--bg-surface);
+  background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 1.5rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
   cursor: pointer;
 }
 
@@ -452,18 +458,11 @@ section {
   z-index: 2;
 }
 
+/* Flat hover: warm hairline + subtle surface fill + lift (matches Home cards) */
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--border-light);
-}
-
-.card--post {
-  border-top: 2px solid var(--accent-blue);
-}
-
-.card--project {
-  border-top: 2px solid var(--accent-warm);
+  background: var(--bg-surface);
+  border-color: var(--accent-warm);
 }
 
 .card__title {
@@ -628,15 +627,7 @@ section {
   background: var(--bg-surface-hover);
 }
 
-/* Light mode: cards and subscribe box get resting shadows for depth */
-[data-theme="light"] .card {
-  box-shadow: var(--shadow-sm);
-}
-
-[data-theme="light"] .card:hover {
-  box-shadow: var(--shadow-lg);
-}
-
+/* Light mode: the Subscribe CTA keeps a resting shadow for depth (browse cards stay flat). */
 [data-theme="light"] .subscribe {
   box-shadow: var(--shadow-sm);
 }
@@ -714,8 +705,16 @@ section {
 
 .footer__links a:hover { color: var(--accent-blue); }
 
-.footer__status {
+/* The three closing lines share one grid cell so their spacing is controlled
+   here, not by the footer grid's 2rem row-gap. */
+.footer__meta {
   grid-column: 1 / -1;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer__status {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -725,8 +724,6 @@ section {
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
 }
 
 .footer__status-dot {
@@ -740,20 +737,16 @@ section {
 }
 
 .footer__tagline {
-  grid-column: 1 / -1;
-  text-align: center;
   color: var(--text-secondary);
   font-size: 0.9rem;
   font-weight: 500;
-  padding-top: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 .footer__copyright {
-  grid-column: 1 / -1;
-  text-align: center;
   color: var(--text-muted);
   font-size: 0.8rem;
+  margin-top: 0.3rem;
 }
 
 @media (max-width: 640px) {
@@ -773,16 +766,17 @@ section {
   overflow: hidden;
 }
 
-/* Graph-paper grid, faded out toward the edges. Uses the theme border color
-   so it reads in both light and dark. */
+/* Graph-paper grid, faded out toward the edges. Line color and opacity come
+   from per-theme tokens (--hero-grid / --hero-grid-opacity) so dark mode can
+   read more strongly than light. */
 .hero__paper {
   position: absolute;
   inset: 1.5rem 2rem;
   background-image:
-    linear-gradient(var(--border-light) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+    linear-gradient(var(--hero-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
   background-size: 34px 34px;
-  opacity: 0.5;
+  opacity: var(--hero-grid-opacity, 0.5);
   pointer-events: none;
   -webkit-mask-image: radial-gradient(ellipse 70% 75% at center, #000 45%, transparent 100%);
   mask-image: radial-gradient(ellipse 70% 75% at center, #000 45%, transparent 100%);
@@ -843,39 +837,11 @@ section {
   margin-top: 2rem;
 }
 
-/* Corner crosshair ticks — technical-drawing edge. */
-.hero__corner {
-  position: absolute;
-  width: 13px;
-  height: 13px;
-}
-.hero__corner::before,
-.hero__corner::after {
-  content: '';
-  position: absolute;
-  background: var(--text-primary);
-}
-.hero__corner::before { left: 0; right: 0; height: 1.5px; }
-.hero__corner::after { top: 0; bottom: 0; width: 1.5px; }
-.hero__corner--tl { top: 1.5rem; left: 2rem; }
-.hero__corner--tl::before { top: 0; }
-.hero__corner--tl::after { left: 0; }
-.hero__corner--tr { top: 1.5rem; right: 2rem; }
-.hero__corner--tr::before { top: 0; }
-.hero__corner--tr::after { right: 0; }
-.hero__corner--bl { bottom: 1.5rem; left: 2rem; }
-.hero__corner--bl::before { bottom: 0; }
-.hero__corner--bl::after { left: 0; }
-.hero__corner--br { bottom: 1.5rem; right: 2rem; }
-.hero__corner--br::before { bottom: 0; }
-.hero__corner--br::after { right: 0; }
-
 @media (max-width: 640px) {
   .hero { padding: 4rem 1.5rem 3.5rem; }
-  .hero__corner { display: none; }
 }
 
-/* --- Homepage Sections (Forge: numbered heads, airy lists) --- */
+/* --- Homepage Sections (Forge: section heads, airy lists) --- */
 .home-section {
   padding-top: 0;
   padding-bottom: 0;
@@ -894,7 +860,6 @@ section {
   text-transform: uppercase;
 }
 
-.home-sectionhead__num { font-weight: 600; color: var(--text-secondary); }
 .home-sectionhead__label { font-weight: 600; color: var(--text-primary); }
 .home-sectionhead__rule { flex: 1; }
 .home-sectionhead__link {
@@ -905,7 +870,7 @@ section {
 }
 .home-sectionhead__link:hover { color: var(--accent-warm); }
 
-/* Writing — numbered feed */
+/* Writing — feed */
 .home-feed { list-style: none; padding: 0; margin: 0; }
 .home-feed__entry { border-bottom: 1px solid var(--border); }
 
@@ -922,14 +887,6 @@ section {
 .home-feed__link:hover { padding-left: 0.5rem; }
 
 .home-feed__side { display: flex; flex-direction: column; gap: 0.35rem; }
-.home-feed__idx {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--border-light);
-  line-height: 1;
-}
-.home-feed__link:hover .home-feed__idx { color: var(--accent-warm); }
 .home-feed__date { font-family: var(--font-code); font-size: 0.75rem; color: var(--text-muted); }
 
 .home-feed__title {
@@ -1074,7 +1031,7 @@ section {
 /* --- Post Grid --- */
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
@@ -1097,11 +1054,13 @@ section {
 /* --- Project List --- */
 .project-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
+/* Single column on mobile (matches the home Building grid). */
 @media (max-width: 640px) {
+  .post-grid,
   .project-list {
     grid-template-columns: 1fr;
   }
@@ -1263,11 +1222,6 @@ section {
 }
 
 /* --- Page Header --- */
-.page-header {
-  padding-top: 3rem;
-  padding-bottom: 1rem;
-}
-
 .page-header__subtitle {
   color: var(--text-secondary);
   font-size: 1.05rem;
@@ -1334,22 +1288,6 @@ section {
 }
 
 /* --- About Page --- */
-.about-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.about-headshot {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center 20%;
-  margin-bottom: 1.5rem;
-  border: 3px solid var(--border);
-  box-shadow: var(--shadow-md);
-}
-
 .about-content p {
   margin-bottom: 1.5rem;
   color: var(--text-secondary);
@@ -1691,10 +1629,7 @@ section {
 .breadcrumbs a:hover { color: var(--accent-warm); }
 .breadcrumbs__separator { color: var(--accent-warm); }
 
-/* Cards — uniform warm top hairline, mono meta, warm hover */
-.card--post,
-.card--project { border-top: 2px solid var(--accent-warm); }
-.card:hover { border-color: var(--accent-warm); }
+/* Cards — flat (hairline + transparent fill), mono meta, warm on hover/focus */
 .card__title a:hover { color: var(--accent-warm); }
 .card__meta {
   font-family: var(--font-code);
@@ -1764,28 +1699,43 @@ section {
   margin-bottom: 1.75rem;
 }
 
-/* About — warm bar on section headings, square headshot edge */
+/* About / Uses — section headings reuse the site's mono section-head label +
+   rule (matches .home-sectionhead and .related-posts h2). Square headshot edge below. */
 .about-content h2 {
-  position: relative;
-  padding-left: 0.9rem;
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--text-primary);
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  clear: both;                    /* start each section below the floated headshot */
 }
-.about-content h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.35em;
-  bottom: 0.25em;
-  width: 4px;
-  border-radius: 2px;
-  background: var(--accent-warm);
-}
+
+/* About headshot — floats beside the opening paragraphs (matches the left-aligned header). */
 .about-headshot {
-  border-radius: var(--radius-lg);
+  float: right;
   width: 220px;
   height: 220px;
+  margin: 0.25rem 0 1.25rem 1.75rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
+  object-fit: cover;
+  object-position: center 20%;
+  box-shadow: var(--shadow-md);
+  shape-margin: 1rem;
 }
 
 @media (max-width: 640px) {
   .page-header { padding-top: 2rem; }
+  .about-headshot {
+    float: none;
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1.5rem;
+  }
 }
