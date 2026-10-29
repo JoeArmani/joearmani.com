@@ -4,3 +4,6 @@
   Permissions-Policy: accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
+
+/apps/dell-backups/*
+  X-Robots-Tag: noindex

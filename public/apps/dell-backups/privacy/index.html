@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy policy | Dell Trading Backups</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="How Dell Trading Backups accesses, uses, stores, and retains Google Drive backup data.">
+<link rel="canonical" href="https://joearmani.com/apps/dell-backups/privacy/">
+<link rel="stylesheet" href="/apps/dell-backups/style.css">
+</head>
+<body>
+<header><a href="https://joearmani.com/">Joe Armani</a><nav aria-label="App information"><a href="/apps/dell-backups/">App</a><a href="/apps/dell-backups/privacy/" aria-current="page">Privacy</a><a href="/apps/dell-backups/terms/">Terms</a></nav></header>
+<main><p class="eyebrow">Dell Trading Backups</p>
+<h1>Privacy policy</h1>
+<p class="meta">Effective October 29, 2026 · Maintained by Joe Armani</p>
+<h2>Purpose and account access</h2>
+<p>Dell Trading Backups is my personal Windows backup utility. It uses Google Drive to store selected local files and to check that uploaded archives can be downloaded and restored.</p>
+<p>The utility requests the <code>https://www.googleapis.com/auth/drive.file</code> permission. It creates a dedicated backup folder, uploads archives and verification records, and reads those files back. It uses folder identifiers, file metadata, hashes, and available account storage to locate backups, check transfers, and decide whether there is room for another upload.</p>
+<h2>Data stored</h2>
+<p>Archives contain the configured local files and source code. Their manifests record original file paths, file sizes, hashes, and database snapshot details. Account-pairing records contain the configured account email and a workstation identifier. Local and cloud receipts record backup times and verification results.</p>
+<p>Archives and verification records are stored in the Google Drive account authorized by the operator. Temporary archives, downloaded restore copies, and operational logs are stored on the Windows workstation. Google authorization credentials are saved in a local directory protected by Windows filesystem permissions.</p>
+<h2>Use and sharing</h2>
+<p>Automated backup runs transfer backup contents and related metadata between the Windows workstation and the authorized Google Drive account. The utility uses that information for backup, verification, and recovery. It does not send backup contents to this public information website, advertising networks, data brokers, or AI training services.</p>
+<p>Google API data is used for the functions described here, consistent with the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including its Limited Use requirements. Google processes data stored in Drive under its own terms and privacy policies.</p>
+<h2>Retention and deletion</h2>
+<p>Cloud archives remain in Drive until the operator deletes them. The utility does not automatically prune cloud backups or delete original source files. After successful verification, it removes temporary local archives and restored copies from that operation. Failed-operation files and diagnostic logs may remain on the workstation for troubleshooting.</p>
+<p>The account owner can delete the backup folder through Google Drive and remove local backup records using the workstation’s file tools. Deletion within Google Drive is subject to Google’s trash and retention behavior.</p>
+<h2>Removing access</h2>
+<p>The account owner can revoke the utility’s access from <a href="https://myaccount.google.com/connections">Google Account connections</a>. Revocation prevents future authenticated transfers. Existing archives remain in the owner’s Drive account until deleted.</p>
+<h2>This information website</h2>
+<p>These pages explain the utility and its policies. The website’s hosting provider may process normal web-request information to deliver the pages and maintain service. Backup files and Google authorization credentials are not uploaded to the website.</p>
+<h2>Contact and changes</h2>
+<p>Contact Joe Armani at <a href="mailto:joe@joearmani.com">joe@joearmani.com</a> with questions about this utility or its data handling. Material changes to its Google data use will be reflected in this policy and presented for renewed consent before that changed use begins.</p></main>
+<footer><p>Dell Trading Backups · A personal utility by Joe Armani</p><p><a href="mailto:joe@joearmani.com">joe@joearmani.com</a></p></footer>
+</body>
+</html>

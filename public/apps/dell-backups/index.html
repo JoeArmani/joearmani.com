@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dell Trading Backups | Joe Armani</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Personal Windows backups stored in the owner’s Google Drive account, with a downloaded restore check.">
+<link rel="canonical" href="https://joearmani.com/apps/dell-backups/">
+<link rel="stylesheet" href="/apps/dell-backups/style.css">
+</head>
+<body>
+<header><a href="https://joearmani.com/">Joe Armani</a><nav aria-label="App information"><a href="/apps/dell-backups/" aria-current="page">App</a><a href="/apps/dell-backups/privacy/">Privacy</a><a href="/apps/dell-backups/terms/">Terms</a></nav></header>
+<main><p class="eyebrow">A personal utility by Joe Armani</p>
+<h1>Dell Trading Backups</h1>
+<p class="lead">Selected files from my Windows computer, backed up to my own Google Drive account and checked by restoring them.</p>
+<p>I built this utility to preserve the files and source code used in my trading research. It runs on my Windows workstation. After uploading an archive, it downloads the archive again and restores its files into a separate folder to check file hashes and database integrity.</p>
+<h2>How it works</h2>
+<ol><li>The utility copies explicitly configured folders and makes consistent SQLite database copies.</li><li>It uploads a versioned archive and its verification records to a dedicated folder in the Google Drive account I authorize.</li><li>It downloads and restores the archive locally. A backup is recorded as verified only after those checks pass.</li></ol>
+<h2>Google account access</h2>
+<p>The utility requests Google Drive’s <code>drive.file</code> permission and works with the files it creates in its backup folder. It also checks available account storage before uploading. I approve account access through Google’s sign-in screen.</p>
+<h2>Personal use</h2>
+<p>Dell Trading Backups is a personal utility I maintain for my own workstation. This website provides app information and policies. The backup itself runs on Windows and stores its archives in the authorized Google Drive account.</p>
+<p>Read the <a href="/apps/dell-backups/privacy/">privacy policy</a> for details about account access, storage, retention, and removing access, or the <a href="/apps/dell-backups/terms/">terms of use</a>.</p></main>
+<footer><p>Dell Trading Backups · A personal utility by Joe Armani</p><p><a href="mailto:joe@joearmani.com">joe@joearmani.com</a></p></footer>
+</body>
+</html>
