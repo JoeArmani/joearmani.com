@@ -1,34 +1,32 @@
 ---
 title: "CourtMix"
-description: "A local racquet-sports matchmaking app, rebuilt ground-up from Racquet Rivalry (2022) on my agentic development system."
-status: "Rebuilding"
-tags: ["Flutter", "Firebase", "GCP", "Mobile"]
-order: 3
+description: "A live racquet-sports court directory with 5,000+ verified places across four states, powered by an AI extraction and verification pipeline."
+status: "Active"
+tags: ["Astro", "Firebase", "Cloudflare", "AI Pipeline", "Data"]
+order: 1
 featured: true
+links:
+  live: "https://courtmix.net"
 ---
 
 ## Overview
 
-CourtMix is the ground-up rebuild of Racquet Rivalry, my first mobile app. It connects local tennis, pickleball, table tennis, and other racquet sports players. Users create profiles with their skill level and preferences, then find and schedule matches with compatible local players.
+CourtMix is a live web directory for tennis and pickleball players at [courtmix.net](https://courtmix.net), currently listing 5,000+ verified places across four states (Colorado, Kansas, Michigan, and Arizona) and expanding nationwide.
 
-## The Original Build
+The site is built on Astro and Cloudflare on top of a Firebase backend. Visitors can search and browse local courts right away with no account wall or paywall.
 
-Racquet Rivalry was built with Flutter for cross-platform iOS/Android deployment, with Firebase (Firestore, Auth, Cloud Functions) as the backend. Launched November 2022, it reached ~1,900 downloads on Google Play before being sunset for the rebuild.
+## Data and Verification Pipeline
 
-## Why Rebuild?
+Public court data is messy. Municipal park PDFs, city recreation tables, club pages, and open map records regularly disagree on surface types, lighting, public access, or whether a facility is actually free to play.
 
-The original app was my first major mobile project, built when I was a junior developer. Since then: three years of production engineering at NCI, a Master's in AI/ML, and the agentic development system I now use daily.
+To keep listings honest at multi-state scale, CourtMix uses an ingestion workflow built around AI extraction + independent verification, with human approval on merges and hard-to-undo changes. Extraction passes normalize raw municipal and web sources into structured candidates, an independent verifier cross-checks key claims against source text, and record merges, ownership claims, and production writes wait for explicit human sign-off.
 
-I'm using the rebuild to apply the agentic development system I've built, and documenting the whole process on the blog.
+## From Racquet Rivalry to CourtMix
 
-## What's Changing
+CourtMix grew out of Racquet Rivalry, my first mobile app. I built Racquet Rivalry with Flutter and Firebase in 2022 as a local matchmaking app for tennis, pickleball, and table tennis players, reaching roughly 1,900 downloads on Google Play before running into the classic local marketplace cold-start problem.
 
-- New name: CourtMix
-- Ground-up architecture redesign informed by production engineering experience
-- AI-augmented development workflow using the agentic development system
-- New features the original app never had
-- Focus on solving the cold-start problem that limited initial traction
+Instead of throwing away that foundation, its Firebase backend evolved into the data and API layer behind the live CourtMix web directory. The mobile matchmaking experience remains on the future roadmap, built on top of a directory that already solves local discovery on day one.
 
 ## Status
 
-Active rebuild in progress. Follow the build-in-public series on the blog for detailed progress updates.
+Live and actively expanding coverage state by state at [courtmix.net](https://courtmix.net).

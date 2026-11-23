@@ -22,40 +22,40 @@ export interface NowSection {
 }
 
 /** Human-readable last-updated label, shown on both the homepage and /now. */
-export const nowUpdated = 'May 2026';
+export const nowUpdated = 'November 2026';
 
 export const nowSections: NowSection[] = [
   {
     kind: 'Building',
-    summary: 'CourtMix, the ground-up rebuild of Racquet Rivalry, on the agentic dev system.',
+    summary: 'CourtMix (5,000+ verified places across four states), multi-agent workflows, and writing more regularly.',
     items: [
-      { lead: 'CourtMix', body: 'Ground-up Racquet Rivalry rebuild using the agentic development system. Moving significantly faster than the original build.' },
-      { lead: 'Custom email system', body: 'A Claude + SendGrid pipeline for automated, personalized outbound email.' },
-      { lead: 'This website', body: 'joearmani.com is always in progress. Always something to ship.' },
-      { lead: 'Agentic development system', body: 'Refining the spec/test-driven workflow that runs all the projects above.' },
+      { lead: 'CourtMix', body: 'Live web directory at courtmix.net with 5,000+ verified places across four states, powered by AI extraction and independent verification with human approval on merges and hard-to-undo changes.' },
+      { lead: 'Multi-agent workflows', body: 'Running Claude Code, Codex, and my personal OpenClaw setup across product builds, content workflows, and ops.' },
+      { lead: 'Private systematic trading tooling', body: 'Continuing quiet work on ES futures execution and early options-selling tools.' },
+      { lead: 'This website', body: 'Refreshing joearmani.com and tightening my publishing pipeline so writing ships alongside product work.' },
     ],
   },
   {
     kind: 'Working',
     summary: 'Software Engineer at NCI, building data tools for the Connect for Cancer Prevention Study.',
     items: [
-      { lead: 'Senior Software Engineer at NCI', body: 'Building data tools for the Connect for Cancer Prevention Study. Three years in and the work still feels meaningful.' },
+      { lead: 'Senior Software Engineer at NCI', body: 'Building data tools for the Connect for Cancer Prevention Study (via Cirrus Lake Solutions). Three-plus years in and the work still feels meaningful.' },
     ],
   },
   {
     kind: 'Learning',
-    summary: 'AI tooling and agentic workflows. The pace right now is hard to overstate.',
+    summary: 'Verification pipelines, deterministic guardrails around LLMs, and visual technical storytelling.',
     items: [
-      { lead: 'AI tooling and agentic workflows', body: 'Following closely. The pace right now is hard to overstate.' },
-      { lead: 'Anthropic, OpenAI, and the broader ecosystem', body: "Keeping tabs on what's shipping and what's worth testing." },
+      { lead: 'Applied AI reliability', body: 'Testing where AI extraction and independent verification hold up against messy real-world data, and where deterministic checks have to own the math.' },
+      { lead: 'Short-form technical content', body: 'Experimenting with diagrams, visual explanations, and short-form video formats around real AI/ML and engineering topics.' },
     ],
   },
   {
     kind: 'Training',
-    summary: 'Century ride prep: a 100-mile ride in the Taos mountains this summer.',
+    summary: "CorePower yoga and sculpt, plus early prep for Colorado's Triple Bypass next summer.",
     items: [
-      { lead: 'Hot yoga and sculpt', body: 'Regular classes at CorePower. Non-negotiable part of the week.' },
-      { lead: 'Century ride prep', body: 'Training for a 100-mile ride in the Taos mountains this summer.' },
+      { lead: 'Hot yoga and sculpt', body: 'Regular classes at CorePower. Still a non-negotiable part of the week.' },
+      { lead: 'Triple Bypass prep', body: "Finished the full Enchanted Circle century ride in Taos this past summer, and now planning and training for Colorado's Triple Bypass next summer." },
     ],
   },
 ];
