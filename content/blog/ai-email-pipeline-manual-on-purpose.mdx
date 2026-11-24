@@ -6,6 +6,7 @@ tags: ["ai-ml", "engineering", "build-in-public", "python"]
 draft: false
 featured: false
 readingTime: 12
+lastModified: 2026-11-22
 ---
 
 import ClsEmailPipelineDiagram from '../../src/components/diagrams/ClsEmailPipelineDiagram.astro';
@@ -33,7 +34,7 @@ The manual path costs less and catches more. A human Claude session with Sonnet 
 
 Full automation would need to catch all of those things programmatically. Which means more code, more edge cases, more maintenance. For 450 emails a week, the economics don't justify it.
 
-There's a Pareto angle here that's easy to miss. The manual-first design captures roughly 80% of what full automation would give me (consistent voice, personalization that holds up, reliable delivery, usable reporting) for about 20% of the engineering effort. The remaining 20% of the value, the part full automation actually buys you, would cost 80% of the build. Retries, JSON repair, drift detection, same-institution collision guards, structural fuzzing, a feedback loop for bad generations. All doable. None of it free. At 450 emails a week, I'd be writing a framework to replace 30 minutes of daily review with something I probably wouldn't trust as much as the review itself.
+There's a Pareto angle here that's easy to miss. The manual-first design captures roughly 80% of what full automation would give me (consistent voice, personalization that holds up, reliable delivery, usable reporting) for about 20% of the engineering effort. The remaining 20% of the value, the part full automation actually buys you, would cost 80% of the build. Retries, JSON repair, drift detection, same-institution collision guards, structural fuzzing, a feedback loop for bad generations. All doable. None of it free. At 450 emails a week, I'd be writing a framework to replace 15 minutes of daily review with something I probably wouldn't trust as much as the review itself.
 
 That's not an argument against automation in general. It's an argument that the automation boundary should be chosen deliberately, not assumed. Draw it at the point where your review time becomes the bottleneck instead of the safety net. Then refine it over time. Each batch teaches me something: a new source of drift, a rule that needs tightening, a personalization pattern that falls flat. I fold those findings back into SKILL.md after every pass. The manual loop isn't just cheaper. It's a feedback loop that makes the system better every week.
 
@@ -101,9 +102,9 @@ The generation prompt tells Sonnet which tier to target for each recipient based
 
 ## What I've Learned
 
-**Manual doesn't mean blocking.** The pipeline is manual, but I'm not sitting in front of it for hours. A day's batch of about 90 emails involves maybe 30 minutes of actual attention from me, spread across the day. I kick off a Sonnet generation session, switch to other work while it runs, come back to paste the output into the Opus review, switch to other work again, then do my final review and send when I'm ready. The Claude sessions are doing the heavy lifting. I'm just the human gate at the critical transitions.
+**Manual doesn't mean blocking.** The pipeline is manual, but I'm not sitting in front of it for hours. A day's batch of about 90 emails started around 30 minutes of actual attention from me spread across the day, and settled down to roughly 15 minutes once the review rules stabilized. I kick off a Sonnet generation session, switch to other work while it runs, come back to paste the output into the Opus review, switch to other work again, then do my final review and send when I'm ready. The Claude sessions are doing the heavy lifting. I'm just the human gate at the critical transitions.
 
-That multitasking pattern is the thing I keep coming back to across every AI system I build. The productivity win isn't that one agent is fast. It's that multiple agents can be running, on different projects, in different contexts, while I'm giving my attention to whichever one needs a decision right now. I'll write more about this soon — the shift from "wait for the AI" to "the AI waits for me" is the real unlock.
+That multitasking pattern is the thing I keep coming back to across every AI system I build. The productivity win isn't that one agent is fast. It's that multiple agents can be running, on different projects, in different contexts, while I'm giving my attention to whichever one needs a decision right now. I'll write more about this soon. The shift from "wait for the AI" to "the AI waits for me" is where the real time savings come from.
 
 **State machines are underrated for AI workflows.** Every AI pipeline I've built ends up with the same pattern: explicit states, persisted transitions, human gates at the critical points. The temptation is always to make it end-to-end. The reality is that end-to-end means you don't notice problems until they've already shipped.
 
@@ -113,7 +114,7 @@ That multitasking pattern is the thing I keep coming back to across every AI sys
 
 ## Where This Goes Next
 
-Manual-first is right today. It isn't the plan forever. Trying to scale the current approach would be absurd. At some point, the Pareto math flips. The part that feels expensive now — retries, JSON repair, drift detection, same-institution collision guards, a feedback loop for bad generations — is exactly what gets refined with every new generation.
+Manual-first is right today. It isn't the plan forever. Trying to scale the current approach would be absurd. At some point, the Pareto math flips. The part that feels expensive now (retries, JSON repair, drift detection, same-institution collision guards, a feedback loop for bad generations) is exactly what gets refined with every new generation.
 
 So the long-term plan is full automation, but it's earned automation. Every piece I hand over to the system should be one where I've personally seen enough batches to know what the failure modes actually look like. That's the whole reason the pipeline is manual-first. By the time I automate the Opus review, I'll have opinions about what Opus reliably catches and what it misses, and those opinions will be grounded in batches I actually read, not in what I imagine happens.
 

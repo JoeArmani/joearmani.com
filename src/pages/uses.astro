@@ -41,8 +41,8 @@ import PageHeader from '../components/PageHeader.astro';
 
       <h2>Infrastructure</h2>
       <ul>
-        <li><strong>Firebase / GCP + BigQuery</strong>: Backend for Racquet Rivalry and several NCI systems. Firestore, Cloud Functions, Authentication. BigQuery for large-scale data analysis.</li>
-        <li><strong>Cloudflare Pages</strong>: Hosting for this site. Push to GitHub, it deploys. Global CDN included. Hard to beat for static sites.</li>
+        <li><strong>Firebase / GCP + BigQuery</strong>: Backend for CourtMix (evolved from Racquet Rivalry) and several NCI systems. Firestore, Cloud Functions, Authentication, plus BigQuery for large-scale data analysis.</li>
+        <li><strong>Cloudflare Workers</strong>: Hosting and edge routing for this site and CourtMix. Push to GitHub, Wrangler deploys globally with zero origin maintenance.</li>
         <li><strong>Buttondown</strong>: Newsletter platform. Minimal, respects subscribers, no tracking bloat. Exactly what I wanted.</li>
       </ul>
 
@@ -50,6 +50,7 @@ import PageHeader from '../components/PageHeader.astro';
       <ul>
         <li><strong>Agentic development system</strong>: A spec-driven, test-first workflow I built for shipping features with AI agents. The agent gets a spec and writes tests before touching implementation. Still refining it.</li>
         <li><strong>Multi-agent coding</strong>: Running multiple Claude Code and Codex sessions on different parts of a codebase simultaneously. Works well for independent modules, less well for tightly coupled code.</li>
+        <li><strong>Personal OpenClaw setup</strong>: Source-controlled multi-agent ops and publishing workflows running on Docker Compose with durable filesystem state and explicit approval guardrails.</li>
         <li><strong>Voice and content system</strong>: I built a reusable skill that enforces my writing voice across all content. Blog posts, project descriptions, and this site's copy all run through it for consistency.</li>
         <li><strong>Build-in-public</strong>: I write about what I'm building as I build it, including the parts that break. The blog and newsletter are the output.</li>
       </ul>

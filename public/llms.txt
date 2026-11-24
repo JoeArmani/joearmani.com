@@ -1,0 +1,33 @@
+# Joe Armani
+
+> Senior Software Engineer at the National Cancer Institute (via Cirrus Lake Solutions) with an M.S. in AI/ML from Colorado State University Global (4.0 GPA). Spent eight years building, running, and selling Armani Fine Woodworking, a hardwood manufacturing and e-commerce business, before moving into software and AI engineering.
+
+## Core Pages
+
+- [Home](https://joearmani.com/): Overview of current writing, featured projects, and current focus.
+- [About](https://joearmani.com/about/): Background, credentials, NCI work, and career transition from manufacturing to software.
+- [Blog](https://joearmani.com/blog/): Technical writing on production AI systems, agentic workflows, and engineering judgment.
+- [Projects](https://joearmani.com/projects/): Active products, developer tooling, and engineering case studies.
+- [Now](https://joearmani.com/now/): Monthly snapshot of current focus and projects.
+- [Uses](https://joearmani.com/uses/): Tools, languages, infrastructure, and daily workflows.
+- [RSS Feed](https://joearmani.com/rss.xml): Full feed of published articles.
+
+## Published Writing
+
+- [Memory, Routing, and Bounded Ownership in Agent Teams](https://joearmani.com/blog/memory-routing-and-bounded-ownership-in-agent-teams/) (2026-05-02): Why multi-agent systems scale through scoped memory, specialist lanes, explicit routing, and operator-visible handoffs rather than shared global context.
+- [Operator Control for Agentic Systems](https://joearmani.com/blog/operator-control-for-agentic-systems/) (2026-04-30): Designing agent workflows around visible task state, clear ownership, approval guardrails, and human intervention paths.
+- [I Built an AI Email Pipeline That Sends 450 Emails a Week. It's Manual on Purpose.](https://joearmani.com/blog/ai-email-pipeline-manual-on-purpose/) (2026-04-13, updated 2026-11-22): Architecture walkthrough of a B2B consulting outreach pipeline sending ~450 personalized follow-up emails per week (~90/day) with ~15 minutes of daily operator review, JSON state persistence, and `SKILL.md` voice governance.
+- [From Woodshop to Code: Eight Years of Shipping Tables Before Shipping Software](https://joearmani.com/blog/from-woodshop-to-code/) (2026-03-22): Career transition from operating a hardwood manufacturing and e-commerce business into software and AI/ML engineering.
+
+## Active Projects
+
+- [CourtMix](https://joearmani.com/projects/courtmix/) ([courtmix.net](https://courtmix.net)): Live racquet-sports court directory listing 5,000+ verified places across four states (Colorado, Kansas, Michigan, and Arizona), powered by AI extraction and independent verification with human approval on merges and hard-to-undo changes.
+- [Agentic Development System](https://joearmani.com/projects/agentic-dev-system/): Spec-driven, test-first multi-agent workflow built around `AGENTS.md` contracts and structured code review.
+- [OpenClaw Control Plane](https://joearmani.com/projects/openclaw/): Personal, source-controlled OpenClaw setup for running multi-agent ops and publishing workflows with visible state, approval guardrails, and provider-agnostic orchestration.
+- [Connect for Cancer Prevention Study](https://joearmani.com/projects/connect-for-cancer/): Production data infrastructure at the National Cancer Institute (via Cirrus Lake Solutions) supporting a 200,000-participant prospective cancer study.
+
+## Contact
+
+- Email: joe@joearmani.com
+- GitHub: https://github.com/JoeArmani
+- LinkedIn: https://www.linkedin.com/in/joseph-armani/

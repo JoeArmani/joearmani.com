@@ -11,7 +11,9 @@
     "check": "astro check",
     "test:site": "node tests/site.test.js",
     "test:links": "node tests/links.test.js",
-    "test": "npm run test:site && npm run test:links"
+    "test": "npm run test:site && npm run test:links",
+    "export:diagrams": "node scripts/export-diagrams.mjs",
+    "lint:content": "node scripts/lint-content.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.1",

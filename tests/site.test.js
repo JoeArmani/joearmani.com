@@ -198,16 +198,15 @@ test('/uses page has Infrastructure section', () => {
     'Missing "Infrastructure" section in uses.astro');
 });
 
-test('/now page has Building section', () => {
-  const content = read('src/pages/now.astro');
-  assert(has(content, 'Building'),
-    'Missing "Building" section in now.astro');
-});
-
-test('/now page has Learning section', () => {
-  const content = read('src/pages/now.astro');
-  assert(has(content, 'Learning'),
-    'Missing "Learning" section in now.astro');
+test('/now page renders Building and Learning sections from src/data/now.ts', () => {
+  const nowPage = read('src/pages/now.astro');
+  const nowData = read('src/data/now.ts');
+  assert(has(nowPage, '../data/now'),
+    'now.astro should import sections from ../data/now');
+  assert(has(nowData, "kind: 'Building'") || has(nowData, 'kind: "Building"'),
+    'Missing "Building" section in src/data/now.ts');
+  assert(has(nowData, "kind: 'Learning'") || has(nowData, 'kind: "Learning"'),
+    'Missing "Learning" section in src/data/now.ts');
 });
 
 test('/now page has last-updated date reference', () => {
@@ -492,11 +491,13 @@ test('Giscus mounts into the placeholder container', () => {
     'Giscus script should not mount on document.body');
 });
 
-test('Light mode cards have resting shadows', () => {
-  assert(has(CSS, '[data-theme="light"] .card'),
-    'Light mode should have card-specific shadow styles');
-  assert(has(CSS, 'shadow-sm'),
-    'Light mode cards should use shadow-sm for resting state');
+test('Cards use flat hairline border and warm hover styling', () => {
+  const cardBlock = CSS.match(/\.card\s*\{[^}]*\}/)?.[0] ?? '';
+  const hoverBlock = CSS.match(/\.card:hover\s*\{[^}]*\}/)?.[0] ?? '';
+  assert(has(cardBlock, 'border: 1px solid var(--border)'),
+    '.card should use a 1px hairline border');
+  assert(has(hoverBlock, 'background: var(--bg-surface)') && has(hoverBlock, 'border-color: var(--accent-warm)'),
+    '.card:hover should use --bg-surface and --accent-warm');
 });
 
 test('Light mode bg-surface is white (#FFFFFF) for card depth', () => {
@@ -629,15 +630,15 @@ test('Blog posts have data attributes for search', () => {
     'Blog post cards should have data-description attribute for search');
 });
 
-test('Dark mode is default for first-time visitors', () => {
+test('Light mode is default for first-time visitors', () => {
   const content = read('src/layouts/BaseLayout.astro');
   // The inline theme script should NOT use matchMedia to detect system preference.
-  // Theme selection should still default to dark and then sync the dynamic theme-color meta tag.
+  // Theme selection should default to light and then sync the dynamic theme-color meta tag.
   const themeScript = content.match(/script is:inline[\s\S]*?<\/script>/)?.[0] || '';
   assert(lacks(themeScript, 'matchMedia'),
-    'Theme script should not use matchMedia (always default to dark)');
-  assert(has(themeScript, "savedTheme === 'light' ? 'light' : 'dark'") || has(themeScript, 'savedTheme === "light" ? "light" : "dark"'),
-    'Theme script should fall back to dark mode when no light preference is saved');
+    'Theme script should not use matchMedia (always default to light)');
+  assert(has(themeScript, "savedTheme === 'dark' ? 'dark' : 'light'") || has(themeScript, 'savedTheme === "dark" ? "dark" : "light"'),
+    'Theme script should fall back to light mode when no dark preference is saved');
   assert(has(themeScript, 'data-dynamic-theme-color'),
     'Theme script should synchronize the dynamic theme-color meta tag');
 });
@@ -779,6 +780,30 @@ test('TTF font files exist for OG image rendering', () => {
     'Missing Plus Jakarta Sans TTF for OG image rendering');
   assert(exists('public/fonts/dm-sans-400.ttf'),
     'Missing DM Sans TTF for OG image rendering');
+});
+
+test('public/llms.txt exists and lists CourtMix and joearmani.com', () => {
+  assert(exists('public/llms.txt'), 'Missing public/llms.txt');
+  const content = read('public/llms.txt');
+  assert(has(content, 'https://courtmix.net'),
+    'public/llms.txt should link to https://courtmix.net');
+  assert(has(content, 'https://joearmani.com'),
+    'public/llms.txt should reference https://joearmani.com');
+});
+
+test('CourtMix project page reflects active directory and live link', () => {
+  const content = read('content/projects/courtmix.md');
+  assert(has(content, 'status: "Active"'),
+    'CourtMix project status should be Active');
+  assert(has(content, 'https://courtmix.net'),
+    'CourtMix project should link to https://courtmix.net');
+});
+
+test('Publishing utility scripts exist', () => {
+  assert(exists('scripts/export-diagrams.mjs'),
+    'Missing scripts/export-diagrams.mjs');
+  assert(exists('scripts/lint-content.mjs'),
+    'Missing scripts/lint-content.mjs');
 });
 
 // ─── Summary ──────────────────────────────────────────────────────────────────
