@@ -6,7 +6,7 @@ tags: ["ai-ml", "engineering", "build-in-public", "python"]
 draft: false
 featured: false
 readingTime: 12
-lastModified: 2026-11-22
+lastModified: 2026-11-23
 ---
 
 import ClsEmailPipelineDiagram from '../../src/components/diagrams/ClsEmailPipelineDiagram.astro';
@@ -36,7 +36,7 @@ Full automation would need to catch all of those things programmatically. Which 
 
 There's a Pareto angle here that's easy to miss. The manual-first design captures roughly 80% of what full automation would give me (consistent voice, personalization that holds up, reliable delivery, usable reporting) for about 20% of the engineering effort. The remaining 20% of the value, the part full automation actually buys you, would cost 80% of the build. Retries, JSON repair, drift detection, same-institution collision guards, structural fuzzing, a feedback loop for bad generations. All doable. None of it free. At 450 emails a week, I'd be writing a framework to replace 15 minutes of daily review with something I probably wouldn't trust as much as the review itself.
 
-That's not an argument against automation in general. It's an argument that the automation boundary should be chosen deliberately, not assumed. Draw it at the point where your review time becomes the bottleneck instead of the safety net. Then refine it over time. Each batch teaches me something: a new source of drift, a rule that needs tightening, a personalization pattern that falls flat. I fold those findings back into SKILL.md after every pass. The manual loop isn't just cheaper. It's a feedback loop that makes the system better every week.
+I'm not against automation in general. I just want to put the automation boundary where review time actually becomes the bottleneck instead of the safety net. Until then, each batch surfaces something useful: a new source of drift, a rule that needs tightening, or a personalization angle that falls flat. Folding those findings back into SKILL.md after every pass is what makes the output sharper week over week.
 
 ## The Architecture
 
@@ -104,7 +104,7 @@ The generation prompt tells Sonnet which tier to target for each recipient based
 
 **Manual doesn't mean blocking.** The pipeline is manual, but I'm not sitting in front of it for hours. A day's batch of about 90 emails started around 30 minutes of actual attention from me spread across the day, and settled down to roughly 15 minutes once the review rules stabilized. I kick off a Sonnet generation session, switch to other work while it runs, come back to paste the output into the Opus review, switch to other work again, then do my final review and send when I'm ready. The Claude sessions are doing the heavy lifting. I'm just the human gate at the critical transitions.
 
-That multitasking pattern is the thing I keep coming back to across every AI system I build. The productivity win isn't that one agent is fast. It's that multiple agents can be running, on different projects, in different contexts, while I'm giving my attention to whichever one needs a decision right now. I'll write more about this soon. The shift from "wait for the AI" to "the AI waits for me" is where the real time savings come from.
+That async pattern keeps showing up across the AI systems I build. The real leverage comes from running multiple agents across different projects and stepping in only where a human decision is needed. Shifting from waiting on one agent to letting agents wait on my review is where the time savings actually add up.
 
 **State machines are underrated for AI workflows.** Every AI pipeline I've built ends up with the same pattern: explicit states, persisted transitions, human gates at the critical points. The temptation is always to make it end-to-end. The reality is that end-to-end means you don't notice problems until they've already shipped.
 
@@ -122,4 +122,4 @@ The pipeline runs locally right now. Python CLI, local file storage, manual Clau
 
 I'm also considering open-sourcing a stripped-down version. The recipient filtering, batch state management, SendGrid integration, and reporting pipeline are useful patterns regardless of whether you're sending marketing emails or any other kind of structured AI-generated content. If that sounds interesting, I'd like to hear about it.
 
-The bigger insight, the one I keep coming back to across every AI system I build, is that the constraints are the product. The AI generates. The contracts govern. The state machines ensure nothing ships without someone saying "yes, this is ready." Manual-first isn't a rejection of automation. It's the path to automation you can trust.
+Across the AI workflows I've built, the surrounding constraints end up doing most of the reliability work: a clear contract governing output, persisted state transitions, and an explicit human check before anything leaves the building. Starting manual-first is just the fastest way to learn the real failure modes before automating them away.
