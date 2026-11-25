@@ -85,18 +85,26 @@ test('All page files contain Astro frontmatter delimiters', () => {
 
 group('2. Content Integrity — brand voice rewrites');
 
-test('Hero h1 uses split title lines ("I build" / "with AI.")', () => {
+test('Hero uses compact editorial headline and proof snapshot (no graph paper)', () => {
   const content = read('src/components/Hero.astro');
-  assert(has(content, 'hero__line">I build</span>'),
-    'Expected "I build" hero title line in Hero.astro');
-  assert(has(content, 'hero__line"><em>with AI.</em></span>'),
-    'Expected "with AI." hero title line in Hero.astro');
+  assert(has(content, 'Building with AI, and writing about'),
+    'Expected editorial hero headline in Hero.astro');
+  assert(has(content, '<em>what actually works.</em>'),
+    'Expected italic accent phrase in Hero.astro');
+  assert(has(content, 'joe-armani-headshot-web.jpg'),
+    'Expected headshot anchor in Hero.astro');
+  assert(has(content, '/projects/courtmix/'),
+    'Expected CourtMix proof link in Hero.astro');
+  assert(lacks(content, 'hero__paper'),
+    'Removed graph-paper hero background should not return in Hero.astro');
 });
 
-test('Hero subtitle says "And write about what actually works."', () => {
+test('Hero subtitle stays grounded in Joe\'s background', () => {
   const content = read('src/components/Hero.astro');
-  assert(has(content, 'And write about what actually works.'),
-    'Expected hero subtitle in Hero.astro');
+  assert(has(content, 'National Cancer Institute'),
+    'Expected NCI credential in Hero.astro');
+  assert(lacks(content, 'Senior Software Engineer'),
+    'Short-form hero copy should omit "Senior" per facts.md');
 });
 
 test('Hero does NOT use removed pre-tagline element', () => {
@@ -246,14 +254,21 @@ test('Light theme color tokens are defined ([data-theme="light"])', () => {
     'Missing light theme token block in global.css');
 });
 
-test('Dark mode --bg-primary defined (#0F1117)', () => {
-  assert(has(CSS, '--bg-primary: #0F1117'),
-    'Missing dark mode --bg-primary: #0F1117 in global.css');
+test('Dark mode --bg-primary defined (#141311 warm obsidian)', () => {
+  assert(has(CSS, '--bg-primary: #141311'),
+    'Missing dark mode --bg-primary: #141311 in global.css');
 });
 
-test('Light mode --bg-primary defined (#F8F9FB)', () => {
-  assert(has(CSS, '--bg-primary: #F8F9FB'),
-    'Missing light mode --bg-primary: #F8F9FB in global.css');
+test('Light mode --bg-primary defined (#F7F5F0 warm paper)', () => {
+  assert(has(CSS, '--bg-primary: #F7F5F0'),
+    'Missing light mode --bg-primary: #F7F5F0 in global.css');
+});
+
+test('Tailwind blue accent is retired from global.css', () => {
+  assert(lacks(CSS, '--accent-blue'),
+    'Retired --accent-blue token should not appear in global.css');
+  assert(lacks(CSS, '#2563EB'),
+    'Retired Tailwind blue hex #2563EB should not appear in global.css');
 });
 
 test('Projects page uses grid layout (.project-list with grid-template-columns)', () => {
@@ -372,12 +387,18 @@ test('Fonts are self-hosted (no Google Fonts links)', () => {
 });
 
 test('Font files exist in public/fonts/', () => {
-  assert(exists('public/fonts/plus-jakarta-sans-700-latin.woff2'),
-    'Missing Plus Jakarta Sans WOFF2 font file');
+  assert(exists('public/fonts/newsreader-latin-normal.woff2'),
+    'Missing Newsreader normal WOFF2 font file');
+  assert(exists('public/fonts/newsreader-latin-italic.woff2'),
+    'Missing Newsreader italic WOFF2 font file');
   assert(exists('public/fonts/dm-sans-400-latin.woff2'),
-    'Missing DM Sans 400 WOFF2 font file');
+    'Missing DM Sans normal WOFF2 font file');
+  assert(exists('public/fonts/dm-sans-latin-italic.woff2'),
+    'Missing DM Sans italic WOFF2 font file');
   assert(exists('public/fonts/jetbrains-mono-400-latin.woff2'),
-    'Missing JetBrains Mono WOFF2 font file');
+    'Missing JetBrains Mono 400 WOFF2 font file');
+  assert(exists('public/fonts/jetbrains-mono-500-latin.woff2'),
+    'Missing JetBrains Mono 500 WOFF2 font file');
 });
 
 test('Theme-color meta tags exist in BaseLayout', () => {
@@ -386,10 +407,10 @@ test('Theme-color meta tags exist in BaseLayout', () => {
     'Missing theme-color meta tag in BaseLayout');
   assert(has(layout, 'data-dynamic-theme-color'),
     'BaseLayout should expose a dynamic theme-color meta tag for user-selected themes');
-  assert(has(layout, '#0F1117'),
-    'Missing dark theme-color value in BaseLayout');
-  assert(has(layout, '#F8F9FB'),
-    'Missing light theme-color value in BaseLayout');
+  assert(has(layout, '#141311'),
+    'Missing warm dark theme-color value (#141311) in BaseLayout');
+  assert(has(layout, '#F7F5F0'),
+    'Missing warm light theme-color value (#F7F5F0) in BaseLayout');
 });
 
 test('Section gap matches the intentionally tight layout rhythm', () => {
@@ -605,29 +626,31 @@ test('Blog post has lastModified in frontmatter', () => {
     'Blog post should have lastModified field in frontmatter');
 });
 
-test('Blog search input exists on blog index', () => {
+test('Blog index uses unified editorial hairline list grouped by year', () => {
   const content = read('src/pages/blog/index.astro');
-  assert(has(content, 'blog-search'),
-    'Blog index should have a search input with blog-search class');
+  assert(has(content, 'home-feed'),
+    'Blog index should use the unified editorial home-feed list');
+  assert(has(content, 'blog-year-group'),
+    'Blog index should group essays by publication year');
+  assert(lacks(content, 'blog-search'),
+    'Blog index should omit premature search input while post count is small');
 });
 
-test('Blog search input has an accessible name', () => {
+test('Blog topic filter tabs are accessible and expose data-tags', () => {
   const content = read('src/pages/blog/index.astro');
-  assert(has(content, 'aria-label="Search posts"') || has(content, "aria-label='Search posts'"),
-    'Blog search input should have an accessible name');
+  assert(has(content, 'aria-label="Filter posts by topic"'),
+    'Topic filter group should have an accessible label');
+  assert(has(content, 'aria-pressed'),
+    'Topic filter buttons should expose aria-pressed state');
+  assert(has(content, 'data-tags='),
+    'Blog post entries should expose data-tags for topic filtering');
 });
 
-test('Blog search CSS exists in global.css', () => {
-  assert(has(CSS, '.blog-search__input'),
-    'Missing .blog-search__input styles in global.css');
-});
-
-test('Blog posts have data attributes for search', () => {
-  const content = read('src/pages/blog/index.astro');
-  assert(has(content, 'data-title'),
-    'Blog post cards should have data-title attribute for search');
-  assert(has(content, 'data-description'),
-    'Blog post cards should have data-description attribute for search');
+test('Blog topic tab CSS exists in global.css', () => {
+  assert(has(CSS, '.tag-filter__btn'),
+    'Missing .tag-filter__btn styles in global.css');
+  assert(has(CSS, '.blog-year-group__heading'),
+    'Missing .blog-year-group__heading styles in global.css');
 });
 
 test('Light mode is default for first-time visitors', () => {
@@ -776,8 +799,8 @@ test('Blog detail getStaticPaths filters draft posts', () => {
 });
 
 test('TTF font files exist for OG image rendering', () => {
-  assert(exists('public/fonts/plus-jakarta-sans-700.ttf'),
-    'Missing Plus Jakarta Sans TTF for OG image rendering');
+  assert(exists('public/fonts/newsreader-600.ttf'),
+    'Missing Newsreader 600 TTF for OG image rendering');
   assert(exists('public/fonts/dm-sans-400.ttf'),
     'Missing DM Sans TTF for OG image rendering');
 });
@@ -804,6 +827,27 @@ test('Publishing utility scripts exist', () => {
     'Missing scripts/export-diagrams.mjs');
   assert(exists('scripts/lint-content.mjs'),
     'Missing scripts/lint-content.mjs');
+});
+
+test('Editorial diagram CSS tokens exist for light and dark themes', () => {
+  const lightIdx = CSS.indexOf('[data-theme="light"] {');
+  const darkIdx = CSS.indexOf('[data-theme="dark"] {');
+  assert(lightIdx >= 0 && darkIdx >= 0, 'Missing light or dark theme token blocks');
+  const lightBlock = CSS.slice(lightIdx, CSS.indexOf('}', lightIdx));
+  const darkBlock = CSS.slice(darkIdx, CSS.indexOf('}', darkIdx));
+  assert(has(lightBlock, '--dg-surface:') && has(lightBlock, '--dg-lane-bg:'),
+    'Light theme should define --dg-surface and --dg-lane-bg diagram tokens');
+  assert(has(darkBlock, '--dg-surface:') && has(darkBlock, '--dg-lane-bg:'),
+    'Dark theme should define --dg-surface and --dg-lane-bg diagram tokens');
+});
+
+test('About page and llms.txt omit GPA and Latin honors resume copy', () => {
+  const about = read('src/pages/about.astro');
+  const llms = read('public/llms.txt');
+  assert(lacks(about, '4.0 GPA') && lacks(about, 'Summa Cum Laude'),
+    'about.astro should not display GPA or Latin honors');
+  assert(lacks(llms, '4.0 GPA'),
+    'public/llms.txt should not display GPA');
 });
 
 // ─── Summary ──────────────────────────────────────────────────────────────────

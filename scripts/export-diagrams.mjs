@@ -77,13 +77,65 @@ function toKebabCase(name) {
     .toLowerCase();
 }
 
+// Warm-paper Light Mode diagram tokens for standalone PNG export (Resvg does not
+// inherit external CSS custom properties from global.css).
+const LIGHT_DIAGRAM_TOKENS = {
+  '--dg-surface': '#FFFFFF',
+  '--dg-lane-bg': '#F7F5F0',
+  '--dg-lane-stroke': '#E2DDD4',
+  '--dg-card-bg': '#FFFFFF',
+  '--dg-card-stroke': '#CFC9BE',
+  '--dg-chip-muted-bg': '#EFECE5',
+  '--dg-ink': '#1A1816',
+  '--dg-ink-2': '#4A453E',
+  '--dg-muted': '#6B655D',
+  '--dg-conn-faint': '#A69F95',
+  '--dg-opaque-bg': '#23201C',
+  '--dg-opaque-stroke': '#141311',
+  '--dg-opaque-inner': '#57524B',
+  '--dg-opaque-ink': '#F7F5F0',
+  '--dg-opaque-sub': '#C9C2B6',
+  '--dg-blue-bg': '#EEF2F7',
+  '--dg-blue-bg-soft': '#F5F7FA',
+  '--dg-blue-stroke': '#3B5B82',
+  '--dg-blue-ink': '#264163',
+  '--dg-blue-rule': '#CFD9E6',
+  '--dg-ext-bg': '#EDF4F7',
+  '--dg-ext-stroke': '#2D637A',
+  '--dg-red-bg': '#FAEDE9',
+  '--dg-red-bg-soft': '#FCF4F2',
+  '--dg-red-stroke': '#AD3A2B',
+  '--dg-red-ink': '#84291D',
+  '--dg-red-rule': '#E8C9C3',
+  '--dg-orange-bg': '#FAF0E6',
+  '--dg-orange-stroke': '#B54B1A',
+  '--dg-orange-ink': '#863510',
+  '--dg-amber-bg': '#FAF3E3',
+  '--dg-amber-bg-soft': '#FCF8EE',
+  '--dg-amber-stroke': '#995F14',
+  '--dg-purple-bg': '#F4EFF8',
+  '--dg-purple-stroke': '#6D4C8C',
+  '--dg-purple-ink': '#4E3468',
+  '--dg-green-bg': '#EDF4EC',
+  '--dg-green-stroke': '#3A6B4C',
+  '--dg-green-ink': '#2B5239',
+  '--dg-teal-bg': '#ECF4F3',
+  '--dg-teal-stroke': '#2E6B66',
+};
+
+function resolveCssVars(svg) {
+  return svg.replace(/var\(\s*(--[a-z0-9-]+)(?:\s*,\s*([^)]+))?\s*\)/gi, (_, name, fallback) => {
+    return LIGHT_DIAGRAM_TOKENS[name] || (fallback ? fallback.trim() : '#1A1816');
+  });
+}
+
 function prepareSvgMarkup(astroSource, componentName) {
   const svgMatch = astroSource.match(/<svg\b[\s\S]*?<\/svg>/i);
   if (!svgMatch) {
     throw new Error(`No <svg> element found in ${componentName}`);
   }
 
-  let svg = svgMatch[0];
+  let svg = resolveCssVars(svgMatch[0]);
 
   // Parse viewBox="0 0 W H" (fallback 1320 x 860)
   let width = 1320;
@@ -97,19 +149,32 @@ function prepareSvgMarkup(astroSource, componentName) {
     }
   }
 
-  // Normalize generic font stacks so Resvg resolves full bold/italic system weights
+  // Normalize web font stacks so Resvg resolves Newsreader 600 TTF from public/fonts
+  // alongside full bold/italic sans & mono weights from system fonts.
   svg = svg
+    .replace(
+      /['"]DM Sans['"],\s*-apple-system,\s*BlinkMacSystemFont,\s*sans-serif/g,
+      "'Helvetica Neue', Helvetica, Arial, sans-serif"
+    )
     .replace(
       /system-ui,\s*-apple-system,\s*['"]Segoe UI['"],\s*sans-serif/g,
       "'Helvetica Neue', Helvetica, Arial, sans-serif"
     )
     .replace(
-      /ui-monospace,\s*SFMono-Regular,\s*Menlo,\s*Consolas,\s*monospace/g,
+      /['"]JetBrains Mono['"],\s*ui-monospace,\s*['"]?SFMono-Regular['"]?,\s*Menlo,\s*Consolas,\s*monospace/g,
+      "'Menlo', 'Monaco', monospace"
+    )
+    .replace(
+      /['"]JetBrains Mono['"],\s*ui-monospace,\s*SFMono-Regular,\s*monospace/g,
+      "'Menlo', 'Monaco', monospace"
+    )
+    .replace(
+      /ui-monospace,\s*['"]?SFMono-Regular['"]?,\s*Menlo,\s*Consolas,\s*monospace/g,
       "'Menlo', 'Monaco', monospace"
     );
 
-  // Inject solid white background behind all diagram layers
-  const bgRect = `<rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff"/>`;
+  // Inject solid white editorial plate background behind all diagram layers
+  const bgRect = `<rect x="0" y="0" width="${width}" height="${height}" fill="#FFFFFF"/>`;
   if (/<\/defs>/i.test(svg)) {
     svg = svg.replace(/<\/defs>/i, (match) => `${match}\n    ${bgRect}`);
   } else {

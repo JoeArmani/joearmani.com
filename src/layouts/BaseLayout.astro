@@ -1,7 +1,6 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import ScrollReveal from '../components/ScrollReveal.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -32,18 +31,18 @@ const cfWebAnalyticsToken = '6882444c50494877a1a37ddb3131f3d8';
 
     <!-- Fonts (self-hosted for performance and privacy) -->
     <link rel="preload" href="/fonts/dm-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/plus-jakarta-sans-700-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/newsreader-latin-normal.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Theme Color (mobile browser chrome) -->
-    <meta name="theme-color" content="#F8F9FB" data-dynamic-theme-color />
+    <meta name="theme-color" content="#F7F5F0" data-dynamic-theme-color />
 
     <!-- Prevent flash of wrong theme -->
     <script is:inline>
       (function() {
-        const themeColors = { dark: '#0F1117', light: '#F8F9FB' };
+        const themeColors = { dark: '#141311', light: '#F7F5F0' };
         let savedTheme = null;
 
         try {
@@ -85,7 +84,6 @@ const cfWebAnalyticsToken = '6882444c50494877a1a37ddb3131f3d8';
       <slot />
     </main>
     <Footer />
-    <ScrollReveal />
     <script
       is:inline
       defer

@@ -2,7 +2,7 @@
 title: "From Woodshop to Code: Eight Years of Shipping Tables Before Shipping Software"
 description: "How running my woodworking factory taught me more about building software than I expected, and what the transition to AI engineering looked like from the inside."
 date: 2026-03-22
-tags: ["career", "ai-ml"]
+tags: ["Career", "AI/ML"]
 draft: false
 featured: false
 readingTime: 8
@@ -45,7 +45,7 @@ It was a crazy, challenging, and in some cases tragic time for all of us. I'd ju
 
 ## The Accelerated Path
 
-I finished my Computer Science degree in 16 months during the pandemic. Summa Cum Laude from CSU Global.
+I finished my Computer Science degree in 16 months during the pandemic at CSU Global.
 
 I'm not saying that to brag. I'm saying it because when you're changing careers in your thirties and the runway is short, you move differently. There's a specific kind of motivation that comes from having no fallback plan.
 
@@ -57,7 +57,7 @@ What I wanted next was to do meaningful work with a team. Solo building taught m
 
 Three years in, and it still feels worth showing up for. The tech isn't always the latest and greatest, but knowing that the data infrastructure I build could help a researcher somewhere find an early detection marker ten years from now makes it worthwhile in a way that's hard to quantify.
 
-Once I was settled at NCI, I could finally chase what I'd originally pivoted for. I went back for my Master's in AI/ML, doing the program while working full-time. Graduated with a 4.0. The coursework gave me solid foundations, though I'll be honest: I've learned more from building things than from any classroom.
+Once I was settled at NCI, I could finally chase what I'd originally pivoted for. I went back for my Master's in AI/ML, doing the program while working full-time. The coursework gave me solid foundations, though I'll be honest: I've learned more from building things than from any classroom.
 
 ## The AI Chapter
 

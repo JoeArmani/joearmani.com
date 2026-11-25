@@ -15,13 +15,13 @@
 ---
 
 <figure class="diagram diagram--comparison">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1020" role="img" aria-labelledby="ocCmpTitle ocCmpDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1020" role="img" aria-labelledby="ocCmpTitle ocCmpDesc" font-family="'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="17">
     <title id="ocCmpTitle">Agent theater vs operator control</title>
     <desc id="ocCmpDesc">Two panels show the same agent task under two operating models. The top panel, agent theater, renders the agent as a single opaque box with a prompt arrow in and a result arrow out, the middle is implicit and forensic reconstruction is the only review path. The bottom panel, operator control, renders the same task with a visible task lane, state badges (running, waiting, blocked, done), an owner, an approval guardrail before any external action, an intervention path the operator can use to stop, redirect, or narrow, and a violet dashed boundary representing the agent's memory, permissions, and external-action scope.</desc>
     <defs>
-      <marker id="arOC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
-      <marker id="arOCDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
-      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gate{fill:#fee2e2;stroke:#b91c1c;stroke-width:2}.ext{fill:#e0f2fe;stroke:#0369a1;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.iv{fill:#fff7ed;stroke:#c2410c;stroke-width:1.5}.opaque{fill:#1e293b;stroke:#0f172a;stroke-width:1.5}.opaqueInner{fill:#475569;fill-opacity:0.45;stroke:none}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700;font-size:18px}.lblOnDark{fill:#f1f5f9;font-weight:700;font-size:22px}.subOnDark{fill:#cbd5e1;font-size:16px;font-style:italic}.sub{fill:#334155;font-size:16px}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}.note{fill:#475569;font-size:15px;font-style:italic}.conn{stroke:#334155;stroke-width:2;fill:none}.connDash{stroke:#64748b;stroke-width:1.75;fill:none;stroke-dasharray:5 4}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:7 4}.dTitle{font-size:34px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:17px;fill:#475569}.panelTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.panelTitleTheater{fill:#475569}.panelTitleControl{fill:#0f172a}.legendText{fill:#1e293b;font-size:15px;font-weight:500}.legendTitle{font-size:14px;font-weight:800;fill:#1e293b;letter-spacing:.06em;text-transform:uppercase}.pill{font-size:14px;font-weight:700}.boundaryLabel{fill:#6d28d9;font-size:15px;font-weight:700;letter-spacing:.05em}</style>
+      <marker id="arOC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--dg-ink-2, #4A453E)"/></marker>
+      <marker id="arOCDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--dg-muted, #6B655D)"/></marker>
+      <style>.lane{fill:var(--dg-lane-bg, #F7F5F0);stroke:var(--dg-lane-stroke, #E2DDD4);stroke-width:1}.laneLabel{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;fill:var(--dg-muted, #6B655D);font-size:14px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}.cli{fill:var(--dg-blue-bg, #EEF2F7);stroke:var(--dg-blue-stroke, #3B5B82);stroke-width:1.5}.gate{fill:var(--dg-red-bg, #FAEDE9);stroke:var(--dg-red-stroke, #AD3A2B);stroke-width:2}.ext{fill:var(--dg-ext-bg, #EDF4F7);stroke:var(--dg-ext-stroke, #2D637A);stroke-width:1.5}.gov{fill:var(--dg-purple-bg, #F4EFF8);stroke:var(--dg-purple-stroke, #6D4C8C);stroke-width:1.5}.iv{fill:var(--dg-orange-bg, #FAF0E6);stroke:var(--dg-orange-stroke, #B54B1A);stroke-width:1.5}.opaque{fill:var(--dg-opaque-bg, #23201C);stroke:var(--dg-opaque-stroke, #141311);stroke-width:1.5}.opaqueInner{fill:var(--dg-opaque-inner, #57524B);fill-opacity:0.45;stroke:none}.head{font-weight:700;fill:var(--dg-ink, #1A1816);font-size:22px}.lbl{fill:var(--dg-ink, #1A1816);font-weight:700;font-size:18px}.lblOnDark{fill:var(--dg-opaque-ink, #F7F5F0);font-weight:700;font-size:22px}.subOnDark{fill:var(--dg-opaque-sub, #C9C2B6);font-size:16px;font-style:italic}.sub{fill:var(--dg-ink-2, #4A453E);font-size:16px}.mono{fill:var(--dg-blue-stroke, #3B5B82);font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;font-size:15px}.note{fill:var(--dg-muted, #6B655D);font-size:15px;font-style:italic}.conn{stroke:var(--dg-ink-2, #4A453E);stroke-width:2;fill:none}.connDash{stroke:var(--dg-muted, #6B655D);stroke-width:1.75;fill:none;stroke-dasharray:5 4}.boundary{stroke:var(--dg-purple-stroke, #6D4C8C);stroke-width:2.5;fill:none;stroke-dasharray:7 4}.dTitle{font-family:'Newsreader',Georgia,serif;font-size:34px;font-weight:600;fill:var(--dg-ink, #1A1816)}.dSubtitle{font-size:17px;fill:var(--dg-muted, #6B655D)}.panelTitle{font-size:24px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}.panelTitleTheater{fill:var(--dg-muted, #6B655D)}.panelTitleControl{fill:var(--dg-ink, #1A1816)}.legendText{fill:var(--dg-ink, #1A1816);font-size:15px;font-weight:500}.legendTitle{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;font-size:14px;font-weight:500;fill:var(--dg-ink, #1A1816);letter-spacing:.06em;text-transform:uppercase}.pill{font-size:14px;font-weight:700}.boundaryLabel{fill:var(--dg-purple-stroke, #6D4C8C);font-size:15px;font-weight:700;letter-spacing:.05em}</style>
     </defs>
 
     <!-- Header -->
@@ -56,8 +56,8 @@
     <path class="conn" d="M940 286 L1060 286" marker-end="url(#arOC)"/>
 
     <!-- Footer note for theater -->
-    <rect x="60" y="400" width="1200" height="74" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.25"/>
-    <text x="84" y="426" class="head" fill="#991b1b">What the operator can see</text>
+    <rect x="60" y="400" width="1200" height="74" rx="8" fill="var(--dg-red-bg-soft, #FCF4F2)" stroke="var(--dg-red-rule, #E8C9C3)" stroke-width="1.25"/>
+    <text x="84" y="426" class="head" fill="var(--dg-red-ink, #84291D)">What the operator can see</text>
     <text x="84" y="450" class="sub">• Status: unknown (looks like "still running")   • Tools used, retries, branches: implicit, mixed into chat scrollback</text>
     <text x="84" y="468" class="sub">• Approval moments and blocks: not surfaced unless they fail loud   • Risky actions: indistinguishable from cheap ones</text>
 
@@ -81,19 +81,19 @@
     <text x="560" y="685" text-anchor="middle" class="mono">owner · agent-3 · since 14:02</text>
     <text x="262" y="715" class="sub">state:</text>
     <g>
-      <rect x="318" y="700" width="76" height="22" rx="11" fill="#eef2ff" stroke="#4338ca"/>
-      <text x="356" y="716" text-anchor="middle" class="pill" fill="#4338ca">running</text>
-      <rect x="402" y="700" width="76" height="22" rx="11" fill="#e0f2fe" stroke="#0369a1"/>
-      <text x="440" y="716" text-anchor="middle" class="pill" fill="#0369a1">waiting</text>
-      <rect x="486" y="700" width="76" height="22" rx="11" fill="#fef2f2" stroke="#991b1b" stroke-dasharray="3 2"/>
-      <text x="524" y="716" text-anchor="middle" class="pill" fill="#991b1b">blocked</text>
-      <rect x="570" y="700" width="118" height="22" rx="11" fill="#fee2e2" stroke="#b91c1c"/>
-      <text x="629" y="716" text-anchor="middle" class="pill" fill="#b91c1c">needs approval</text>
-      <rect x="696" y="700" width="64" height="22" rx="11" fill="#dcfce7" stroke="#15803d"/>
-      <text x="728" y="716" text-anchor="middle" class="pill" fill="#15803d">done</text>
+      <rect x="318" y="700" width="76" height="22" rx="11" fill="var(--dg-blue-bg, #EEF2F7)" stroke="var(--dg-blue-stroke, #3B5B82)"/>
+      <text x="356" y="716" text-anchor="middle" class="pill" fill="var(--dg-blue-stroke, #3B5B82)">running</text>
+      <rect x="402" y="700" width="76" height="22" rx="11" fill="var(--dg-ext-bg, #EDF4F7)" stroke="var(--dg-ext-stroke, #2D637A)"/>
+      <text x="440" y="716" text-anchor="middle" class="pill" fill="var(--dg-ext-stroke, #2D637A)">waiting</text>
+      <rect x="486" y="700" width="76" height="22" rx="11" fill="var(--dg-red-bg-soft, #FCF4F2)" stroke="var(--dg-red-ink, #84291D)" stroke-dasharray="3 2"/>
+      <text x="524" y="716" text-anchor="middle" class="pill" fill="var(--dg-red-ink, #84291D)">blocked</text>
+      <rect x="570" y="700" width="118" height="22" rx="11" fill="var(--dg-red-bg, #FAEDE9)" stroke="var(--dg-red-stroke, #AD3A2B)"/>
+      <text x="629" y="716" text-anchor="middle" class="pill" fill="var(--dg-red-stroke, #AD3A2B)">needs approval</text>
+      <rect x="696" y="700" width="64" height="22" rx="11" fill="var(--dg-green-bg, #EDF4EC)" stroke="var(--dg-green-stroke, #3A6B4C)"/>
+      <text x="728" y="716" text-anchor="middle" class="pill" fill="var(--dg-green-stroke, #3A6B4C)">done</text>
     </g>
     <text x="262" y="748" class="sub">last action: <tspan class="mono">read repo/spec.md</tspan> · 12s ago</text>
-    <text x="262" y="768" class="sub">waiting on: <tspan fill="#b91c1c" font-weight="700">approval before deploy</tspan></text>
+    <text x="262" y="768" class="sub">waiting on: <tspan fill="var(--dg-red-stroke, #AD3A2B)" font-weight="700">approval before deploy</tspan></text>
 
     <!-- Approval gate -->
     <rect class="gate" x="920" y="652" width="140" height="80" rx="8"/>
@@ -114,7 +114,7 @@
     <text x="60" y="840" class="laneLabel">Operator surfaces</text>
     <rect class="iv" x="60" y="852" width="380" height="64" rx="8"/>
     <text x="250" y="880" text-anchor="middle" class="lbl">intervention path</text>
-    <text x="250" y="902" text-anchor="middle" class="mono" fill="#c2410c">stop · redirect · narrow</text>
+    <text x="250" y="902" text-anchor="middle" class="mono" fill="var(--dg-orange-stroke, #B54B1A)">stop · redirect · narrow</text>
 
     <rect class="cli" x="460" y="852" width="360" height="64" rx="8"/>
     <text x="640" y="880" text-anchor="middle" class="lbl">visible task lane</text>
@@ -132,12 +132,12 @@
     <!-- Legend -->
     <g transform="translate(40,968)">
       <text x="0" y="0" class="legendTitle">Legend</text>
-      <rect class="cli" x="0" y="14" width="22" height="16" rx="3"/><text x="32" y="28" class="legendText">Task / automated work</text>
-      <rect class="gate" x="220" y="14" width="22" height="16" rx="3"/><text x="252" y="28" class="legendText">Human gate / approval</text>
-      <rect class="ext" x="450" y="14" width="22" height="16" rx="3"/><text x="482" y="28" class="legendText">External boundary in / out</text>
-      <rect class="iv" x="690" y="14" width="22" height="16" rx="3"/><text x="722" y="28" class="legendText">Intervention path</text>
-      <rect x="900" y="14" width="22" height="16" rx="3" fill="none" stroke="#7c3aed" stroke-dasharray="5 3"/><text x="932" y="28" class="legendText">Memory · permissions scope</text>
-      <rect class="opaque" x="1170" y="14" width="22" height="16" rx="3"/><text x="1202" y="28" class="legendText">Opaque agent</text>
+      <rect class="cli" x="0" y="14" width="22" height="16" rx="3"/><text x="30" y="28" class="legendText">Task / automated work</text>
+      <rect class="gate" x="212" y="14" width="22" height="16" rx="3"/><text x="242" y="28" class="legendText">Human gate / approval</text>
+      <rect class="ext" x="428" y="14" width="22" height="16" rx="3"/><text x="458" y="28" class="legendText">External boundary in / out</text>
+      <rect class="iv" x="668" y="14" width="22" height="16" rx="3"/><text x="698" y="28" class="legendText">Intervention path</text>
+      <rect x="852" y="14" width="22" height="16" rx="3" fill="none" stroke="var(--dg-purple-stroke, #6D4C8C)" stroke-dasharray="5 3"/><text x="882" y="28" class="legendText">Memory · permissions scope</text>
+      <rect class="opaque" x="1108" y="14" width="22" height="16" rx="3"/><text x="1138" y="28" class="legendText">Opaque agent</text>
     </g>
   </svg>
   <figcaption>

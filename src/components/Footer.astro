@@ -4,38 +4,37 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="footer__inner">
-    <div>
-      <p class="footer__heading">Pages</p>
-      <ul class="footer__links">
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/projects/">Projects</a></li>
-        <li><a href="/uses/">Uses</a></li>
-        <li><a href="/about/">About</a></li>
-        <li><a href="/subscribe/">Subscribe</a></li>
-        <li><a href="/now/">Now</a></li>
-      </ul>
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="/" class="footer__brand-name">Joe Armani</a>
+        <p class="footer__tagline">Building with AI. Writing about what works.</p>
+      </div>
+      <div class="footer__groups">
+        <div>
+          <p class="footer__heading">Pages</p>
+          <ul class="footer__links">
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/projects/">Projects</a></li>
+            <li><a href="/uses/">Uses</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/now/">Now</a></li>
+            <li><a href="/subscribe/">Subscribe</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__heading">Connect</p>
+          <ul class="footer__links">
+            <li><a href="https://www.linkedin.com/in/joseph-armani/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://github.com/JoeArmani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="mailto:joe@joearmani.com">Email</a></li>
+            <li><a href="/rss.xml">RSS</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div>
-      <p class="footer__heading">Connect</p>
-      <ul class="footer__links">
-        <li><a href="https://www.linkedin.com/in/joseph-armani/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-        <li><a href="https://github.com/JoeArmani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        <li><a href="mailto:joe@joearmani.com">Email</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer__heading">More</p>
-      <ul class="footer__links">
-        <li><a href="/rss.xml">RSS Feed</a></li>
-      </ul>
-    </div>
-    <div class="footer__meta">
-      <p class="footer__status">
-        <span class="footer__status-dot" aria-hidden="true"></span>
-        Open to interesting problems
-      </p>
-      <p class="footer__tagline">Building with AI. Writing about what works.</p>
-      <p class="footer__copyright">&copy; {year} Joe Armani. All rights reserved.</p>
+    <div class="footer__colophon">
+      <span>&copy; {year} Joe Armani · Denver, CO</span>
+      <span>Built with Astro · Self-hosted fonts</span>
     </div>
   </div>
 </footer>

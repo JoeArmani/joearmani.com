@@ -8,26 +8,32 @@ const { variant = 'compact' } = Astro.props;
 
 {variant === 'full' ? (
   <div class="subscribe subscribe--full">
-    <p class="subscribe__title">Get the build updates.</p>
-    <p class="subscribe__value">Every two weeks: what I'm building, what broke, and what I learned.</p>
-    <form class="subscribe__form" action="https://buttondown.com/api/emails/embed-subscribe/joearmani" method="post" target="_blank">
-      <div style="position: absolute; left: -5000px;" aria-hidden="true">
-        <input type="text" name="url" tabindex="-1" autocomplete="off" />
-      </div>
-      <input type="email" name="email" class="subscribe__input" placeholder="your@email.com" required aria-label="Email address" />
-      <button type="submit" class="btn btn--primary">Subscribe</button>
-    </form>
-    <p class="subscribe__reassurance">No spam. Unsubscribe anytime.</p>
+    <div class="subscribe__copy">
+      <p class="subscribe__kicker">Newsletter · Every two weeks</p>
+      <p class="subscribe__title">Notes from the build.</p>
+      <p class="subscribe__value">One workflow, one failure mode, or one architecture breakdown from real systems. No filler, unsubscribe anytime.</p>
+    </div>
+    <div class="subscribe__controls">
+      <form class="subscribe__form" action="https://buttondown.com/api/emails/embed-subscribe/joearmani" method="post" target="_blank">
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+          <input type="text" name="url" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="email" name="email" class="subscribe__input" placeholder="you@domain.com" required aria-label="Email address" />
+        <button type="submit" class="btn btn--primary">Subscribe</button>
+      </form>
+      <p class="subscribe__reassurance">Sent via Buttondown. No tracking pixels or spam.</p>
+    </div>
   </div>
 ) : (
-  <div class="subscribe">
-    <p class="subscribe__title">Get the build updates.</p>
+  <div class="subscribe subscribe--compact">
+    <p class="subscribe__kicker">Newsletter · Every two weeks</p>
+    <p class="subscribe__title">Notes from the build.</p>
     <p class="subscribe__text">Multi-agent workflows, AI tooling, and what holds up in production.</p>
     <form class="subscribe__form" action="https://buttondown.com/api/emails/embed-subscribe/joearmani" method="post" target="_blank">
       <div style="position: absolute; left: -5000px;" aria-hidden="true">
         <input type="text" name="url" tabindex="-1" autocomplete="off" />
       </div>
-      <input type="email" name="email" class="subscribe__input" placeholder="your@email.com" required aria-label="Email address" />
+      <input type="email" name="email" class="subscribe__input" placeholder="you@domain.com" required aria-label="Email address" />
       <button type="submit" class="btn btn--primary">Subscribe</button>
     </form>
   </div>
