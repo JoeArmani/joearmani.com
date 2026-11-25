@@ -39,18 +39,19 @@ const featuredProjects = (await getCollection('projects'))
   <Hero />
 
   {latestPosts.length > 0 && (
-    <section class="container--narrow home-section" id="writing">
-      <div class="home-sectionhead reveal">
+    <section class="container home-section" id="writing">
+      <div class="home-sectionhead">
         <span class="home-sectionhead__label">Writing</span>
         <span class="home-sectionhead__rule"></span>
         <a href="/blog/" class="home-sectionhead__link">All posts →</a>
       </div>
       <ol class="home-feed">
         {latestPosts.map((post) => (
-          <li class="home-feed__entry reveal">
-            <a class="home-feed__link" href={`/blog/${post.id}`}>
+          <li class="home-feed__entry">
+            <a class="home-feed__link" href={`/blog/${post.id}/`}>
               <div class="home-feed__side">
                 <span class="home-feed__date">{formatEditorialDate(post.data.date)}</span>
+                {post.data.featured && <span class="home-feed__badge">Featured</span>}
               </div>
               <div class="home-feed__body">
                 <h3 class="home-feed__title">{post.data.title}</h3>
@@ -69,35 +70,35 @@ const featuredProjects = (await getCollection('projects'))
     </section>
   )}
 
-  <section class="container--narrow home-section" id="building">
-    <div class="home-sectionhead reveal">
+  <section class="container home-section" id="building">
+    <div class="home-sectionhead">
       <span class="home-sectionhead__label">Building</span>
       <span class="home-sectionhead__rule"></span>
       <a href="/projects/" class="home-sectionhead__link">All projects →</a>
     </div>
     <div class="home-projgrid">
       {featuredProjects.map((project) => (
-        <a class="home-proj reveal" href={`/projects/${project.id}`}>
+        <a class="home-proj" href={`/projects/${project.id}/`}>
           <div class="home-proj__head">
             <h3 class="home-proj__title">{project.data.title}</h3>
-            <span class={`home-proj__status status-badge status-badge--${project.data.status.toLowerCase()}`}>{project.data.status}</span>
+            <span class={`status-badge status-badge--${project.data.status.toLowerCase()}`}>{project.data.status}</span>
           </div>
           <p class="home-proj__blurb">{project.data.description}</p>
-          <div class="home-proj__stack">{project.data.tags.join('  ·  ')}</div>
+          <div class="home-proj__stack">{project.data.tags.join(' · ')}</div>
         </a>
       ))}
     </div>
   </section>
 
-  <section class="container--narrow home-section" id="now">
-    <div class="home-sectionhead reveal">
+  <section class="container home-section" id="now">
+    <div class="home-sectionhead">
       <span class="home-sectionhead__label">Now</span>
       <span class="home-sectionhead__rule"></span>
       <a href="/now/" class="home-sectionhead__link">Updated {nowUpdated} →</a>
     </div>
     <ul class="home-now">
       {nowSections.map((section) => (
-        <li class="reveal">
+        <li>
           <span class="home-now__kind">{section.kind}</span>
           <span class="home-now__text">{section.summary}</span>
         </li>
@@ -105,9 +106,7 @@ const featuredProjects = (await getCollection('projects'))
     </ul>
   </section>
 
-  <section class="container">
-    <div class="reveal">
-      <Subscribe variant="full" />
-    </div>
+  <section class="container home-subscribe">
+    <Subscribe variant="full" />
   </section>
 </BaseLayout>

@@ -10,42 +10,42 @@
 ---
 
 <figure class="diagram diagram--state-machine">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 720" role="img" aria-labelledby="smTitle smDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 720" role="img" aria-labelledby="smTitle smDesc" font-family="'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="13">
     <title id="smTitle">CLS email pipeline batch state machine</title>
     <desc id="smDesc">Every batch moves through eight canonical states — prepped, generated, reviewed, merged, approved, sending, sent, reported — with six recoverable error states (suppressed, cooled, parse_failed, rejected, send_failed, bounced). Transitions are triggered by CLI commands or manual Claude sessions. Two transitions are explicit human gates: Opus review and approve. Every state persists to disk as JSON so interrupted workflows resume cleanly.</desc>
     <defs>
       <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-        <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--dg-ink-2, #4A453E)"/>
       </marker>
       <marker id="arRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-        <path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/>
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--dg-red-stroke, #AD3A2B)"/>
       </marker>
       <marker id="arGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-        <path d="M0,0 L10,5 L0,10 z" fill="#15803d"/>
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--dg-green-stroke, #3A6B4C)"/>
       </marker>
       <style>
-        .state { fill: #eef2ff; stroke: #4338ca; stroke-width: 1.8; }
-        .manualState { fill: #fef3c7; stroke: #b45309; stroke-width: 1.8; stroke-dasharray: 6 4; }
-        .humanGate { fill: #fee2e2; stroke: #b91c1c; stroke-width: 2.2; }
-        .terminalOk { fill: #dcfce7; stroke: #15803d; stroke-width: 2; }
-        .errState { fill: #fef2f2; stroke: #b91c1c; stroke-width: 1.5; stroke-dasharray: 4 3; }
-        .note { fill: #475569; font-size: 11px; font-style: italic; }
-        .label { fill: #0f172a; font-weight: 700; font-size: 14px; }
-        .sub { fill: #334155; font-size: 11.5px; }
-        .mono { fill: #4338ca; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 10.5px; }
-        .artMono { fill: #3f6212; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 10.5px; }
-        .trans { fill: #334155; font-size: 12px; font-weight: 600; }
-        .transNote { fill: #64748b; font-size: 10.5px; font-style: italic; }
-        .transErr { fill: #b91c1c; font-size: 11px; font-weight: 600; }
-        .conn { stroke: #334155; stroke-width: 1.6; fill: none; }
-        .connErr { stroke: #b91c1c; stroke-width: 1.4; fill: none; stroke-dasharray: 5 4; }
-        .connRetry { stroke: #15803d; stroke-width: 1.4; fill: none; stroke-dasharray: 3 3; }
-        .title { font-size: 18px; font-weight: 700; fill: #0f172a; }
-        .subtitle { font-size: 12px; fill: #64748b; }
-        .sectionLabel { fill: #64748b; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-        .laneBg { fill: #f8fafc; stroke: #e2e8f0; }
-        .legendT { fill: #334155; font-size: 11.5px; }
-        .legendTitle { fill: #334155; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+        .state { fill: var(--dg-blue-bg, #EEF2F7); stroke: var(--dg-blue-stroke, #3B5B82); stroke-width: 1.8; }
+        .manualState { fill: var(--dg-amber-bg, #FAF3E3); stroke: var(--dg-amber-stroke, #995F14); stroke-width: 1.8; stroke-dasharray: 6 4; }
+        .humanGate { fill: var(--dg-red-bg, #FAEDE9); stroke: var(--dg-red-stroke, #AD3A2B); stroke-width: 2.2; }
+        .terminalOk { fill: var(--dg-green-bg, #EDF4EC); stroke: var(--dg-green-stroke, #3A6B4C); stroke-width: 2; }
+        .errState { fill: var(--dg-red-bg-soft, #FCF4F2); stroke: var(--dg-red-stroke, #AD3A2B); stroke-width: 1.5; stroke-dasharray: 4 3; }
+        .note { fill: var(--dg-muted, #6B655D); font-size: 11px; font-style: italic; }
+        .label { fill: var(--dg-ink, #1A1816); font-weight: 700; font-size: 14px; }
+        .sub { fill: var(--dg-ink-2, #4A453E); font-size: 11.5px; }
+        .mono { fill: var(--dg-blue-stroke, #3B5B82); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10.5px; }
+        .artMono { fill: var(--dg-green-ink, #2B5239); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10.5px; }
+        .trans { fill: var(--dg-ink-2, #4A453E); font-size: 12px; font-weight: 600; }
+        .transNote { fill: var(--dg-muted, #6B655D); font-size: 10.5px; font-style: italic; }
+        .transErr { fill: var(--dg-red-stroke, #AD3A2B); font-size: 11px; font-weight: 600; }
+        .conn { stroke: var(--dg-ink-2, #4A453E); stroke-width: 1.6; fill: none; }
+        .connErr { stroke: var(--dg-red-stroke, #AD3A2B); stroke-width: 1.4; fill: none; stroke-dasharray: 5 4; }
+        .connRetry { stroke: var(--dg-green-stroke, #3A6B4C); stroke-width: 1.4; fill: none; stroke-dasharray: 3 3; }
+        .title {font-family:'Newsreader',Georgia,serif;font-size: 18px; font-weight:600; fill: var(--dg-ink, #1A1816);}
+        .subtitle { font-size: 12px; fill: var(--dg-muted, #6B655D); }
+        .sectionLabel {font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;fill: var(--dg-muted, #6B655D); font-size: 11px; font-weight:500; letter-spacing: 0.08em; text-transform: uppercase;}
+        .laneBg { fill: var(--dg-lane-bg, #F7F5F0); stroke: var(--dg-lane-stroke, #E2DDD4); }
+        .legendT { fill: var(--dg-ink-2, #4A453E); font-size: 11.5px; }
+        .legendTitle {font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;fill: var(--dg-ink-2, #4A453E); font-size: 11px; font-weight:500; letter-spacing: 0.06em; text-transform: uppercase;}
       </style>
     </defs>
 
@@ -148,7 +148,7 @@
     <text x="1140" y="232" text-anchor="middle" class="transNote">poll Activity API</text>
 
     <g>
-      <circle cx="12" cy="165" r="5" fill="#334155"/>
+      <circle cx="12" cy="165" r="5" fill="var(--dg-ink-2, #4A453E)"/>
       <path class="conn" d="M12 165 L30 165" marker-end="url(#ar3)"/>
       <text x="22" y="150" class="trans">prep</text>
     </g>
@@ -209,41 +209,41 @@
     <text x="426" y="275" class="transErr">import fails</text>
 
     <path class="connRetry" d="M460 340 C 500 290, 480 240, 460 210" marker-end="url(#arGreen)"/>
-    <text x="498" y="278" class="sub" fill="#15803d" font-weight="600">re-import</text>
+    <text x="498" y="278" class="sub" fill="var(--dg-green-stroke, #3A6B4C)" font-weight="600">re-import</text>
 
     <path class="connErr" d="M740 210 L740 340" marker-end="url(#arRed)"/>
     <text x="746" y="275" class="transErr">declined</text>
 
     <path class="connRetry" d="M670 376 C 500 420, 320 360, 260 210" marker-end="url(#arGreen)"/>
-    <text x="440" y="420" class="sub" fill="#15803d" font-weight="600">regenerate · fresh Sonnet pass</text>
+    <text x="440" y="420" class="sub" fill="var(--dg-green-stroke, #3A6B4C)" font-weight="600">regenerate · fresh Sonnet pass</text>
 
     <path class="connErr" d="M900 210 L900 340" marker-end="url(#arRed)"/>
     <text x="906" y="275" class="transErr">SendGrid error</text>
 
     <path class="connRetry" d="M940 340 C 980 290, 960 240, 940 210" marker-end="url(#arGreen)"/>
-    <text x="978" y="278" class="sub" fill="#15803d" font-weight="600">retry</text>
+    <text x="978" y="278" class="sub" fill="var(--dg-green-stroke, #3A6B4C)" font-weight="600">retry</text>
 
     <path class="connErr" d="M1060 210 L1060 340" marker-end="url(#arRed)"/>
     <text x="1066" y="275" class="transErr">hard bounce</text>
 
     <path class="connErr" d="M990 376 C 700 500, 350 520, 170 390" marker-end="url(#arRed)" stroke-dasharray="2 3"/>
-    <text x="600" y="520" class="sub" fill="#b91c1c" font-weight="600">auto-suppress for future batches</text>
+    <text x="600" y="520" class="sub" fill="var(--dg-red-stroke, #AD3A2B)" font-weight="600">auto-suppress for future batches</text>
 
     <rect class="laneBg" x="10" y="560" width="1300" height="90" rx="10"/>
     <text x="22" y="578" class="sectionLabel">Utility commands — inspect / mutate without moving a batch</text>
 
     <g>
-      <rect x="30" y="590" width="300" height="50" rx="8" fill="#fff7ed" stroke="#c2410c"/>
+      <rect x="30" y="590" width="300" height="50" rx="8" fill="var(--dg-orange-bg, #FAF0E6)" stroke="var(--dg-orange-stroke, #B54B1A)"/>
       <text x="45" y="610" class="label">batches</text>
       <text x="45" y="627" class="sub">read-only view of every batch's current state</text>
     </g>
     <g>
-      <rect x="350" y="590" width="340" height="50" rx="8" fill="#fff7ed" stroke="#c2410c"/>
+      <rect x="350" y="590" width="340" height="50" rx="8" fill="var(--dg-orange-bg, #FAF0E6)" stroke="var(--dg-orange-stroke, #B54B1A)"/>
       <text x="365" y="610" class="label">optout</text>
       <text x="365" y="627" class="sub">append to suppression list → affects future prep runs</text>
     </g>
     <g>
-      <rect x="710" y="590" width="580" height="50" rx="8" fill="#f0fdfa" stroke="#0f766e"/>
+      <rect x="710" y="590" width="580" height="50" rx="8" fill="var(--dg-teal-bg, #ECF4F3)" stroke="var(--dg-teal-stroke, #2E6B66)"/>
       <text x="725" y="610" class="label">Durability guarantee</text>
       <text x="725" y="627" class="sub">every state persisted to disk as JSON — a killed process or closed laptop loses zero work</text>
     </g>

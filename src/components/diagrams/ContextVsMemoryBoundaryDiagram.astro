@@ -18,12 +18,12 @@
 ---
 
 <figure class="diagram diagram--boundary">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" role="img" aria-labelledby="ctxMemTitle ctxMemDesc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="17">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 860" role="img" aria-labelledby="ctxMemTitle ctxMemDesc" font-family="'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="17">
     <title id="ctxMemTitle">Context vs memory: the boundary that makes the system inspectable</title>
     <desc id="ctxMemDesc">Two stacked sections separated by a violet dashed boundary line labeled as a product choice. The top section shows run-time context in blue: prompt input, tool call history, retrieved snippets, and system instructions, with annotations naming it as ephemeral, bounded to one run, and dying on completion. The bottom section shows persisted memory in purple: workspace files, scope rules, durable preferences, and approved facts, with annotations naming it as owned, reviewable, scoped, and decaying explicitly. The boundary itself is the point: context flows in and out per run, memory is written down and recalled through explicit tools.</desc>
     <defs>
-      <marker id="arCtxMem" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
-      <style>.lane{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1}.laneLabel{fill:#64748b;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.cli{fill:#eef2ff;stroke:#4338ca;stroke-width:1.5}.gov{fill:#f5f3ff;stroke:#6d28d9;stroke-width:1.5}.art{fill:#ecfccb;stroke:#4d7c0f;stroke-width:1.25}.head{font-weight:700;fill:#0f172a;font-size:22px}.lbl{fill:#0f172a;font-weight:700;font-size:18px}.sub{fill:#334155;font-size:16px}.note{fill:#475569;font-size:15px;font-style:italic}.mono{fill:#4338ca;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px}.monoPurple{fill:#6d28d9;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px}.dTitle{font-size:32px;font-weight:800;fill:#0f172a}.dSubtitle{font-size:16px;fill:#475569}.colTitle{font-size:24px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.colTitleCtx{fill:#1e3a8a}.colTitleMem{fill:#4c1d95}.boundary{stroke:#7c3aed;stroke-width:2.5;fill:none;stroke-dasharray:8 5}.boundaryLabel{fill:#6d28d9;font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.cardTitle{font-size:17px;font-weight:700;fill:#0f172a}.cardSub{fill:#334155;font-size:14px}.cardNote{fill:#475569;font-size:13px;font-style:italic}.propTitle{fill:#0f172a;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.propText{fill:#334155;font-size:14px}.propBox{fill:#ffffff;stroke:#cbd5e1;stroke-width:1}.legendText{fill:#334155;font-size:13px}.legendTitle{font-size:12px;font-weight:700;fill:#334155;letter-spacing:.06em;text-transform:uppercase}</style>
+      <marker id="arCtxMem" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--dg-ink-2, #4A453E)"/></marker>
+      <style>.lane{fill:var(--dg-lane-bg, #F7F5F0);stroke:var(--dg-lane-stroke, #E2DDD4);stroke-width:1}.laneLabel{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;fill:var(--dg-muted, #6B655D);font-size:14px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}.cli{fill:var(--dg-blue-bg, #EEF2F7);stroke:var(--dg-blue-stroke, #3B5B82);stroke-width:1.5}.gov{fill:var(--dg-purple-bg, #F4EFF8);stroke:var(--dg-purple-stroke, #6D4C8C);stroke-width:1.5}.art{fill:var(--dg-green-bg, #EDF4EC);stroke:var(--dg-green-stroke, #3A6B4C);stroke-width:1.25}.head{font-weight:700;fill:var(--dg-ink, #1A1816);font-size:22px}.lbl{fill:var(--dg-ink, #1A1816);font-weight:700;font-size:18px}.sub{fill:var(--dg-ink-2, #4A453E);font-size:16px}.note{fill:var(--dg-muted, #6B655D);font-size:15px;font-style:italic}.mono{fill:var(--dg-blue-stroke, #3B5B82);font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;font-size:14px}.monoPurple{fill:var(--dg-purple-stroke, #6D4C8C);font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;font-size:14px}.dTitle{font-family:'Newsreader',Georgia,serif;font-size:32px;font-weight:600;fill:var(--dg-ink, #1A1816)}.dSubtitle{font-size:16px;fill:var(--dg-muted, #6B655D)}.colTitle{font-size:24px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}.colTitleCtx{fill:var(--dg-blue-ink, #264163)}.colTitleMem{fill:var(--dg-purple-ink, #4E3468)}.boundary{stroke:var(--dg-purple-stroke, #6D4C8C);stroke-width:2.5;fill:none;stroke-dasharray:8 5}.boundaryLabel{fill:var(--dg-purple-stroke, #6D4C8C);font-size:15px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.cardTitle{font-size:17px;font-weight:700;fill:var(--dg-ink, #1A1816)}.cardSub{fill:var(--dg-ink-2, #4A453E);font-size:14px}.cardNote{fill:var(--dg-muted, #6B655D);font-size:13px;font-style:italic}.propTitle{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;fill:var(--dg-ink, #1A1816);font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}.propText{fill:var(--dg-ink-2, #4A453E);font-size:14px}.propBox{fill:var(--dg-card-bg, #FFFFFF);stroke:var(--dg-card-stroke, #CFC9BE);stroke-width:1}.legendText{fill:var(--dg-ink-2, #4A453E);font-size:13px}.legendTitle{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;font-size:12px;font-weight:500;fill:var(--dg-ink-2, #4A453E);letter-spacing:.06em;text-transform:uppercase}</style>
     </defs>
 
     <!-- Header -->
@@ -70,13 +70,13 @@
     <text x="996" y="270" class="propText">• <tspan font-weight="700">composable</tspan>: system decides what to include</text>
     <text x="996" y="292" class="propText">• <tspan font-weight="700">opaque to next run</tspan></text>
 
-    <text x="44" y="354" class="head" fill="#1e3a8a">Where context lives</text>
+    <text x="44" y="354" class="head" fill="var(--dg-blue-ink, #264163)">Where context lives</text>
     <text x="44" y="378" class="sub">In the call. In the window. Mixed into whatever the system chooses to send this turn. Reusing context across runs requires writing something down.</text>
 
     <!-- BOUNDARY: split into two segments with a wide gap; label sits cleanly in the middle, no dashed line behind it -->
     <line class="boundary" x1="40" y1="428" x2="400" y2="428"/>
     <line class="boundary" x1="920" y1="428" x2="1280" y2="428"/>
-    <rect x="430" y="412" width="460" height="34" rx="17" fill="#ffffff" stroke="#6d28d9" stroke-width="1.75"/>
+    <rect x="430" y="412" width="460" height="34" rx="17" fill="var(--dg-card-bg, #FFFFFF)" stroke="var(--dg-purple-stroke, #6D4C8C)" stroke-width="1.75"/>
     <text x="660" y="434" text-anchor="middle" class="boundaryLabel">The boundary that makes the system inspectable</text>
 
     <!-- BOTTOM SECTION: Memory (persisted) -->
@@ -119,7 +119,7 @@
     <text x="996" y="644" class="propText">• <tspan font-weight="700">scoped</tspan>: recall is explicit, not ambient</text>
     <text x="996" y="666" class="propText">• <tspan font-weight="700">decays explicitly</tspan>: updated or removed</text>
 
-    <text x="44" y="728" class="head" fill="#4c1d95">Where memory lives</text>
+    <text x="44" y="728" class="head" fill="var(--dg-purple-ink, #4E3468)">Where memory lives</text>
     <text x="44" y="752" class="sub">In files, scoped stores, or workspaces the system controls. Pulled into context only when the route asks for it. The operator can read what's there.</text>
 
     <!-- Legend -->
@@ -128,7 +128,7 @@
       <rect class="cli" x="0" y="12" width="22" height="16" rx="3"/><text x="32" y="26" class="legendText">Context surface</text>
       <rect class="gov" x="170" y="12" width="22" height="16" rx="3"/><text x="202" y="26" class="legendText">Memory store</text>
       <rect class="art" x="320" y="12" width="22" height="16" rx="3"/><text x="352" y="26" class="legendText">Persisted artifact</text>
-      <rect x="490" y="12" width="22" height="16" rx="3" fill="none" stroke="#7c3aed" stroke-dasharray="5 3"/><text x="522" y="26" class="legendText">Context/memory boundary</text>
+      <rect x="490" y="12" width="22" height="16" rx="3" fill="none" stroke="var(--dg-purple-stroke, #6D4C8C)" stroke-dasharray="5 3"/><text x="522" y="26" class="legendText">Context/memory boundary</text>
     </g>
   </svg>
   <figcaption>

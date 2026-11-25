@@ -6,6 +6,7 @@ interface Props {
   tags: string[];
   slug: string;
   headingLevel?: 2 | 3;
+  flagship?: boolean;
   links?: {
     github?: string;
     live?: string;
@@ -14,14 +15,15 @@ interface Props {
   };
 }
 
-const { title, description, status, tags, slug, headingLevel = 3, links } = Astro.props;
+const { title, description, status, tags, slug, headingLevel = 3, flagship = false, links } = Astro.props;
 
 const statusClass = `status-badge--${status.toLowerCase()}`;
 const hasLinks = links && (links.github || links.live || links.appStore || links.playStore);
 const Heading = `h${headingLevel}` as any;
 ---
 
-<article class="card card--project">
+<article class:list={['card', 'card--project', { 'card--flagship': flagship }]}>
+  {flagship && <p class="card__eyebrow">Flagship · Live Product</p>}
   <div class="card__header">
     <Heading class="card__title" style="margin-bottom: 0;">
       <a href={`/projects/${slug}/`}>{title}</a>
@@ -36,8 +38,17 @@ const Heading = `h${headingLevel}` as any;
   </div>
   {hasLinks && (
     <div class="card__links">
+      {links!.live && (
+        <a
+          href={links!.live}
+          class={flagship ? 'btn btn--primary btn--sm' : 'btn btn--outline btn--sm'}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Live Site ↗
+        </a>
+      )}
       {links!.github && <a href={links!.github} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">GitHub</a>}
-      {links!.live && <a href={links!.live} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">Live Site</a>}
       {links!.appStore && <a href={links!.appStore} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">App Store</a>}
       {links!.playStore && <a href={links!.playStore} class="btn btn--outline btn--sm" target="_blank" rel="noopener noreferrer">Play Store</a>}
     </div>

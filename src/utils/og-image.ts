@@ -5,20 +5,20 @@ import { join } from 'path';
 
 // Load fonts once at build time
 const fontDir = join(process.cwd(), 'public', 'fonts');
-const plusJakartaBold = readFileSync(join(fontDir, 'plus-jakarta-sans-700.ttf'));
+const newsreaderSemibold = readFileSync(join(fontDir, 'newsreader-600.ttf'));
 const dmSansRegular = readFileSync(join(fontDir, 'dm-sans-400.ttf'));
 
-// Forge palette (dark theme)
+// Warm obsidian & parchment publication palette
 const COLOR = {
-  bg: '#0F1117',
-  fg: '#E6EDF3',
-  fg2: '#8B949E',
-  fg3: '#7D8590',
-  warm: '#E8913A',
-  tick: '#3D444D',
-  tagText: '#A8B0BA',
-  tagBg: 'rgba(139, 148, 158, 0.12)',
-  tagBorder: 'rgba(139, 148, 158, 0.28)',
+  bg: '#141311',
+  fg: '#EDE9E1',
+  fg2: '#ABA49A',
+  fg3: '#8E877D',
+  warm: '#E27D4B',
+  rule: '#2B2823',
+  tagText: '#ABA49A',
+  tagBg: 'rgba(237, 233, 225, 0.06)',
+  tagBorder: 'rgba(237, 233, 225, 0.16)',
 };
 
 interface OgImageOptions {
@@ -28,30 +28,10 @@ interface OgImageOptions {
   date?: string;
 }
 
-// A subtle technical-drawing corner tick (two 2px bars forming an L).
-function cornerTick(pos: 'tl' | 'tr' | 'bl' | 'br') {
-  const v = pos[0] === 't' ? { top: '0' } : { bottom: '0' };
-  const h = pos[1] === 'l' ? { left: '0' } : { right: '0' };
-  const place: Record<string, string> = {
-    ...(pos[0] === 't' ? { top: '40px' } : { bottom: '40px' }),
-    ...(pos[1] === 'l' ? { left: '46px' } : { right: '46px' }),
-  };
-  return {
-    type: 'div',
-    props: {
-      style: { position: 'absolute', width: '22px', height: '22px', display: 'flex', ...place },
-      children: [
-        { type: 'div', props: { style: { position: 'absolute', width: '22px', height: '2px', background: COLOR.tick, ...v, ...h } } },
-        { type: 'div', props: { style: { position: 'absolute', width: '2px', height: '22px', background: COLOR.tick, ...v, ...h } } },
-      ],
-    },
-  };
-}
-
 export async function generateOgImage(options: OgImageOptions): Promise<Buffer> {
   const { title, subtitle, tags = [], date } = options;
 
-  const titleSize = title.length > 60 ? '46px' : title.length > 40 ? '54px' : '62px';
+  const titleSize = title.length > 60 ? '48px' : title.length > 40 ? '56px' : '66px';
 
   const svg = await satori(
     {
@@ -64,38 +44,42 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '64px 72px',
+          padding: '64px 76px',
           background: COLOR.bg,
+          borderTop: `6px solid ${COLOR.warm}`,
           fontFamily: 'DM Sans',
           color: COLOR.fg,
         },
         children: [
-          // Technical corner ticks
-          cornerTick('tl'),
-          cornerTick('tr'),
-          cornerTick('bl'),
-          cornerTick('br'),
-
-          // Top: crosshair mark + tracked brand label
+          // Top: editorial wordmark + domain
           {
             type: 'div',
             props: {
-              style: { display: 'flex', alignItems: 'center', gap: '16px' },
+              style: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' },
               children: [
                 {
-                  type: 'div',
+                  type: 'span',
                   props: {
-                    style: { position: 'relative', width: '20px', height: '20px', display: 'flex' },
-                    children: [
-                      { type: 'div', props: { style: { position: 'absolute', left: '9px', top: '0', width: '2px', height: '20px', background: COLOR.warm } } },
-                      { type: 'div', props: { style: { position: 'absolute', top: '9px', left: '0', width: '20px', height: '2px', background: COLOR.warm } } },
-                    ],
+                    style: {
+                      fontFamily: 'Newsreader',
+                      fontSize: '28px',
+                      fontWeight: 600,
+                      color: COLOR.fg,
+                      letterSpacing: '-0.02em',
+                    },
+                    children: 'Joe Armani',
                   },
                 },
                 {
                   type: 'span',
                   props: {
-                    style: { fontSize: '22px', fontWeight: 400, color: COLOR.fg2, letterSpacing: '0.18em', textTransform: 'uppercase' },
+                    style: {
+                      fontSize: '18px',
+                      fontWeight: 400,
+                      color: COLOR.warm,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                    },
                     children: 'joearmani.com',
                   },
                 },
@@ -103,21 +87,21 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
             },
           },
 
-          // Middle: title + subtitle
+          // Middle: Newsreader title + DM Sans subtitle
           {
             type: 'div',
             props: {
-              style: { display: 'flex', flexDirection: 'column', gap: '20px', flex: '1', justifyContent: 'center' },
+              style: { display: 'flex', flexDirection: 'column', gap: '22px', flex: '1', justifyContent: 'center' },
               children: [
                 {
                   type: 'h1',
                   props: {
                     style: {
                       fontSize: titleSize,
-                      fontFamily: 'Plus Jakarta Sans',
-                      fontWeight: 700,
-                      lineHeight: 1.05,
-                      letterSpacing: '-0.02em',
+                      fontFamily: 'Newsreader',
+                      fontWeight: 600,
+                      lineHeight: 1.08,
+                      letterSpacing: '-0.025em',
                       margin: 0,
                       color: COLOR.fg,
                     },
@@ -127,7 +111,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                 ...(subtitle ? [{
                   type: 'p',
                   props: {
-                    style: { fontSize: '24px', color: COLOR.fg2, lineHeight: 1.45, margin: 0, maxWidth: '900px' },
+                    style: { fontSize: '24px', color: COLOR.fg2, lineHeight: 1.48, margin: 0, maxWidth: '920px' },
                     children: subtitle,
                   },
                 }] : []),
@@ -135,7 +119,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
             },
           },
 
-          // Bottom: neutral tags + date/brand, with a hairline above
+          // Bottom: neutral tags + date, with subtle hairline above
           {
             type: 'div',
             props: {
@@ -143,8 +127,8 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                borderTop: `1px solid ${COLOR.tick}`,
-                paddingTop: '28px',
+                borderTop: `1px solid ${COLOR.rule}`,
+                paddingTop: '26px',
               },
               children: [
                 {
@@ -155,12 +139,12 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                       type: 'span',
                       props: {
                         style: {
-                          fontSize: '17px',
+                          fontSize: '16px',
                           color: COLOR.tagText,
                           background: COLOR.tagBg,
                           border: `1px solid ${COLOR.tagBorder}`,
-                          padding: '5px 14px',
-                          borderRadius: '20px',
+                          padding: '5px 12px',
+                          borderRadius: '4px',
                         },
                         children: tag,
                       },
@@ -170,7 +154,15 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
                 {
                   type: 'span',
                   props: {
-                    style: { fontSize: '17px', color: COLOR.fg3, letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0, marginLeft: '24px' },
+                    style: {
+                      fontSize: '16px',
+                      color: COLOR.fg3,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      marginLeft: '24px',
+                    },
                     children: date || 'Building with AI',
                   },
                 },
@@ -184,7 +176,7 @@ export async function generateOgImage(options: OgImageOptions): Promise<Buffer> 
       width: 1200,
       height: 630,
       fonts: [
-        { name: 'Plus Jakarta Sans', data: plusJakartaBold, weight: 700, style: 'normal' },
+        { name: 'Newsreader', data: newsreaderSemibold, weight: 600, style: 'normal' },
         { name: 'DM Sans', data: dmSansRegular, weight: 400, style: 'normal' },
       ],
     }
